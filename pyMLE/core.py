@@ -1,13 +1,18 @@
-import numpy as np
+import autograd.numpy as np
 import matplotlib.pyplot as plt
-from autograd import grad
+from autograd import jacobian
 from scipy.optimize import minimize, curve_fit
 
 
 __all__ = ['MultinomialLikelihood']
 
+
 class MultinomialLikelihood(object):
     """
+    Implements the likelihood function for the Multinomial distribution.
+    This class also contains method to compute maximum likelihood estimators
+    for the probabilities of the Multinomial distribution.
+
     Parameters
     ----------
     data : ndarray
@@ -57,24 +62,40 @@ class MultinomialLikelihood(object):
     def fisher_information_matrix(self):
         """
         Computes the Fisher Information Matrix
+
+        Returns
+        -------
+        fisher : ndarray
+            Fisher Information Matrix
         """
         n_params = len(self.opt_result.x)
         fisher = np.empty(shape=(n_params, n_params))
-        grad_prob_model = np.empty(shape=(n_params))
+        grad_prob_model = []
         opt_params = self.opt_result.x
 
         for i in range(n_params):
-            grad_prob_model = grad(self.prob_model, argnum=i)
+            grad_prob_model.append(jacobian(self.prob_model, argnum=i))
 
         for i in range(n_params):
-            for j in range(i):
-                fisher[i, j] = (grad_prob_model[i](*opt_params) *
-                                grad_prob_model[j](*opt_params) /
-                                self.prob_model(*opt_params)).sum()
+            for j in range(i, n_params):
+                fisher[i, j] = ((grad_prob_model[i](*opt_params) *
+                                 grad_prob_model[j](*opt_params) /
+                                 self.prob_model(*opt_params)).sum())
                 fisher[j, i] = fisher[i, j]
-
-        return self.n_counts * fisher
+        fisher = self.n_counts * fisher
+        return fisher
 
     def uncertainties(self):
+        """
+        Returns the uncertainties on the model parameters as the
+        square root of the diagonal of the inverse of the Fisher
+        Information Matrix.
+
+        Returns
+        -------
+        unc : square root of the diagonal of the inverse of the Fisher
+        Information Matrix
+        """
         inv_fisher = np.linalg.inv(self.fisher_information_matrix())
-        return np.sqrt(np.diag(inv_fisher))
+        unc = np.sqrt(np.diag(inv_fisher))
+        return unc
