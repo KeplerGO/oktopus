@@ -1,3 +1,4 @@
+from abc import ABCMeta
 import autograd.numpy as np
 import matplotlib.pyplot as plt
 from autograd import jacobian
@@ -7,7 +8,24 @@ from scipy.optimize import minimize, curve_fit
 __all__ = ['MultinomialLikelihood', 'PoissonLikelihood']
 
 
-class MultinomialLikelihood(object):
+class Likelihood(metaclass=ABCMeta):
+    @abstractmethod
+    def evaluate(self, params, ...):
+        ...
+
+    @abstractmethod
+    def fit(self, x0, method='Nelder-Mead', **kwargs):
+        ...
+
+    @abstractmethod
+    def fisher_information_matrix(self):
+        ...
+
+    @abstractmethod
+    def uncertainties(self):
+        ...
+
+class MultinomialLikelihood(Likelihood):
     """
     Implements the likelihood function for the Multinomial distribution.
     This class also contains method to compute maximum likelihood estimators
@@ -127,7 +145,7 @@ class MultinomialLikelihood(object):
         unc = np.sqrt(np.diag(inv_fisher))
         return unc
 
-class PoissonLikelihood(object):
+class PoissonLikelihood(Likelihood):
     """
     Implements the likelihood function for the Poission distribution.
     This class also contains method to compute maximum likelihood estimators
@@ -145,3 +163,5 @@ class PoissonLikelihood(object):
     def __init__(self, data, mean):
         self.data = data
         self.mean = mean
+
+    def evaluate(self, params):
