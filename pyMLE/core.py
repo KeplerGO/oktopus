@@ -4,7 +4,7 @@ from autograd import jacobian
 from scipy.optimize import minimize, curve_fit
 
 
-__all__ = ['MultinomialLikelihood']
+__all__ = ['MultinomialLikelihood', 'PoissonLikelihood']
 
 
 class MultinomialLikelihood(object):
@@ -126,3 +126,22 @@ class MultinomialLikelihood(object):
         inv_fisher = np.linalg.inv(self.fisher_information_matrix())
         unc = np.sqrt(np.diag(inv_fisher))
         return unc
+
+class PoissonLikelihood(object):
+    """
+    Implements the likelihood function for the Poission distribution.
+    This class also contains method to compute maximum likelihood estimators
+    for the mean of the Poisson distribution.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed count data.
+    mean : callable
+        Mean of the Poisson distribution.
+        Note: this model must be defined with autograd numpy wrapper.
+    """
+
+    def __init__(self, data, mean):
+        self.data = data
+        self.mean = mean
