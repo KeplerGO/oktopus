@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC, abstractmethod
 import autograd.numpy as np
 import matplotlib.pyplot as plt
 from autograd import jacobian
@@ -8,22 +8,22 @@ from scipy.optimize import minimize, curve_fit
 __all__ = ['MultinomialLikelihood', 'PoissonLikelihood']
 
 
-class Likelihood(metaclass=ABCMeta):
+class Likelihood(ABC):
     @abstractmethod
-    def evaluate(self, params, ...):
-        ...
+    def evaluate(self, params):
+        pass
 
     @abstractmethod
     def fit(self, x0, method='Nelder-Mead', **kwargs):
-        ...
+        pass
 
     @abstractmethod
     def fisher_information_matrix(self):
-        ...
+        pass
 
     @abstractmethod
     def uncertainties(self):
-        ...
+        pass
 
 class MultinomialLikelihood(Likelihood):
     """
@@ -44,23 +44,23 @@ class MultinomialLikelihood(Likelihood):
     Suppose our data is divided in two classes and we would like to estimate
     the probability of occurence of each class with the condition that
     P(class_1) = 1 - P(class_2) = p. Suppose we have a sample with n_1 counts
-    from class_1 and n_2 counts from class_2. Since this constitutes a binomial
-    distribution, the MLE for P(class_1) is given as
-    P(class_1) = n_1 / (n_1 + n_2), where n_i is the number of counts for
-    class_i. The Fisher Information Matrix is given by
+    from class_1 and n_2 counts from class_2. Since the distribution of the
+    number of counts is a binomial distribution, the MLE for P(class_1) is
+    given as P(class_1) = n_1 / (n_1 + n_2), where n_i is the number of counts
+    for class_i. The Fisher Information Matrix is given by
     F(n, p) = n / (p * (1 - p)). Let's see how we can estimate p.
 
     >>> from pyMLE import MultinomialLikelihood
     >>> import autograd.numpy as np
     >>> counts = np.array([20, 30])
-    >>> def bin_pmf(p):
+    >>> def ber_pmf(p):
             return np.array([p, 1 - p])
-    >>> logL = MultinomialLikelihood(data=counts, pmf=bin_pmf)
+    >>> logL = MultinomialLikelihood(data=counts, pmf=ber_pmf)
     >>> p0 = 0.5 # our initial guess
     >>> p_hat = logL.fit(x0=p0)
-    >>> p_hat
+    >>> p_hat.x
         array([0.4])
-    >>> p_hat_unc = logL.uncertanties()
+    >>> p_hat_unc = logL.uncertainties()
     >>> p_hat_unc
     >>> array([ 0.06928203])
     >>> 20 / (20 + 30) # theorectical MLE
@@ -165,3 +165,4 @@ class PoissonLikelihood(Likelihood):
         self.mean = mean
 
     def evaluate(self, params):
+        pass
