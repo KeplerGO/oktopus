@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 import autograd.numpy as np
-import matplotlib.pyplot as plt
 from autograd import jacobian
-from scipy.optimize import minimize, curve_fit
+from scipy.optimize import minimize
 
 
 __all__ = ['MultinomialLikelihood', 'PoissonLikelihood']
@@ -11,19 +10,64 @@ __all__ = ['MultinomialLikelihood', 'PoissonLikelihood']
 class Likelihood(ABC):
     @abstractmethod
     def evaluate(self, params):
+        """
+        Returns the negative of the log likelihood function.
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the model
+        """
         pass
 
-    @abstractmethod
     def fit(self, x0, method='Nelder-Mead', **kwargs):
-        pass
+        """
+        Find the maximum likelihood estimator of the parameter vector by
+        minimizing the negative of the log likelihood function.
+
+        Parameters
+        ----------
+        x0 : ndarray
+            Initial guesses on the parameter estimates
+        kwargs : dict
+            Dictionary for additional arguments. See scipy.optimize.minimize.
+
+        Return
+        ------
+        opt_result : scipy.optimize.OptimizeResult object
+            Object containing the results of the optimization process.
+            Note: this is also store in self.opt_result.
+        """
+        self.opt_result = minimize(self.evaluate, x0=x0, method=method,
+                                   **kwargs)
+        return self.opt_result
 
     @abstractmethod
     def fisher_information_matrix(self):
+        """
+        Computes the Fisher Information Matrix
+
+        Returns
+        -------
+        fisher : ndarray
+            Fisher Information Matrix
+        """
         pass
 
-    @abstractmethod
     def uncertainties(self):
-        pass
+        """
+        Returns the uncertainties on the model parameters as the
+        square root of the diagonal of the inverse of the Fisher
+        Information Matrix.
+
+        Returns
+        -------
+        unc : square root of the diagonal of the inverse of the Fisher
+        Information Matrix
+        """
+        inv_fisher = np.linalg.inv(self.fisher_information_matrix())
+        unc = np.sqrt(np.diag(inv_fisher))
+        return unc
 
 class MultinomialLikelihood(Likelihood):
     """
@@ -88,22 +132,6 @@ class MultinomialLikelihood(Likelihood):
         """
         return - (self.data * np.log(self.pmf(*params))).sum()
 
-    def fit(self, x0, method='Nelder-Mead', **kwargs):
-        """
-        Find the maximum likelihood estimator of the parameter vector by
-        minimizing the negative of the log likelihood function.
-
-        Parameters
-        ----------
-        x0 : ndarray
-            Initial guesses on the parameter estimates
-        kwargs : dict
-            Dictionary for additional arguments. See scipy.optimize.minimize.
-        """
-        self.opt_result = minimize(self.evaluate, x0=x0, method=method,
-                                   **kwargs)
-        return self.opt_result
-
     def fisher_information_matrix(self):
         """
         Computes the Fisher Information Matrix
@@ -130,20 +158,6 @@ class MultinomialLikelihood(Likelihood):
         fisher = self.n_counts * fisher
         return fisher
 
-    def uncertainties(self):
-        """
-        Returns the uncertainties on the model parameters as the
-        square root of the diagonal of the inverse of the Fisher
-        Information Matrix.
-
-        Returns
-        -------
-        unc : square root of the diagonal of the inverse of the Fisher
-        Information Matrix
-        """
-        inv_fisher = np.linalg.inv(self.fisher_information_matrix())
-        unc = np.sqrt(np.diag(inv_fisher))
-        return unc
 
 class PoissonLikelihood(Likelihood):
     """
@@ -165,4 +179,36 @@ class PoissonLikelihood(Likelihood):
         self.mean = mean
 
     def evaluate(self, params):
-        pass
+        """
+        Returns the negative of the log likelihood function.
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the model
+        """
+        return  (self.mean(*params) - self.data * np.log(self.mean(*params))).sum()
+
+    def fisher_information_matrix():
+        """
+        Computes the Fisher Information Matrix
+
+        Returns
+        -------
+        fisher : ndarray
+            Fisher Information Matrix
+        """
+        n_params = len(self.opt_result.x)
+        fisher = np.empty(shape=(n_params, n_params))
+        grad_mean = []
+        opt_params = self.opt_result.x
+
+        for i in range(n_params):
+            grad_mean.append(jacobian(self.mean, argnum=i))
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = ((grad_mean[i](*opt_params) *
+                                 grad_mean[j](*opt_params) /
+                                 self.mean(*opt_params)).sum())
+                fisher[j, i] = fisher[i, j]
+        return fisher
