@@ -172,6 +172,10 @@ class PoissonLikelihood(Likelihood):
     mean : callable
         Mean of the Poisson distribution.
         Note: this model must be defined with autograd numpy wrapper.
+
+    Examples
+    --------
+
     """
 
     def __init__(self, data, mean):
@@ -189,7 +193,7 @@ class PoissonLikelihood(Likelihood):
         """
         return  (self.mean(*params) - self.data * np.log(self.mean(*params))).sum()
 
-    def fisher_information_matrix():
+    def fisher_information_matrix(self):
         """
         Computes the Fisher Information Matrix
 
