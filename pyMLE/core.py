@@ -4,7 +4,7 @@ from autograd import jacobian
 from scipy.optimize import minimize
 
 
-__all__ = ['MultinomialLikelihood', 'PoissonLikelihood']
+__all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'GaussianLikelihood']
 
 
 class Likelihood(ABC):
@@ -42,7 +42,6 @@ class Likelihood(ABC):
                                    **kwargs)
         return self.opt_result
 
-    @abstractmethod
     def fisher_information_matrix(self):
         """
         Computes the Fisher Information Matrix
@@ -52,7 +51,20 @@ class Likelihood(ABC):
         fisher : ndarray
             Fisher Information Matrix
         """
-        pass
+        n_params = len(self.opt_result.x)
+        fisher = np.empty(shape=(n_params, n_params))
+        grad_mean = []
+        opt_params = self.opt_result.x
+
+        for i in range(n_params):
+            grad_mean.append(jacobian(self.mean, argnum=i))
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = ((grad_mean[i](*opt_params) *
+                                 grad_mean[j](*opt_params) /
+                                 self.mean(*opt_params)).sum())
+                fisher[j, i] = fisher[i, j]
+        return fisher
 
     def uncertainties(self):
         """
@@ -141,27 +153,15 @@ class MultinomialLikelihood(Likelihood):
         fisher : ndarray
             Fisher Information Matrix
         """
-        n_params = len(self.opt_result.x)
-        fisher = np.empty(shape=(n_params, n_params))
-        grad_pmf = []
-        opt_params = self.opt_result.x
 
-        for i in range(n_params):
-            grad_pmf.append(jacobian(self.pmf, argnum=i))
-
-        for i in range(n_params):
-            for j in range(i, n_params):
-                fisher[i, j] = ((grad_pmf[i](*opt_params) *
-                                 grad_pmf[j](*opt_params) /
-                                 self.pmf(*opt_params)).sum())
-                fisher[j, i] = fisher[i, j]
-        fisher = self.n_counts * fisher
-        return fisher
+        return self.n_counts * super(MultinomialLikelihood,
+                                     self).fisher_information_matrix()
 
 
 class PoissonLikelihood(Likelihood):
     """
-    Implements the likelihood function for the Poission distribution.
+    Implements the likelihood function for independent
+    (possibly non-identically) distributed Poission measurements.
     This class also contains method to compute maximum likelihood estimators
     for the mean of the Poisson distribution.
 
@@ -193,26 +193,60 @@ class PoissonLikelihood(Likelihood):
         """
         return  (self.mean(*params) - self.data * np.log(self.mean(*params))).sum()
 
-    def fisher_information_matrix(self):
-        """
-        Computes the Fisher Information Matrix
 
-        Returns
-        -------
-        fisher : ndarray
-            Fisher Information Matrix
-        """
-        n_params = len(self.opt_result.x)
-        fisher = np.empty(shape=(n_params, n_params))
-        grad_mean = []
-        opt_params = self.opt_result.x
+class GaussianLikelihood(Likelihood):
+    """
+    Implements the likelihood function for independent
+    (possibly non-identically) distributed Gaussian measurements
+    with known variance.
 
-        for i in range(n_params):
-            grad_mean.append(jacobian(self.mean, argnum=i))
-        for i in range(n_params):
-            for j in range(i, n_params):
-                fisher[i, j] = ((grad_mean[i](*opt_params) *
-                                 grad_mean[j](*opt_params) /
-                                 self.mean(*opt_params)).sum())
-                fisher[j, i] = fisher[i, j]
-        return fisher
+    Examples
+    --------
+    The following examples demonstrates how one can fit a maximum likelihood
+    line to some data:
+
+    >>> from pyMLE import GaussianLikelihood
+    >>> import autograd.numpy as np
+    >>> from matplotlib import pyplot as plt
+    >>> x = np.linspace(0, 10, 200)
+    >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
+    >>> def line(alpha, beta):
+            return alpha * x + beta
+    >>> logL = GaussianLikelihood(fake_data, line, 4)
+    >>> p0 = (1, 1) # dumb initial_guess for alpha and beta
+    >>> p_hat = logL.fit(x0=p0)
+    >>> p_hat.x # fitted parameters
+        array([ 3.00888507,  9.83031969])
+    >>> p_hat_unc = logL.uncertainties() # get uncertainties on fitted parameters
+    >>> p_hat_unc
+        array([ 0.11466403,  0.55011405])
+    >>> plt.plot(x, fake_data, 'o')
+    >>> plt.plot(x, line(*p_hat.x))
+    >>> # The exact values from linear algebra would be:
+    >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
+    >>> alpha, beta = np.dot(np.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
+    >>> alpha
+        3.0088767708640294
+    >>> beta
+        9.8303661197685983
+    """
+
+    def __init__(self, data, mean, var):
+        self.data = data
+        self.mean = mean
+        self.var = var
+
+    def evaluate(self, params):
+        """
+        Returns the negative of the log likelihood function.
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the model
+        """
+        return (.5 * (len(self.data) * np.log(self.var) + (1 / self.var
+                * (self.data - self.mean(*params)) ** 2).sum()))
+
+
+
