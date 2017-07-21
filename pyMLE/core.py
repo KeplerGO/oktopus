@@ -202,7 +202,7 @@ class GaussianLikelihood(Likelihood):
 
     Examples
     --------
-    The following examples demonstrates how one can fit a maximum likelihood
+    The following example demonstrates how one can fit a maximum likelihood
     line to some data:
 
     >>> from pyMLE import GaussianLikelihood
@@ -247,6 +247,3 @@ class GaussianLikelihood(Likelihood):
         """
         return (.5 * (len(self.data) * np.log(self.var) + (1 / self.var
                 * (self.data - self.mean(*params)) ** 2).sum()))
-
-
-
