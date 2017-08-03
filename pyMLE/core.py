@@ -4,7 +4,8 @@ from autograd import jacobian
 from scipy.optimize import minimize
 
 
-__all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'GaussianLikelihood']
+__all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'GaussianLikelihood',
+           'MultivariateGaussianLikelihood']
 
 
 class Likelihood(ABC):
@@ -210,9 +211,10 @@ class GaussianLikelihood(Likelihood):
     >>> from matplotlib import pyplot as plt
     >>> x = np.linspace(0, 10, 200)
     >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
-    >>> def line(alpha, beta):
-            return alpha * x + beta
-    >>> logL = GaussianLikelihood(fake_data, line, 4)
+    >>> def line(x, alpha, beta):
+    ...     return alpha * x + beta
+    >>> my_line = lambda a, b: line(x, a, b)
+    >>> logL = GaussianLikelihood(fake_data, my_line, 4)
     >>> p0 = (1, 1) # dumb initial_guess for alpha and beta
     >>> p_hat = logL.fit(x0=p0)
     >>> p_hat.x # fitted parameters
@@ -245,5 +247,36 @@ class GaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the model
         """
-        return (.5 * (len(self.data) * np.log(self.var) + (1 / self.var
-                * (self.data - self.mean(*params)) ** 2).sum()))
+        return (1 / self.var * (self.data - self.mean(*params)) ** 2).sum()
+
+class MultivariateGaussianLikelihood(Likelihood):
+
+    def __init__(self, data, mean, cov, dim):
+        self.data = data
+        self.mean = mean
+        self.cov = cov
+        self.dim = dim # number of parameters of the mean model
+
+    def evaluate(self, params):
+        """
+        Returns the negative of the log likelihood function.
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the mean model and covariance matrix
+        """
+
+        theta = params[:self.dim] # mean model parameters
+        alpha = params[self.dim:] # kernel parameters (hyperparameters)
+
+        residual = self.data - self.mean(*theta)
+
+        return (np.linalg.slogdet(self.cov(*alpha))[1]
+                + np.dot(residual, np.linalg.solve(self.cov(*alpha), residual)))
+
+    def fisher_information_matrix(self):
+        raise NotImplementedError
+
+    def uncertainteis(self):
+        raise NotImplementedError
