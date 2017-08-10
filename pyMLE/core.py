@@ -273,7 +273,7 @@ class MultivariateGaussianLikelihood(Likelihood):
         residual = self.data - self.mean(*theta)
 
         return (np.linalg.slogdet(self.cov(*alpha))[1]
-                + np.dot(residual, np.linalg.solve(self.cov(*alpha), residual)))
+                + np.dot(residual.T, np.linalg.solve(self.cov(*alpha), residual)))
 
     def fisher_information_matrix(self):
         raise NotImplementedError
