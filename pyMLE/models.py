@@ -36,7 +36,7 @@ class ExpSquaredKernel(object):
         self.t = t
 
     def evaluate(self, k, l):
-        return k * np.exp(- np.sum(((self.t[:, None] - self.t[None, :]) / l) ** 2, axis=-1))
+        return k * np.exp(- l ** 2 * np.sum((self.t[:, None] - self.t[None, :]) ** 2, axis=-1))
 
 class WhiteNoiseKernel(object):
     def __init__(self, n):
