@@ -4,20 +4,16 @@ from autograd import jacobian
 from scipy.optimize import minimize
 
 
-__all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'GaussianLikelihood',
-           'MultivariateGaussianLikelihood']
+__all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'PoissonPosterior',
+           'GaussianLikelihood', 'MultivariateGaussianLikelihood', 'Prior',
+           'UniformPrior', 'GaussianPrior']
 
 
-class Likelihood(ABC):
+class LossFunction(ABC):
     @abstractmethod
     def evaluate(self, params):
         """
-        Returns the negative of the log likelihood function.
-
-        Parameters
-        ----------
-        params : ndarray
-            parameter vector of the model
+        Returns the loss function.
         """
         pass
 
@@ -43,6 +39,87 @@ class Likelihood(ABC):
                                    **kwargs)
         return self.opt_result
 
+
+class Prior(LossFunction):
+    pass
+
+class UniformPrior(Prior):
+    """
+    Unidimensional uniform prior.
+    """
+    def __init__(self, lb, ub):
+        self.lb = lb
+        self.ub = ub
+
+    def __add__(self, other):
+        return NDUniformPrior([self.lb, other.lb],
+                               [self.ub, other.ub])
+
+    def evaluate(self, param):
+        if self.lb <= param < self.ub:
+            return - np.log(1 / (self.ub - self.lb))
+        else:
+            return - np.inf
+
+
+class NDUniformPrior(Prior):
+    """
+    Two or more dimensional priors.
+    """
+
+    def __init__(self, lbs, ubs):
+        self.lbs = np.asarray(lbs)
+        self.ubs = np.asarray(ubs)
+
+    def evaluate(self, params):
+        for i in range(len(self.lbs)):
+            if not (self.lbs[i] <= params[i] < self.ubs[i]):
+                return - np.inf
+
+        return - np.log(1 / (self.ubs - self.lbs)).sum()
+
+
+class GaussianPrior(Prior):
+    """
+    Unidimensional gaussian prior
+    """
+
+    def __init__(self, mean, var):
+        self.mean = mean
+        self.var = var
+
+    def __add__(self, other):
+        return NDGaussianPrior([self.mean, other.mean],
+                               [self.var, other.var])
+
+    def evaluate(self, param):
+        return (1 / self.var * (param - self.mean) ** 2)
+
+
+class NDGaussianPrior(Prior):
+    """
+    NDdimensional independent gaussian prior
+    """
+
+    def __init__(self, mean, var):
+        self.mean = np.asarray(mean)
+        self.var = np.asarray(var)
+
+    def evaluate(self, param):
+        return (1 / self.var * (param - self.mean) ** 2).sum()
+
+
+class Posterior(LossFunction):
+    @abstractmethod
+    def sample(self):
+        """
+        Uses a Markov Chain Monte Carlo technique to sample from
+        the posterior distribution.
+        """
+        pass
+
+
+class Likelihood(LossFunction):
     def fisher_information_matrix(self):
         """
         Computes the Fisher Information Matrix
@@ -61,9 +138,9 @@ class Likelihood(ABC):
             grad_mean.append(jacobian(self.mean, argnum=i))
         for i in range(n_params):
             for j in range(i, n_params):
-                fisher[i, j] = ((grad_mean[i](*opt_params) *
-                                 grad_mean[j](*opt_params) /
-                                 self.mean(*opt_params)).sum())
+                fisher[i, j] = ((grad_mean[i](*opt_params)
+                                 * grad_mean[j](*opt_params)
+                                 / self.mean(*opt_params)).sum())
                 fisher[j, i] = fisher[i, j]
         return fisher
 
@@ -81,6 +158,7 @@ class Likelihood(ABC):
         inv_fisher = np.linalg.inv(self.fisher_information_matrix())
         unc = np.sqrt(np.diag(inv_fisher))
         return unc
+
 
 class MultinomialLikelihood(Likelihood):
     """
@@ -135,26 +213,9 @@ class MultinomialLikelihood(Likelihood):
         return self.data.sum()
 
     def evaluate(self, params):
-        """
-        Returns the negative of the log likelihood function.
-
-        Parameters
-        ----------
-        params : ndarray
-            parameter vector of the model
-        """
         return - (self.data * np.log(self.pmf(*params))).sum()
 
     def fisher_information_matrix(self):
-        """
-        Computes the Fisher Information Matrix
-
-        Returns
-        -------
-        fisher : ndarray
-            Fisher Information Matrix
-        """
-
         return self.n_counts * super(MultinomialLikelihood,
                                      self).fisher_information_matrix()
 
@@ -162,7 +223,7 @@ class MultinomialLikelihood(Likelihood):
 class PoissonLikelihood(Likelihood):
     """
     Implements the likelihood function for independent
-    (possibly non-identically) distributed Poission measurements.
+    (possibly non-identically) distributed Poisson measurements.
     This class also contains method to compute maximum likelihood estimators
     for the mean of the Poisson distribution.
 
@@ -184,15 +245,26 @@ class PoissonLikelihood(Likelihood):
         self.mean = mean
 
     def evaluate(self, params):
-        """
-        Returns the negative of the log likelihood function.
+        return (self.mean(*params) - self.data * np.log(self.mean(*params))).sum()
 
-        Parameters
-        ----------
-        params : ndarray
-            parameter vector of the model
-        """
-        return  (self.mean(*params) - self.data * np.log(self.mean(*params))).sum()
+
+class PoissonPosterior(Posterior):
+    """
+    Implements the posterior distribution for independent
+    (possibly non-identically) distributed Poisson measurements.
+    """
+
+    def __init__(self, data, mean, prior):
+        self.data = data
+        self.mean = mean
+        self.logprior = prior
+        self.loglikelihood = PoissonLikelihood(data, mean)
+
+    def evaluate(self, params):
+        return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
+
+    def sample(self):
+        pass
 
 
 class GaussianLikelihood(Likelihood):
@@ -249,13 +321,28 @@ class GaussianLikelihood(Likelihood):
         """
         return (1 / self.var * (self.data - self.mean(*params)) ** 2).sum()
 
+
 class MultivariateGaussianLikelihood(Likelihood):
+    """
+    Implements the likelihood function of a multivariate gaussian distribution.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed data.
+    mean : callable
+        Mean model.
+    cov : callable
+        Kernel for the covariance matrix.
+    dim : int
+        Dimension (number of parameters) of the mean model.
+    """
 
     def __init__(self, data, mean, cov, dim):
         self.data = data
         self.mean = mean
         self.cov = cov
-        self.dim = dim # number of parameters of the mean model
+        self.dim = dim
 
     def evaluate(self, params):
         """
@@ -278,5 +365,22 @@ class MultivariateGaussianLikelihood(Likelihood):
     def fisher_information_matrix(self):
         raise NotImplementedError
 
-    def uncertainteis(self):
+    def uncertainties(self):
         raise NotImplementedError
+
+
+class MultivariateGaussianPosterior(Posterior):
+    """
+    Implements the posterior distribution for a multivariate gaussian distribution.
+    """
+
+    def __init__(self, data, mean, cov, dim, prior):
+        self.data = data
+        self.mean = mean
+        self.cov = cov
+        self.dim = dim
+        self.logprior = prior
+        self.loglikelihood = MultivariateGaussianLikelihood(data, mean, cov, dim)
+
+    def evaluate(self, params):
+        return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
