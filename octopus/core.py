@@ -5,8 +5,8 @@ from scipy.optimize import minimize
 
 
 __all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'PoissonPosterior',
-           'GaussianLikelihood', 'MultivariateGaussianLikelihood', 'Prior',
-           'UniformPrior', 'GaussianPrior']
+           'GaussianLikelihood', 'MultivariateGaussianLikelihood',
+           'MultivariateGaussianPosterior', 'UniformPrior', 'GaussianPrior']
 
 
 class LossFunction(ABC):
@@ -41,82 +41,57 @@ class LossFunction(ABC):
 
 
 class Prior(LossFunction):
-    pass
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value='param_name'):
+        self._name = value
+
 
 class UniformPrior(Prior):
     """
     Unidimensional uniform prior.
     """
-    def __init__(self, lb, ub):
+    def __init__(self, lb, ub, name=None):
         self.lb = lb
         self.ub = ub
+        self.name = name
 
     def __add__(self, other):
-        return NDUniformPrior([self.lb, other.lb],
-                               [self.ub, other.ub])
-
-    def evaluate(self, param):
-        if self.lb <= param < self.ub:
-            return - np.log(1 / (self.ub - self.lb))
-        else:
-            return np.inf
-
-
-class NDUniformPrior(Prior):
-    """
-    Two or more dimensional priors.
-    """
-
-    def __init__(self, lbs, ubs):
-        self.lbs = np.asarray(lbs)
-        self.ubs = np.asarray(ubs)
+        return UniformPrior(np.append(self.lb, other.lb),
+                            np.append(self.ub, other.ub),
+                            np.append(self.name, other.name))
 
     def evaluate(self, params):
-        for i in range(len(self.lbs)):
-            if not (self.lbs[i] <= params[i] < self.ubs[i]):
+        for i in range(np.size(self.lb)):
+            if not (self.lb[i] <= params[i] < self.ub[i]):
                 return np.inf
 
-        return - np.log(1 / (self.ubs - self.lbs)).sum()
+        return - np.log(1 / (self.ub - self.lb)).sum()
 
 
 class GaussianPrior(Prior):
     """
     Unidimensional gaussian prior
     """
-
     def __init__(self, mean, var):
         self.mean = mean
         self.var = var
+        self.name = name
 
     def __add__(self, other):
-        return NDGaussianPrior([self.mean, other.mean],
-                               [self.var, other.var])
+        return GaussianPrior(np.append(self.mean, other.mean),
+                             np.append(self.var, other.var),
+                             np.append(self.name, other.name))
 
-    def evaluate(self, param):
-        return (1 / self.var * (param - self.mean) ** 2)
-
-
-class NDGaussianPrior(Prior):
-    """
-    NDdimensional independent gaussian prior
-    """
-
-    def __init__(self, mean, var):
-        self.mean = np.asarray(mean)
-        self.var = np.asarray(var)
-
-    def evaluate(self, param):
-        return (1 / self.var * (param - self.mean) ** 2).sum()
+    def evaluate(self, params):
+        return (1 / self.var * (params - self.mean) ** 2).sum()
 
 
 class Posterior(LossFunction):
-    @abstractmethod
-    def sample(self):
-        """
-        Uses a Markov Chain Monte Carlo technique to sample from
-        the posterior distribution.
-        """
-        pass
+    pass
 
 
 class Likelihood(LossFunction):
@@ -262,9 +237,6 @@ class PoissonPosterior(Posterior):
 
     def evaluate(self, params):
         return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
-
-    def sample(self):
-        pass
 
 
 class GaussianLikelihood(Likelihood):
