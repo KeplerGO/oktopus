@@ -59,7 +59,7 @@ class UniformPrior(Prior):
         if self.lb <= param < self.ub:
             return - np.log(1 / (self.ub - self.lb))
         else:
-            return - np.inf
+            return np.inf
 
 
 class NDUniformPrior(Prior):
@@ -74,7 +74,7 @@ class NDUniformPrior(Prior):
     def evaluate(self, params):
         for i in range(len(self.lbs)):
             if not (self.lbs[i] <= params[i] < self.ubs[i]):
-                return - np.inf
+                return np.inf
 
         return - np.log(1 / (self.ubs - self.lbs)).sum()
 
