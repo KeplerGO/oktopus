@@ -55,8 +55,8 @@ class UniformPrior(Prior):
     Unidimensional uniform prior.
     """
     def __init__(self, lb, ub, name=None):
-        self.lb = lb
-        self.ub = ub
+        self.lb = np.asarray([lb])
+        self.ub = np.asarray([ub])
         self.name = name
 
     def __add__(self, other):
@@ -77,9 +77,9 @@ class GaussianPrior(Prior):
     Unidimensional gaussian prior
     """
     def __init__(self, mean, var):
-        self.mean = mean
-        self.var = var
-        self.name = name
+        self.mean = np.asarray([mean])
+        self.var = np.asarray([var])
+        self.name = np.asrray([name])
 
     def __add__(self, other):
         return GaussianPrior(np.append(self.mean, other.mean),

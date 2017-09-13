@@ -1,6 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 from scipy.special import erf
+import math
 
 class Kernel(ABC):
     pass
@@ -55,3 +56,33 @@ class WhiteNoiseKernel(Kernel):
 
     def evaluate(self, s):
         return np.diag(np.ones(self.n) * s ** 2)
+
+def init_guesses(data):
+    """
+    Compute the initial guess for PSF width using the sample moments of
+    the data.
+
+    Parameters
+    ----------
+    data : 2D array-like
+        Image data.
+
+    Return
+    ------
+    sigma : float
+        Initial guess for the width of the PSF.
+    """
+
+    total = data.sum()
+    Y, X = np.indices(data.shape)
+    x = (X*data).sum()/total
+    y = (Y*data).sum()/total
+
+    marg_x = data[:, int(x)]
+    marg_y = data[int(y), :]
+
+    sigma_y = math.sqrt(np.abs((np.arange(marg_y.size) - y)**2*marg_y).sum()/marg_y.sum())
+    sigma_x = math.sqrt(np.abs((np.arange(marg_x.size) - x)**2*marg_x).sum()/marg_x.sum())
+    sigma = math.sqrt((sigma_x**2 + sigma_y**2)/2.0)
+
+    return total, x, y, sigma
