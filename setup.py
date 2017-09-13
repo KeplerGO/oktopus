@@ -24,7 +24,7 @@ setup(
     url='https://github.com/mirca/octopus',
 
     # Author details
-    author='Zé Vinícius',
+    author='Ze Vinicius',
     author_email='jvmirca@gmail.com',
 
     # Choose your license
