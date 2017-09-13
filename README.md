@@ -1,2 +1,3 @@
-# wip
-still deciding
+# 🐙 Octupus
+
+A soft-bodied, eight-armed package for beautiful inference.
