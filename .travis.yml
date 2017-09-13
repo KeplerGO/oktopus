@@ -1,0 +1,9 @@
+language: python
+python:
+  - 3.6
+before_install:
+  - sudo apt-get install -y python-numpy
+  - pip install autograd
+# command to run tests
+script:
+  - pytest
