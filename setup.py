@@ -17,7 +17,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.1.dev0',
 
-    description='Maximum Likelihood Estimators',
+    description='soft-bodied, eight-armed package for beautiful inference',
     long_description=long_description,
 
     # The project's main homepage.
