@@ -50,6 +50,10 @@ class Prior(LossFunction):
         self._name = value
 
 
+class Posterior(LossFunction):
+    pass
+
+
 class UniformPrior(Prior):
     """
     Unidimensional uniform prior.
@@ -87,11 +91,7 @@ class GaussianPrior(Prior):
                              np.append(self.name, other.name))
 
     def evaluate(self, params):
-        return (1 / self.var * (params - self.mean) ** 2).sum()
-
-
-class Posterior(LossFunction):
-    pass
+        return ((params - self.mean) ** 2 / self.var).sum()
 
 
 class Likelihood(LossFunction):
@@ -225,7 +225,7 @@ class PoissonLikelihood(Likelihood):
 
 class PoissonPosterior(Posterior):
     """
-    Implements the posterior distribution for independent
+    Implements the negative of the log posterior distribution for independent
     (possibly non-identically) distributed Poisson measurements.
     """
 
@@ -291,7 +291,7 @@ class GaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the model
         """
-        return (1 / self.var * (self.data - self.mean(*params)) ** 2).sum()
+        return ((self.data - self.mean(*params)) ** 2 / self.var).sum()
 
 
 class MultivariateGaussianLikelihood(Likelihood):
