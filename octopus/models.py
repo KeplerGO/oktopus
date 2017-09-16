@@ -64,7 +64,7 @@ class WhiteNoiseKernel(Kernel):
         return np.diag(np.ones(self.n) * s ** 2)
 
 
-def init_guesses(data):
+def get_initial_guesses(data):
     """
     Compute the initial guess for PSF width using the sample moments of
     the data.
