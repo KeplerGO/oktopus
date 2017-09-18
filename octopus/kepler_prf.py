@@ -9,7 +9,10 @@
 from .models import get_initial_guesses
 from .core import PoissonLikelihood
 from abc import ABC, abstractmethod
+import scipy
 import pandas as pd
+import math
+from pyke import TargetPixelFile
 
 class PRFPhotometry(ABC):
     # Let's restrict this for TPFs for now. Should be easily extensible though.
@@ -43,87 +46,68 @@ class KeplerPRFPhotometry(PRFPhotometry):
     def generate_residuals_movie(self):
         pass
 
-class KeplerPRF(object):
+class KeplerPRF(KeplerTargetPixelFile):
+    """
+    Kepler's Pixel Response Function
 
-    def __init__(self):
-        pass
+    This class provides the necessary interface to load the Kepler PSF
+    calibration files and to create a model that can be fit as a function
+    of flux and centroid position.
+    """
 
-    def prf_to_detector(self):
-        pass
+    def __init__(self, file_dir):
+        self.file_dir = file_dir
 
-    def prf(self):
-        pass
+    def prf_to_detector(self, F, xo, yo):
+        self.prf_model = np.zeros((np.size(self.y), np.size(self.x)))
 
-    def interpolate(self):
-        pass
+        FRCx, INTx = math.modf(xo)
+        FRCy, INTy = math.modf(yo)
 
-#def PRF2DET(flux, OBJx, OBJy, DATx, DATy, wx, wy, a, splineInterpolation):
-#    """
-#    PRF interpolation function
-#    """
-#
-#    # trigonometry
-#    cosa = np.cos(radians(a))
-#    sina = np.sin(radians(a))
-#
-#    # where in the pixel is the source position?
-#    PRFfit = np.zeros((np.size(DATy), np.size(DATx)))
-#    for i in range(len(flux)):
-#        FRCx, INTx = modf(OBJx[i])
-#        FRCy, INTy = modf(OBJy[i])
-#        if FRCx > 0.5:
-#            FRCx -= 1.0
-#            INTx += 1.0
-#        if FRCy > 0.5:
-#            FRCy -= 1.0
-#            INTy += 1.0
-#        FRCx = -FRCx
-#        FRCy = -FRCy
-#
-#        # constuct model PRF in detector coordinates
-#        for (j, y) in enumerate(DATy):
-#            for (k, x) in enumerate(DATx):
-#                xx = x - INTx + FRCx
-#                yy = y - INTy + FRCy
-#                dx = xx * cosa - yy * sina
-#                dy = xx * sina + yy * cosa
-#                PRFfit[j, k] = PRFfit[j, k] + splineInterpolation(dy * wy, dx * wx) * flux[i]
-#
-#    return PRFfit
-#
-#def PRF(params, *args):
-#    """
-#    PRF model
-#    """
-#    # arguments
-#    DATx = args[0]
-#    DATy = args[1]
-#    DATimg = args[2]
-#    DATerr = args[3]
-#    nsrc = args[4]
-#    splineInterpolation = args[5]
-#    col = args[6]
-#    row = args[7]
-#
-#    # parameters
-#    f = np.empty((nsrc))
-#    x = np.empty((nsrc))
-#    y = np.empty((nsrc))
-#    for i in range(nsrc):
-#        f[i] = params[i]
-#        x[i] = params[nsrc + i]
-#        y[i] = params[nsrc * 2 + i]
-#
-#    # calculate PRF model binned to the detector pixel size
-#    PRFfit = PRF2DET(f,x,y,DATx,DATy,1.0,1.0,0.0,splineInterpolation)
-#    # calculate the sum squared difference between data and model
-#    PRFres = np.nansum(np.square(DATimg - PRFfit))
-#    # keep the fit centered
-#    if max(abs(col - x[0]), abs(row - y[0])) > 10.0:
-#        PRFres = 1.0e300
-#    return PRFres
-#
-#
+        if FRCx > 0.5:
+            FRCx = 1.0 - FRCx
+            INTx = 1.0 + INTx
+
+        if FRCy > 0.5:
+            FRCy = 1.0 - FRCy
+            INTy = 1.0 + INTy
+
+        FRCx = 1.0 - FRCx
+        FRCy = 1.0 - FRCy
+
+        for (j, yj) in enumerate(self.y):
+            for (i, xi) in enumerate(self.x):
+                xx = xi - INTx + FRCx
+                yy = yj - INTy + FRCy
+                dx = xx
+                dy = yy
+                self.prf_model[j, i] = (self.prf_model[j, i]
+                                        + F * self.interpolate(dy, dx))
+
+        return self.prf_model
+
+    def evaluate(self, F, xo, yo):
+        return self.prf_to_detector(F, xo, yo):
+
+    def interpolate(self, X, Y, values):
+        # should return an instance of scipy.interpolate.RectBivariateSpline(X, Y, values)
+
+    def read_prf_calibration_file(self, path, ext):
+        prf_cal_file = pyfits.open(path)
+        data = prf_cal_file[ext].data
+        crpix1p = prf_cal_file[ext].header['CRPIX1P']
+        crpix2p = prf_cal_file[ext].header['CRPIX2P']
+        crval1p = prf_cal_file[ext].header['CRVAL1P']
+        crval2p = prf_cal_file[ext].header['CRVAL2P']
+        cdelt1p = prf_cal_file[ext].header['CDELT1P']
+        cdelt2p = prf_cal_file[ext].header['CDELT2P']
+        prf_cal_file.close()
+        return data, crpix1p, crpix2p, crval1p, crval2p, cdelt1p, cdelt2p
+
+    def prepare_prf(self):
+
+
+
 #def read_and_interpolate_prf(prfdir, module, output, column, row, xdim, ydim,
 #                             verbose=False, logfile='kepprf.log'):
 #    """
@@ -179,59 +163,4 @@ class KeplerPRF(object):
 #        size of PRFy
 #
 #    """
-#    n_hdu = 5
-#    minimum_prf_weight = 1.e-6
-#
-#    # determine suitable PRF calibration file
-#    if int(module) < 10:
-#        prefix = 'kplr0'
-#    else:
-#        prefix = 'kplr'
-#    prfglob = os.path.join(prfdir, prefix + module + '.' + output + '*_prf.fits')
-#    try:
-#        prffile = glob.glob(prfglob)[0]
-#    except:
-#        errmsg = "ERROR -- KEPPRF: No PRF file found in {0}".format(prfdir)
-#        kepmsg.err(logfile, errmsg, verbose)
-#
-#    # read PRF images
-#    prfn = [0] * n_hdu
-#    crval1p = np.zeros(n_hdu, dtype='float32')
-#    crval2p = np.zeros(n_hdu, dtype='float32')
-#    cdelt1p = np.zeros(n_hdu, dtype='float32')
-#    cdelt2p = np.zeros(n_hdu, dtype='float32')
-#    for i in range(n_hdu):
-#        (prfn[i], _, _, crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i]) = \
-#            kepio.readPRFimage(prffile, i+1, logfile, verbose)
-#    prfn = np.array(prfn)
-#    PRFx = np.arange(0.5, np.shape(prfn[0])[1] + 0.5)
-#    PRFy = np.arange(0.5, np.shape(prfn[0])[0] + 0.5)
-#    PRFx = (PRFx - np.size(PRFx) / 2) * cdelt1p[0]
-#    PRFy = (PRFy - np.size(PRFy) / 2) * cdelt2p[0]
-#
-#    # interpolate the calibrated PRF shape to the target position
-#    prf = np.zeros(np.shape(prfn[0]), dtype='float32')
-#    prfWeight = np.zeros(n_hdu, dtype='float32')
-#    ref_column = column + (xdim - 1.) / 2.
-#    ref_row = row + (ydim - 1.) / 2.
-#    for i in range(n_hdu):
-#        prfWeight[i] = math.sqrt(
-#            (ref_column - crval1p[i])**2 + (ref_row - crval2p[i])**2)
-#        if prfWeight[i] < minimum_prf_weight:
-#            prfWeight[i] = minimum_prf_weight
-#        prf += prfn[i] / prfWeight[i]
-#    prf /= (np.nansum(prf) * cdelt1p[0] * cdelt2p[0])
-#
-#    # location of the data image centered on the PRF image (in PRF pixel units)
-#    prfDimY = int(ydim / cdelt1p[0])
-#    prfDimX = int(xdim / cdelt2p[0])
-#    PRFy0 = int(np.round((np.shape(prf)[0] - prfDimY) / 2))
-#    PRFx0 = int(np.round((np.shape(prf)[1] - prfDimX) / 2))
-#    DATx = np.arange(column, column + xdim)
-#    DATy = np.arange(row, row + ydim)
-#
-#    # interpolation function over the PRF
-#    splineInterpolation = RectBivariateSpline(PRFx, PRFy, prf)
-#
-#    return (splineInterpolation, DATx, DATy, prf, PRFx, PRFy, PRFx0, PRFy0,
-#            cdelt1p, cdelt2p, prfDimX, prfDimY)
+
