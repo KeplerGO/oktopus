@@ -20,6 +20,7 @@ class PRFPhotometry(ABC):
     def generate_residuals_movie(self):
         pass
 
+
 class KeplerPRFPhotometry(PRFPhotometry):
 
     def __init__(self, prf_model, loss_function=PoissonLikelihood):
@@ -27,6 +28,7 @@ class KeplerPRFPhotometry(PRFPhotometry):
         self.loss_function = loss_function
         self.opt_params = []
         self.residuals = []
+        self.uncertainties = []
 
     def do_photometry(self, tpf, initial_guesses=None):
         if initial_guesses is None:
@@ -35,15 +37,19 @@ class KeplerPRFPhotometry(PRFPhotometry):
             initial_guesses, _ = get_inital_guesses(tpf.flux)
 
         for t in range(len(tpf.time)):
-            opt_result = self.loss_function(tpf.flux, self.prf_model).fit(initial_guesses)
+            logL = self.loss_function(tpf.flux, self.prf_model)
+            opt_result = logL.fit(initial_guesses).x
             residuals_opt_result = tpf.flux - self.prf_model(*opt_result.x)
             self.opt_params.append(opt_result.x)
             self.residuals.append(residuals_opt_result)
+            self.uncertainties.append(logL.uncertainties())
 
-        return np.array(results).reshape((tpf.shape[0], len(initial_guesses)))
+        self.opt_params = self.opt_params.reshape((tpf.shape[0], len(initial_guesses)))
+        self.uncertainties = self.uncertainties.reshape((tpf.shape[0], len(initial_guesses)))
 
     def generate_residuals_movie(self):
         pass
+
 
 class KeplerPRF(KeplerTargetPixelFile):
     """
@@ -86,7 +92,7 @@ class KeplerPRF(KeplerTargetPixelFile):
         return self.prf_model
 
     def evaluate(self, F, xo, yo):
-        return self.prf_to_detector(F, xo, yo):
+        return self.prf_to_detector(F, xo, yo)
 
     def __call__(self, F, xo, yo):
         return self.evaluate(F, xo, yo)
