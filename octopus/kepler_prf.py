@@ -1,11 +1,3 @@
-# Let's borrow as much as possible from the photutils framework
-# However, this should me more generalizable, i.e., should accept
-# priors on the parameters by allowing different loss (objective) functions
-# remember: a prior is just a regularization term on the objective function
-# User should be free to either optimize or do MCMC
-# begin with the simplest example: fitting Kepler's PRF to a TPF
-# generate movie of the residuals
-
 from .models import get_initial_guesses
 from .core import PoissonLikelihood
 from abc import ABC, abstractmethod
@@ -13,6 +5,10 @@ import scipy
 import pandas as pd
 import math
 from pyke import TargetPixelFile
+
+
+__all__ = ['KeplerPRFPhotometry', 'KeplerPRF']
+
 
 class PRFPhotometry(ABC):
     # Let's restrict this for TPFs for now. Should be easily extensible though.
@@ -29,6 +25,8 @@ class KeplerPRFPhotometry(PRFPhotometry):
     def __init__(self, prf_model, loss_function=PoissonLikelihood):
         self.prf_model = prf_model
         self.loss_function = loss_function
+        self.opt_params = []
+        self.residuals = []
 
     def do_photometry(self, tpf, initial_guesses=None):
         if initial_guesses is None:
@@ -36,10 +34,11 @@ class KeplerPRFPhotometry(PRFPhotometry):
             # great way to go is to use photutils.detection.DAOStarFinder
             initial_guesses, _ = get_inital_guesses(tpf.flux)
 
-        results = []
         for t in range(len(tpf.time)):
-            results = append(results,
-                             self.loss_function(tpf.flux, self.prf_model).fit(initial_guesses).x)
+            opt_result = self.loss_function(tpf.flux, self.prf_model).fit(initial_guesses)
+            residuals_opt_result = tpf.flux - self.prf_model(*opt_result.x)
+            self.opt_params.append(opt_result.x)
+            self.residuals.append(residuals_opt_result)
 
         return np.array(results).reshape((tpf.shape[0], len(initial_guesses)))
 
@@ -90,8 +89,7 @@ class KeplerPRF(KeplerTargetPixelFile):
         return self.prf_to_detector(F, xo, yo):
 
     def __call__(self, F, xo, yo):
-        return self.evaluate()
-
+        return self.evaluate(F, xo, yo)
 
     def read_prf_calibration_file(self, path, ext):
         prf_cal_file = pyfits.open(path)
