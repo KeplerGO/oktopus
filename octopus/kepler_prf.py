@@ -1,9 +1,13 @@
 from .models import get_initial_guesses
 from .core import PoissonLikelihood
+import os
+import glob
+import math
 from abc import ABC, abstractmethod
+import numpy as np
 import scipy
 import pandas as pd
-import math
+from astropy.io import fits as pyfits
 from pyke import KeplerTargetPixelFile
 
 
@@ -86,10 +90,7 @@ class KeplerPRF(object):
 
         for (j, yj) in enumerate(self.y):
             for (i, xi) in enumerate(self.x):
-                xx = xi - xo
-                yy = yj - yo
-                self.prf_model[j, i] = (self.prf_model[j, i]
-                                        + F * self.interpolate(yy, xx))
+                self.prf_model[j, i] += F * self.interpolate(yj - yo, xi - xo)
 
         return self.prf_model
 
@@ -119,7 +120,7 @@ class KeplerPRF(object):
         else:
             prefix = 'kplr'
         prf_file_path = os.path.join(self.prf_files_dir,
-                                     prefix + self.tpf.module + '.' + self.tpf.output + '*_prf.fits')
+                                     prefix + str(self.tpf.module) + '.' + str(self.tpf.output) + '*_prf.fits')
         prffile = glob.glob(prf_file_path)[0]
 
         # read PRF images
@@ -128,8 +129,8 @@ class KeplerPRF(object):
         crval2p = np.zeros(n_hdu, dtype='float32')
         cdelt1p = np.zeros(n_hdu, dtype='float32')
         cdelt2p = np.zeros(n_hdu, dtype='float32')
-        for i in range(1, n_hdu+1):
-            prfn[i], crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i] = self.read_prf_calibration_file(prffile, i)
+        for i in range(n_hdu):
+            prfn[i], crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i] = self.read_prf_calibration_file(prffile, i+1)
         prfn = np.array(prfn)
         PRFx = np.arange(0.5, np.shape(prfn[0])[1] + 0.5)
         PRFy = np.arange(0.5, np.shape(prfn[0])[0] + 0.5)
@@ -137,19 +138,20 @@ class KeplerPRF(object):
         PRFy = (PRFy - np.size(PRFy) / 2) * cdelt2p[0]
 
         # interpolate the calibrated PRF shape to the target position
+        ydim, xdim = self.tpf.shape[1], self.tpf.shape[2]
         prf = np.zeros(np.shape(prfn[0]), dtype='float32')
         prfWeight = np.zeros(n_hdu, dtype='float32')
-        ref_column = column + (xdim - 1.) / 2.
-        ref_row = row + (ydim - 1.) / 2.
+        ref_column = self.tpf.column + (xdim - 1.) / 2.
+        ref_row = self.tpf.row + (ydim - 1.) / 2.
         for i in range(n_hdu):
             prfWeight[i] = math.sqrt((ref_column - crval1p[i]) ** 2
                                      + (ref_row - crval2p[i]) ** 2)
-            if prfWeight[i] < minimum_prf_weight:
-                prfWeight[i] = minimum_prf_weight
+            if prfWeight[i] < min_prf_weight:
+                prfWeight[i] = min_prf_weight
             prf += prfn[i] / prfWeight[i]
         prf /= (np.nansum(prf) * cdelt1p[0] * cdelt2p[0])
 
         # location of the data image centered on the PRF image (in PRF pixel units)
-        self.x = np.arange(column, column + xdim)
-        self.y = np.arange(row, row + ydim)
+        self.x = np.arange(self.tpf.column, self.tpf.column + xdim)
+        self.y = np.arange(self.tpf.row, self.tpf.row + ydim)
         self.interpolate = scipy.interpolate.RectBivariateSpline(PRFx, PRFy, prf)
