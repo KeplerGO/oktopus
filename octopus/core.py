@@ -13,14 +13,13 @@ class LossFunction(ABC):
     @abstractmethod
     def evaluate(self, params):
         """
-        Returns the loss function.
+        Returns the loss function evaluated at params.
         """
         pass
 
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
-        Find the maximum likelihood estimator of the parameter vector by
-        minimizing the negative of the log likelihood function.
+        Minimize the loss function using scipy.optimize.minimize.
 
         Parameters
         ----------
@@ -56,7 +55,14 @@ class Posterior(LossFunction):
 
 class UniformPrior(Prior):
     """
-    Unidimensional uniform prior.
+    Negative log likelihood for a n-dimensional independent uniform prior.
+
+    Parameters
+    ----------
+    lb : int or array-like of ints
+        Lower bounds
+    ub : int or array-like of ints
+        Upper bounds
     """
     def __init__(self, lb, ub, name=None):
         self.lb = np.asarray([lb])
@@ -69,16 +75,14 @@ class UniformPrior(Prior):
                             np.append(self.name, other.name))
 
     def evaluate(self, params):
-        for i in range(np.size(self.lb)):
-            if not (self.lb[i] <= params[i] < self.ub[i]):
-                return np.inf
-
-        return - np.log(1 / (self.ub - self.lb)).sum()
+        if (self.lb <= params).all() and (params < self.ub).all():
+            return - np.log(1 / (self.ub - self.lb)).sum()
+        return np.inf
 
 
 class GaussianPrior(Prior):
     """
-    Unidimensional gaussian prior
+    Negative log likelihood for a n-dimensional independent Gaussian.
     """
     def __init__(self, mean, var):
         self.mean = np.asarray([mean])
@@ -97,7 +101,7 @@ class GaussianPrior(Prior):
 class Likelihood(LossFunction):
     def fisher_information_matrix(self):
         """
-        Computes the Fisher Information Matrix
+        Computes the Fisher Information Matrix using autograd
 
         Returns
         -------
@@ -131,15 +135,15 @@ class Likelihood(LossFunction):
         Information Matrix
         """
         inv_fisher = np.linalg.inv(self.fisher_information_matrix())
-        unc = np.sqrt(np.diag(inv_fisher))
-        return unc
+        return np.sqrt(np.diag(inv_fisher))
 
 
 class MultinomialLikelihood(Likelihood):
     """
-    Implements the likelihood function for the Multinomial distribution.
-    This class also contains method to compute maximum likelihood estimators
-    for the probabilities of the Multinomial distribution.
+    Implements the negative log likelihood function for the Multinomial
+    distribution. This class also contains a method to compute maximum
+    likelihood estimators for the probabilities of the Multinomial
+    distribution.
 
     Parameters
     ----------
@@ -147,7 +151,6 @@ class MultinomialLikelihood(Likelihood):
         Observed count data.
     pmf : callable
         Events probabilities of the multinomial distribution.
-        Note: this model must be defined with autograd numpy wrapper.
 
     Examples
     --------
@@ -197,9 +200,9 @@ class MultinomialLikelihood(Likelihood):
 
 class PoissonLikelihood(Likelihood):
     """
-    Implements the likelihood function for independent
+    Implements the negative log likelihood function for independent
     (possibly non-identically) distributed Poisson measurements.
-    This class also contains method to compute maximum likelihood estimators
+    This class also contains a method to compute maximum likelihood estimators
     for the mean of the Poisson distribution.
 
     Parameters
@@ -212,7 +215,6 @@ class PoissonLikelihood(Likelihood):
 
     Examples
     --------
-
     """
 
     def __init__(self, data, mean):
