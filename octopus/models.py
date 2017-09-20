@@ -27,6 +27,14 @@ class Gaussian2D(object):
                             + c * (self.y - yo) ** 2))
 
 
+class Gaussian2DPlusBkg(Gaussian2D):
+    def __init__(self, x, y):
+        super(Gaussian2DPlusBkg, self).__init__(x, y)
+
+    def evaluate(self, A, xo, yo, a, b, c, B):
+        return super(Gaussian2DPlusBkg, self).evaluate(A, xo, yo, a, b, c) + B
+
+
 class IntegratedSymmetricGaussian2D(object):
     def __init__(self, x, y):
         self.x = x

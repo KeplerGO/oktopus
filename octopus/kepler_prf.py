@@ -129,7 +129,7 @@ class KeplerPRF(KeplerTargetPixelFile):
         crval2p = np.zeros(n_hdu, dtype='float32')
         cdelt1p = np.zeros(n_hdu, dtype='float32')
         cdelt2p = np.zeros(n_hdu, dtype='float32')
-        for i in range(1, n_hdu+1)::/
+        for i in range(1, n_hdu+1):
             prfn[i], crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i] = self.read_prf_calibration_file(prffile, i)
         prfn = np.array(prfn)
         PRFx = np.arange(0.5, np.shape(prfn[0])[1] + 0.5)
