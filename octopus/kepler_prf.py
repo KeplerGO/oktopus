@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 import scipy
 import pandas as pd
 import math
-from pyke import TargetPixelFile
 
 
 __all__ = ['KeplerPRFPhotometry', 'KeplerPRF']
@@ -22,6 +21,12 @@ class PRFPhotometry(ABC):
 
 
 class KeplerPRFPhotometry(PRFPhotometry):
+    """
+    This class performs PRF Photometry on a target pixel file from
+    NASA's Kepler/K2 missions.
+    """
+    # Let's borrow as much as possible from photutils here. Ideally,
+    # this could be a child class from BasicPSFPhotometry.
 
     def __init__(self, prf_model, loss_function=PoissonLikelihood):
         self.prf_model = prf_model
@@ -51,44 +56,39 @@ class KeplerPRFPhotometry(PRFPhotometry):
         pass
 
 
-class KeplerPRF(KeplerTargetPixelFile):
+class KeplerPRF(object):
     """
     Kepler's Pixel Response Function
 
     This class provides the necessary interface to load Kepler PSF
     calibration files and to create a model that can be fit as a function
     of flux and centroid position.
+
+    Parameters
+    ----------
+    prf_files_dir : str
+        Relative or aboslute path to a directory containing the Pixel Response
+        Function calibration files produced during Kepler data comissioning.
+        Note: eventually we should query those from MAST as needed.
+
+    tpf : KeplerTargetPixelFile instance
+        An instance of a KeplerTargetPixelFile
     """
 
-    def __init__(self, prf_files_dir):
+    def __init__(self, prf_files_dir, tpf):
         self.prf_files_dir = prf_files_dir
+        self.tpf = tpf
         self.prepare_prf()
 
     def prf_to_detector(self, F, xo, yo):
         self.prf_model = np.zeros((np.size(self.y), np.size(self.x)))
 
-        FRCx, INTx = math.modf(xo)
-        FRCy, INTy = math.modf(yo)
-
-        if FRCx > 0.5:
-            FRCx = 1.0 - FRCx
-            INTx = 1.0 + INTx
-
-        if FRCy > 0.5:
-            FRCy = 1.0 - FRCy
-            INTy = 1.0 + INTy
-
-        FRCx = 1.0 - FRCx
-        FRCy = 1.0 - FRCy
-
         for (j, yj) in enumerate(self.y):
             for (i, xi) in enumerate(self.x):
-                xx = xi - INTx + FRCx
-                yy = yj - INTy + FRCy
-                dx = xx
-                dy = yy
+                xx = xi - xo
+                yy = yj - yo
                 self.prf_model[j, i] = (self.prf_model[j, i]
-                                        + F * self.interpolate(dy, dx))
+                                        + F * self.interpolate(yy, xx))
 
         return self.prf_model
 
@@ -101,27 +101,24 @@ class KeplerPRF(KeplerTargetPixelFile):
     def read_prf_calibration_file(self, path, ext):
         prf_cal_file = pyfits.open(path)
         data = prf_cal_file[ext].data
-        #crpix1p = prf_cal_file[ext].header['CRPIX1P']
-        #crpix2p = prf_cal_file[ext].header['CRPIX2P']
         # looks like these data below are the same for all prf calibration files
         crval1p = prf_cal_file[ext].header['CRVAL1P']
         crval2p = prf_cal_file[ext].header['CRVAL2P']
         cdelt1p = prf_cal_file[ext].header['CDELT1P']
         cdelt2p = prf_cal_file[ext].header['CDELT2P']
         prf_cal_file.close()
-        #return data, crpix1p, crpix2p, crval1p, crval2p, cdelt1p, cdelt2p
         return data, crval1p, crval2p, cdelt1p, cdelt2p
 
     def prepare_prf(self):
         n_hdu = 5
         min_prf_weight = 1e-6
         # determine suitable PRF calibration file
-        if int(module) < 10:
+        if int(self.tpf.module) < 10:
             prefix = 'kplr0'
         else:
             prefix = 'kplr'
         prf_file_path = os.path.join(self.prf_files_dir,
-                                     prefix + module + '.' + output + '*_prf.fits')
+                                     prefix + self.tpf.module + '.' + self.tpf.output + '*_prf.fits')
         prffile = glob.glob(prf_file_path)[0]
 
         # read PRF images
@@ -152,13 +149,6 @@ class KeplerPRF(KeplerTargetPixelFile):
         prf /= (np.nansum(prf) * cdelt1p[0] * cdelt2p[0])
 
         # location of the data image centered on the PRF image (in PRF pixel units)
-        prfDimY = int(ydim / cdelt1p[0])
-        prfDimX = int(xdim / cdelt2p[0])
-        PRFy0 = int(np.round((np.shape(prf)[0] - prfDimY) / 2))
-        PRFx0 = int(np.round((np.shape(prf)[1] - prfDimX) / 2))
-        DATx = np.arange(column, column + xdim)
-        DATy = np.arange(row, row + ydim)
+        self.x = np.arange(column, column + xdim)
+        self.y = np.arange(row, row + ydim)
         self.interpolate = scipy.interpolate.RectBivariateSpline(PRFx, PRFy, prf)
-
-        return (splineInterpolation, DATx, DATy, prf, PRFx, PRFy, PRFx0, PRFy0,
-                cdelt1p, cdelt2p, prfDimX, prfDimY)
