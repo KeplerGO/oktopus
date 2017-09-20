@@ -9,6 +9,7 @@ import scipy
 import pandas as pd
 from astropy.io import fits as pyfits
 from pyke import KeplerTargetPixelFile
+from pyke.utils import channel_to_module_output
 
 
 __all__ = ['KeplerPRFPhotometry', 'KeplerPRF']
@@ -74,15 +75,14 @@ class KeplerPRF(object):
     prf_files_dir : str
         Relative or aboslute path to a directory containing the Pixel Response
         Function calibration files produced during Kepler data comissioning.
-        Note: eventually we should query those from MAST as needed.
 
-    tpf : str
-        Target pixel file name.
+    channel : int
+        Channel number.
     """
 
-    def __init__(self, prf_files_dir, tpf_name):
+    def __init__(self, prf_files_dir, channel):
         self.prf_files_dir = prf_files_dir
-        self.tpf = KeplerTargetPixelFile(tpf_name)
+        self.channel = channel
         self.prepare_prf()
 
     def prf_to_detector(self, F, xo, yo):
@@ -114,13 +114,14 @@ class KeplerPRF(object):
     def prepare_prf(self):
         n_hdu = 5
         min_prf_weight = 1e-6
+        module, output = channel_to_module_output(self.channel)
         # determine suitable PRF calibration file
-        if int(self.tpf.module) < 10:
+        if module < 10:
             prefix = 'kplr0'
         else:
             prefix = 'kplr'
         prf_file_path = os.path.join(self.prf_files_dir,
-                                     prefix + str(self.tpf.module) + '.' + str(self.tpf.output) + '*_prf.fits')
+                                     prefix + str(module) + '.' + str(output) + '*_prf.fits')
         prffile = glob.glob(prf_file_path)[0]
 
         # read PRF images
