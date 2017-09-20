@@ -132,13 +132,13 @@ class KeplerPRF(object):
         for i in range(n_hdu):
             prfn[i], crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i] = self.read_prf_calibration_file(prffile, i+1)
         prfn = np.array(prfn)
-        PRFx = np.arange(0.5, np.shape(prfn[0])[1] + 0.5)
-        PRFy = np.arange(0.5, np.shape(prfn[0])[0] + 0.5)
+        PRFx = np.arange(0.5, np.shape(prfn[0])[0] + 0.5)
+        PRFy = np.arange(0.5, np.shape(prfn[0])[1] + 0.5)
         PRFx = (PRFx - np.size(PRFx) / 2) * cdelt1p[0]
         PRFy = (PRFy - np.size(PRFy) / 2) * cdelt2p[0]
 
         # interpolate the calibrated PRF shape to the target position
-        ydim, xdim = self.tpf.shape[1], self.tpf.shape[2]
+        xdim, ydim = self.tpf.shape[1], self.tpf.shape[2]
         prf = np.zeros(np.shape(prfn[0]), dtype='float32')
         prfWeight = np.zeros(n_hdu, dtype='float32')
         ref_column = self.tpf.column + (xdim - 1.) / 2.
