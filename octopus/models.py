@@ -75,7 +75,7 @@ class WhiteNoiseKernel(Kernel):
         return np.diag(np.ones(self.n) * s ** 2)
 
 
-def get_initial_guesses(data):
+def get_initial_guesses(data, X, Y):
     """
     Compute the initial guess for PSF width using the sample moments of
     the data.
@@ -92,12 +92,11 @@ def get_initial_guesses(data):
     """
 
     total = data.sum()
-    Y, X = np.indices(data.shape)
     x = (X * data).sum() / total
     y = (Y * data).sum() / total
 
-    marg_x = data[:, int(x)]
-    marg_y = data[int(y), :]
+    marg_x = data[:, int(np.round(x - X[0]))]
+    marg_y = data[int(np.round(y - Y[0])), :]
 
     sigma_y = math.sqrt(np.abs((np.arange(marg_y.size) - y) ** 2 * marg_y).sum() / marg_y.sum())
     sigma_x = math.sqrt(np.abs((np.arange(marg_x.size) - x) ** 2 * marg_x).sum() / marg_x.sum())
