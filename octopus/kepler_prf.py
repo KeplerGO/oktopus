@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import scipy
 import pandas as pd
 import math
+from pyke import KeplerTargetPixelFile
 
 
 __all__ = ['KeplerPRFPhotometry', 'KeplerPRF']
@@ -11,11 +12,11 @@ __all__ = ['KeplerPRFPhotometry', 'KeplerPRF']
 
 class PRFPhotometry(ABC):
     # Let's restrict this for TPFs for now. Should be easily extensible though.
-    @abstract_method
+    @abstractmethod
     def do_photometry(self, tpf, initial_guesses=None):
         pass
 
-    @abstract_method
+    @abstractmethod
     def generate_residuals_movie(self):
         pass
 
@@ -71,13 +72,13 @@ class KeplerPRF(object):
         Function calibration files produced during Kepler data comissioning.
         Note: eventually we should query those from MAST as needed.
 
-    tpf : KeplerTargetPixelFile instance
-        An instance of a KeplerTargetPixelFile
+    tpf : str
+        Target pixel file name.
     """
 
-    def __init__(self, prf_files_dir, tpf):
+    def __init__(self, prf_files_dir, tpf_name):
         self.prf_files_dir = prf_files_dir
-        self.tpf = tpf
+        self.tpf = KeplerTargetPixelFile(tpf_name)
         self.prepare_prf()
 
     def prf_to_detector(self, F, xo, yo):
@@ -142,7 +143,7 @@ class KeplerPRF(object):
         ref_row = row + (ydim - 1.) / 2.
         for i in range(n_hdu):
             prfWeight[i] = math.sqrt((ref_column - crval1p[i]) ** 2
-                                     + (ref_row - crval2p[i]) ** 2))
+                                     + (ref_row - crval2p[i]) ** 2)
             if prfWeight[i] < minimum_prf_weight:
                 prfWeight[i] = minimum_prf_weight
             prf += prfn[i] / prfWeight[i]
