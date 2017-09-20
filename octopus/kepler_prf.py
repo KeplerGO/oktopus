@@ -62,6 +62,7 @@ class KeplerPRF(KeplerTargetPixelFile):
 
     def __init__(self, prf_files_dir):
         self.prf_files_dir = prf_files_dir
+        self.prepare_prf()
 
     def prf_to_detector(self, F, xo, yo):
         self.prf_model = np.zeros((np.size(self.y), np.size(self.x)))
@@ -157,7 +158,7 @@ class KeplerPRF(KeplerTargetPixelFile):
         PRFx0 = int(np.round((np.shape(prf)[1] - prfDimX) / 2))
         DATx = np.arange(column, column + xdim)
         DATy = np.arange(row, row + ydim)
-        splineInterpolation = scipy.interpolate.RectBivariateSpline(PRFx, PRFy, prf)
+        self.interpolate = scipy.interpolate.RectBivariateSpline(PRFx, PRFy, prf)
 
         return (splineInterpolation, DATx, DATy, prf, PRFx, PRFy, PRFx0, PRFy0,
                 cdelt1p, cdelt2p, prfDimX, prfDimY)

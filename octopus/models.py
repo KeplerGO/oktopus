@@ -21,6 +21,9 @@ class Gaussian2D(object):
         self.x = x
         self.y = y
 
+    def __call__(self, A, xo, yo, a, b, c):
+        return self.evaluate(A, xo yo, a, b, c)
+
     def evaluate(self, A, xo, yo, a, b, c):
         return A * np.exp(-(a * (self.x - xo) ** 2
                             - 2 * b * (self.x - xo) * (self.y - yo)
