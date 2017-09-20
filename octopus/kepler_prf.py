@@ -78,11 +78,17 @@ class KeplerPRF(object):
 
     channel : int
         Channel number.
+
+    shape : (int, int)
+        Shape of the TPF.
     """
 
-    def __init__(self, prf_files_dir, channel):
+    def __init__(self, prf_files_dir, channel, shape, column, row):
         self.prf_files_dir = prf_files_dir
         self.channel = channel
+        self.shape = shape
+        self.column = column
+        self.row = row
         self.prepare_prf()
 
     def prf_to_detector(self, F, xo, yo):
@@ -139,11 +145,11 @@ class KeplerPRF(object):
         PRFy = (PRFy - np.size(PRFy) / 2) * cdelt2p[0]
 
         # interpolate the calibrated PRF shape to the target position
-        xdim, ydim = self.tpf.shape[1], self.tpf.shape[2]
+        xdim, ydim = self.shape[0], self.shape[1]
         prf = np.zeros(np.shape(prfn[0]), dtype='float32')
         prfWeight = np.zeros(n_hdu, dtype='float32')
-        ref_column = self.tpf.column + (xdim - 1.) / 2.
-        ref_row = self.tpf.row + (ydim - 1.) / 2.
+        ref_column = self.column + (xdim - 1.) / 2.
+        ref_row = self.row + (ydim - 1.) / 2.
         for i in range(n_hdu):
             prfWeight[i] = math.sqrt((ref_column - crval1p[i]) ** 2
                                      + (ref_row - crval2p[i]) ** 2)
@@ -153,6 +159,6 @@ class KeplerPRF(object):
         prf /= (np.nansum(prf) * cdelt1p[0] * cdelt2p[0])
 
         # location of the data image centered on the PRF image (in PRF pixel units)
-        self.x = np.arange(self.tpf.column, self.tpf.column + xdim)
-        self.y = np.arange(self.tpf.row, self.tpf.row + ydim)
+        self.x = np.arange(self.column, self.column + xdim)
+        self.y = np.arange(self.row, self.row + ydim)
         self.interpolate = scipy.interpolate.RectBivariateSpline(PRFx, PRFy, prf)
