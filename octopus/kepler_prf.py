@@ -101,7 +101,9 @@ class KeplerPRF(object):
         return self.prf_model
 
     def evaluate(self, F, xo, yo):
-        return self.prf_to_detector(F, xo, yo)
+        myprf = self.prf_to_detector(F, xo, yo)
+        myprf[myprf <= 0] = 1e-99
+        return myprf
 
     def __call__(self, F, xo, yo):
         return self.evaluate(F, xo, yo)
