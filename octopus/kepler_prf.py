@@ -77,10 +77,13 @@ class KeplerPRF(object):
         Function calibration files produced during Kepler data comissioning.
 
     channel : int
-        Channel number.
-
+        KeplerTargetPixelFile.channel
     shape : (int, int)
-        Shape of the TPF.
+        KeplerTargetPixelFile.shape
+    column : int
+        KeplerTargetPixelFile.column
+    row : int
+        KeplerTargetPixelFile.row
     """
 
     def __init__(self, prf_files_dir, channel, shape, column, row):
@@ -91,15 +94,23 @@ class KeplerPRF(object):
         self.row = row
         self.prepare_prf()
 
-    def prf_to_detector(self, F, xo, yo):
-        self.prf_model = F * self.interpolate(self.y - yo, self.x - xo)
-        return self.prf_model
+    def prf_to_detector(self, params):
+        nsrcs = len(params) // 3
+        if nsrcs > 1:
+            F, xo, yo, self.prf_model = np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs)
+            for i in range(nsrcs):
+                F[i] = params[i]
+                xo[i] = params[i + nsrcs]
+                yo[i] = params[i + 2 * nsrcs]
+                self.prf_model[i] = F[i] * self.interpolate(self.y - yo[i], self.x - xo[i])
+            return np.sum(self.prf_model)
+        else:
+            F, xo, yo = params
+            self.prf_model = F * self.interpolate(self.y - yo, self.x - xo)
+            return self.prf_model
 
-    def evaluate(self, F, xo, yo, b):
-        return self.prf_to_detector(F, xo, yo) + b
-
-    def __call__(self, F, xo, yo, b):
-        return self.evaluate(F, xo, yo, b)
+    def evaluate(self, *params):
+        return self.prf_to_detector(params[:-1]) + params[-1]
 
     def read_prf_calibration_file(self, path, ext):
         prf_cal_file = pyfits.open(path)
