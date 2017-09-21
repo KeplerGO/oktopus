@@ -17,11 +17,15 @@ class LossFunction(ABC):
         """
         pass
 
-    def jacobian(self, params):
+    def jac(self, params):
         """
         Returns the gradient of the loss function evaluated at params.
         """
-        pass
+        grad_loss = []
+        for i in range(len(params)):
+            grad_loss.append(jacobian(self.evaluate, argnum=i))
+
+        return [grad_loss[i](*params) for i in range(len(params))]
 
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
@@ -31,6 +35,8 @@ class LossFunction(ABC):
         ----------
         x0 : ndarray
             Initial guesses on the parameter estimates
+        method : str
+            Optimization algorithm
         kwargs : dict
             Dictionary for additional arguments. See scipy.optimize.minimize.
 
@@ -90,10 +96,10 @@ class GaussianPrior(Prior):
     """
     Negative log likelihood for a n-dimensional independent Gaussian.
     """
-    def __init__(self, mean, var):
+    def __init__(self, mean, var, name=None):
         self.mean = np.asarray([mean])
         self.var = np.asarray([var])
-        self.name = np.asrray([name])
+        self.name = name
 
     def __add__(self, other):
         return GaussianPrior(np.append(self.mean, other.mean),

@@ -49,7 +49,7 @@ class KeplerPRFPhotometry(PRFPhotometry):
 
         for t in range(len(tpf.time)):
             logL = self.loss_function(tpf.flux, self.prf_model)
-            opt_result = logL.fit(initial_guesses).x
+            opt_result = logL.fit(*initial_guesses).x
             residuals_opt_result = tpf.flux - self.prf_model(*opt_result.x)
             self.opt_params.append(opt_result.x)
             self.residuals.append(residuals_opt_result)
@@ -92,12 +92,7 @@ class KeplerPRF(object):
         self.prepare_prf()
 
     def prf_to_detector(self, F, xo, yo):
-        self.prf_model = np.zeros((np.size(self.y), np.size(self.x)))
-
-        for (j, yj) in enumerate(self.y):
-            for (i, xi) in enumerate(self.x):
-                self.prf_model[j, i] += F * self.interpolate(yj - yo, xi - xo)
-
+        self.prf_model = F * self.interpolate(self.y - yo, self.x - xo)
         return self.prf_model
 
     def evaluate(self, F, xo, yo, b):
