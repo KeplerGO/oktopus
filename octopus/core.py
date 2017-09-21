@@ -234,8 +234,7 @@ class PoissonLikelihood(Likelihood):
         self.mean = mean
 
     def evaluate(self, params):
-        return (self.mean(*params) - self.data * np.log(self.mean(*params))).sum()
-
+        return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
 
 class PoissonPosterior(Posterior):
     """
@@ -305,7 +304,7 @@ class GaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the model
         """
-        return ((self.data - self.mean(*params)) ** 2 / self.var).sum()
+        return np.nansum((self.data - self.mean(*params)) ** 2 / self.var)
 
 
 class MultivariateGaussianLikelihood(Likelihood):

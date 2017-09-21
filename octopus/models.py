@@ -91,9 +91,9 @@ def get_initial_guesses(data, X, Y):
         Initial guess for the width of the PSF.
     """
 
-    total = data.sum()
-    x = (X * data).sum() / total
-    y = (Y * data).sum() / total
+    total = np.nansum(data)
+    x = np.nansum(X * data) / total
+    y = np.nansum(Y * data) / total
 
     marg_x = data[:, int(np.round(x - X[0]))]
     marg_y = data[int(np.round(y - Y[0])), :]
