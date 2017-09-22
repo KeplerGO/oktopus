@@ -16,7 +16,7 @@ def test_prf_integration():
     flux = 100
     prf = KeplerPRF(prf_files_dir=PRFDIR, channel=channel, column=col, row=row, shape=shape)
     prf_sum = prf(flux, col + shape[0]/2, row + shape[1]/2, 0).sum()
-    assert np.isclose(prf_sum == flux)
+    assert np.isclose(prf_sum, flux, rtol=0.1)
 
 
 def test_prf_vs_aperture_photometry():
