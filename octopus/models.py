@@ -92,8 +92,11 @@ def get_initial_guesses(data, X, Y):
     """
 
     total = np.nansum(data)
-    x = np.nansum(X * data) / total
-    y = np.nansum(Y * data) / total
+    yy, xx = np.indices(data.shape)
+    yy = Y[0] + yy
+    xx = X[0] + xx
+    x = np.nansum(xx * data) / total
+    y = np.nansum(yy * data) / total
 
     marg_x = data[:, int(np.round(x - X[0]))]
     marg_y = data[int(np.round(y - Y[0])), :]
