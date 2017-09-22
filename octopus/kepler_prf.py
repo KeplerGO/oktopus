@@ -97,13 +97,13 @@ class KeplerPRF(object):
     def prf_to_detector(self, params):
         nsrcs = len(params) // 3
         if nsrcs > 1:
-            F, xo, yo, self.prf_model = np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs)
+            F, xo, yo, self.prf_model = np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs), []
             for i in range(nsrcs):
                 F[i] = params[i]
                 xo[i] = params[i + nsrcs]
                 yo[i] = params[i + 2 * nsrcs]
-                self.prf_model[i] = F[i] * self.interpolate(self.y - yo[i], self.x - xo[i])
-            return np.sum(self.prf_model)
+                self.prf_model.append(F[i] * self.interpolate(self.y - yo[i], self.x - xo[i]))
+            return np.sum(self.prf_model, axis=0)
         else:
             F, xo, yo = params
             self.prf_model = F * self.interpolate(self.y - yo, self.x - xo)
