@@ -1,8 +1,14 @@
-# 🐙 Octupus
+# 🐙 Oktopus
 
 A soft-bodied, eight-armed package for beautiful inference.
 
-To install ``octopus``, run::
+To install ``oktopus``, run:
+
+```
+pip install oktopus
+```
+
+or
 
 ```
 git clone https://github.com/mirca/octopus.git
