@@ -1,4 +1,5 @@
 # 🐙 Oktopus
+[travis-ci](https://travis-ci.org/mirca/octopus.svg?branch=master)
 
 A soft-bodied, eight-armed package for beautiful inference.
 
