@@ -151,7 +151,7 @@ class MultinomialLikelihood(Likelihood):
     ----------
     data : ndarray
         Observed count data.
-    pmf : callable
+    mean : callable
         Events probabilities of the multinomial distribution.
 
     Examples
@@ -253,6 +253,17 @@ class PoissonPosterior(Posterior):
     """
     Implements the negative of the log posterior distribution for independent
     (possibly non-identically) distributed Poisson measurements.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed count data.
+    mean : callable
+        Mean of the Poisson distribution.
+        Note: this model must be defined with autograd numpy wrapper.
+    prior : callable
+        Negative log prior as a function of the parameters.
+        See UniformPrior.
     """
 
     def __init__(self, data, mean, prior):
@@ -270,6 +281,15 @@ class GaussianLikelihood(Likelihood):
     Implements the likelihood function for independent
     (possibly non-identically) distributed Gaussian measurements
     with known variance.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed data.
+    mean : callable
+        Mean model.
+    var : float or array-like
+        Uncertainties on the observed data.
 
     Examples
     --------
@@ -376,6 +396,20 @@ class MultivariateGaussianLikelihood(Likelihood):
 class MultivariateGaussianPosterior(Posterior):
     """
     Implements the posterior distribution for a multivariate gaussian distribution.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed data.
+    mean : callable
+        Mean model.
+    cov : callable
+        Kernel for the covariance matrix.
+    dim : int
+        Dimension (number of parameters) of the mean model.
+    prior : callable
+        Negative log prior as a function of the parameters.
+        See UniformPrior.
     """
 
     def __init__(self, data, mean, cov, dim, prior):
