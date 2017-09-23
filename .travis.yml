@@ -8,7 +8,7 @@ before_install:
   - pip install pytest-cov
 # command to run tests
 script:
-  - pytest --cov
+  - pytest
 
 after_sucess:
   - codecov
