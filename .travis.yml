@@ -9,7 +9,6 @@ before_install:
 # command to run tests
 script:
   - pytest --cov
-  - pytest --doctest-modules
 
 after_sucess:
   - codecov
