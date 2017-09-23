@@ -60,9 +60,12 @@ class JointPrior(Prior):
     """Combine indepedent priors by summing the negative of the log
     of their distributions.
 
+    Attributes
+    ----------
+    args : list or tuple of instances of Prior
+
     Examples
     --------
-
     >>> from octopus import UniformPrior, GaussianPrior
     >>> jp = UniformPrior(-0.5, 0.5) + GaussianPrior(0, 1)
     >>> jp.evaluate((0, 0))
