@@ -165,6 +165,6 @@ class KeplerPRF(object):
         prf /= (np.nansum(prf) * cdelt1p[0] * cdelt2p[0])
 
         # location of the data image centered on the PRF image (in PRF pixel units)
-        self.x = np.arange(self.column + .5, self.column + xdim)
-        self.y = np.arange(self.row + .5, self.row + ydim)
+        self.x = np.arange(self.column + .5, self.column + xdim + .5)
+        self.y = np.arange(self.row + .5, self.row + ydim + .5)
         self.interpolate = scipy.interpolate.RectBivariateSpline(PRFx, PRFy, prf)
