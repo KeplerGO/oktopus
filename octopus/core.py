@@ -6,7 +6,8 @@ from scipy.optimize import minimize
 
 __all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'PoissonPosterior',
            'GaussianLikelihood', 'MultivariateGaussianLikelihood',
-           'MultivariateGaussianPosterior', 'UniformPrior', 'GaussianPrior']
+           'MultivariateGaussianPosterior', 'UniformPrior', 'GaussianPrior',
+           'JointPrior']
 
 
 class LossFunction(ABC):
@@ -55,6 +56,32 @@ class Posterior(LossFunction):
     pass
 
 
+class JointPrior(Prior):
+    """Combine indepedent priors by summing the negative of the log
+    of their distributions.
+
+    Attributes
+    ----------
+    args : list or tuple of instances of Prior
+
+    Examples
+    --------
+    >>> from octopus import UniformPrior, GaussianPrior
+    >>> jp = UniformPrior(-0.5, 0.5) + GaussianPrior(0, 1)
+    >>> jp.evaluate((0, 0))
+    0.0
+    """
+
+    def __init__(self, *args):
+        self.args = args
+
+    def evaluate(self, params):
+        p = 0
+        for i in range(len(params)):
+            p += self.args[i].evaluate(params[i])
+        return p
+
+
 class UniformPrior(Prior):
     """
     Negative log likelihood for a n-dimensional independent uniform prior.
@@ -72,9 +99,12 @@ class UniformPrior(Prior):
         self.name = name
 
     def __add__(self, other):
-        return UniformPrior(np.append(self.lb, other.lb),
-                            np.append(self.ub, other.ub),
-                            np.append(self.name, other.name))
+        if isinstance(other, UniformPrior):
+            return UniformPrior(np.append(self.lb, other.lb),
+                                np.append(self.ub, other.ub),
+                                np.append(self.name, other.name))
+        else:
+            return JointPrior(self, other)
 
     def evaluate(self, params):
         if (self.lb <= params).all() and (params < self.ub).all():
@@ -83,9 +113,7 @@ class UniformPrior(Prior):
 
 
 class GaussianPrior(Prior):
-    """
-    Negative log likelihood for a n-dimensional independent Gaussian.
-    """
+    """Negative log likelihood for a n-dimensional independent Gaussian."""
     def __init__(self, mean, var, name=None):
         self.mean = np.asarray([mean])
         self.var = np.asarray([var])
