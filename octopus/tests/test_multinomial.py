@@ -12,6 +12,5 @@ def test_fit(counts, p0, ans, unc):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
     p_hat = logL.fit(x0=p0)
-    print(logL.uncertainties())
-    np.testing.assert_almost_equal(logL.uncertainties(), unc, decimal=4)
+    np.testing.assert_almost_equal(logL.uncertainties(), unc)
     np.testing.assert_almost_equal(p_hat.x[0], ans, decimal=4)
