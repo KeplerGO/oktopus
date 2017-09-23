@@ -2,6 +2,7 @@ import os
 import numpy as np
 from astropy.io import fits
 
+from . import PATH_TESTDATA
 from .. import models
 from .. import core
 from ..kepler_prf import KeplerPRF
@@ -15,13 +16,13 @@ def test_prf_integration():
     shape = (18, 14)
     flux = 100
     prf = KeplerPRF(prf_files_dir=PRFDIR, channel=channel, column=col, row=row, shape=shape)
-    prf_sum = prf(flux, col + shape[0]/2, row + shape[1]/2, 0).sum()
+    prf_sum = prf.evaluate(flux, col + shape[0]/2, row + shape[1]/2, 0).sum()
     assert np.isclose(prf_sum, flux, rtol=0.1)
 
 
 def test_prf_vs_aperture_photometry():
     """Is the PRF photometry result consistent with simple aperture photometry?"""
-    tpf = fits.open("data/ktwo201907706-c01-first-cadence.fits.gz")
+    tpf = fits.open(os.path.join(PATH_TESTDATA, "ktwo201907706-c01-first-cadence.fits.gz"))
     col, row = 173, 526
     prf = KeplerPRF(prf_files_dir=PRFDIR, channel=tpf[0].header['CHANNEL'],
                     column=col, row=row,
