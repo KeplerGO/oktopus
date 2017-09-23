@@ -217,6 +217,29 @@ class PoissonLikelihood(Likelihood):
 
     Examples
     --------
+    Suppose we want to estimate the expected number of planes arriving at
+    gate 50 terminal 1 at SFO airport in a given hour of a given day using
+    some data.
+
+    >>> import math
+    >>> from octopus import PoissonLikelihood
+    >>> import numpy as np
+    >>> import autograd.numpy as npa
+    >>> np.random.seed(0)
+    >>> toy_data = np.random.randint(1, 20, size=100)
+    >>> def mean(l):
+    ...     return npa.array([l])
+    >>> logL = PoissonLikelihood(data=toy_data, mean=mean)
+    >>> mean_hat = logL.fit(x0=10.5)
+    >>> mean_hat.x
+    array([ 9.28997498])
+    >>> np.mean(toy_data) # theorectical MLE
+    9.2899999999999991
+    >>> mean_unc = logL.uncertainties()
+    >>> mean_unc
+    array([ 3.04794603])
+    >>> math.sqrt(np.mean(toy_data)) # theorectical Fisher information
+    3.047950130825634
     """
 
     def __init__(self, data, mean):
