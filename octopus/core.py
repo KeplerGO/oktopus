@@ -17,16 +17,6 @@ class LossFunction(ABC):
         """
         pass
 
-    def jac(self, params):
-        """
-        Returns the gradient of the loss function evaluated at params.
-        """
-        grad_loss = []
-        for i in range(len(params)):
-            grad_loss.append(jacobian(self.evaluate, argnum=i))
-
-        return [grad_loss[i](*params) for i in range(len(params))]
-
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
         Minimize the loss function using scipy.optimize.minimize.
