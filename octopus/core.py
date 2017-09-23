@@ -170,7 +170,7 @@ class MultinomialLikelihood(Likelihood):
     >>> counts = np.array([20, 30])
     >>> def ber_pmf(p):
             return np.array([p, 1 - p])
-    >>> logL = MultinomialLikelihood(data=counts, pmf=ber_pmf)
+    >>> logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
     >>> p0 = 0.5 # our initial guess
     >>> p_hat = logL.fit(x0=p0)
     >>> p_hat.x
@@ -184,16 +184,16 @@ class MultinomialLikelihood(Likelihood):
         0.069282032302755092
     """
 
-    def __init__(self, data, pmf):
+    def __init__(self, data, mean):
         self.data = data
-        self.pmf = pmf
+        self.mean = mean
 
     @property
     def n_counts(self):
         return self.data.sum()
 
     def evaluate(self, params):
-        return - (self.data * np.log(self.pmf(*params))).sum()
+        return - (self.data * np.log(self.mean(*params))).sum()
 
     def fisher_information_matrix(self):
         return self.n_counts * super(MultinomialLikelihood,
