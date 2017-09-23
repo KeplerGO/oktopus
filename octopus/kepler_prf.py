@@ -1,14 +1,12 @@
 from .models import get_initial_guesses
 from .core import PoissonLikelihood
+from abc import ABC, abstractmethod
 import os
 import glob
 import math
-from abc import ABC, abstractmethod
-import numpy as np
 import scipy
-import pandas as pd
+import numpy as np
 from astropy.io import fits as pyfits
-from pyke import KeplerTargetPixelFile
 from pyke.utils import channel_to_module_output
 
 
