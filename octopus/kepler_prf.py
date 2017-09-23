@@ -1,3 +1,5 @@
+from . import DEFAULT_PRFDIR
+from .models import get_initial_guesses
 from abc import ABC, abstractmethod
 import os
 import glob
@@ -84,7 +86,7 @@ class KeplerPRF(object):
         KeplerTargetPixelFile.row
     """
 
-    def __init__(self, prf_files_dir, channel, shape, column, row):
+    def __init__(self, channel, shape, column, row, prf_files_dir=DEFAULT_PRFDIR):
         self.prf_files_dir = prf_files_dir
         self.channel = channel
         self.shape = shape
