@@ -56,6 +56,29 @@ class Posterior(LossFunction):
     pass
 
 
+class JointPrior(Prior):
+    """Combine indepedent priors by summing the negative of the log
+    of their distributions.
+
+    Examples
+    --------
+
+    >>> from octopus import UniformPrior, GaussianPrior
+    >>> jp = UniformPrior(-0.5, 0.5) + GaussianPrior(0, 1)
+    >>> jp.evaluate((0, 0))
+    0.0
+    """
+
+    def __init__(self, *args):
+        self.args = args
+
+    def evaluate(self, params):
+        p = 0
+        for i in range(len(params)):
+            p += self.args[i].evaluate(params[i])
+        return p
+
+
 class UniformPrior(Prior):
     """
     Negative log likelihood for a n-dimensional independent uniform prior.
@@ -84,19 +107,6 @@ class UniformPrior(Prior):
         if (self.lb <= params).all() and (params < self.ub).all():
             return - np.log(1 / (self.ub - self.lb)).sum()
         return np.inf
-
-
-class JointPrior(Prior):
-    """The dumbest way to combine priors. But it sorta works."""
-
-    def __init__(self, *args):
-        self.args = args
-
-    def evaluate(self, params):
-        p = 0
-        for i in range(len(params)):
-            p += self.args[i].evaluate(params[i])
-        return p
 
 
 class GaussianPrior(Prior):
