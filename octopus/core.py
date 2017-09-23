@@ -18,6 +18,9 @@ class LossFunction(ABC):
         """
         pass
 
+    def __call__(self, params):
+        return self.evaluate(params)
+
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
         Minimize the loss function using scipy.optimize.minimize.
@@ -69,6 +72,8 @@ class JointPrior(Prior):
     >>> from octopus import UniformPrior, GaussianPrior
     >>> jp = UniformPrior(-0.5, 0.5) + GaussianPrior(0, 1)
     >>> jp.evaluate((0, 0))
+    0.0
+    >>> jp((0, 0)) # jp is also a callable to .evaluate
     0.0
     """
 
