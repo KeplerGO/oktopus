@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 # To use a consistent encoding
 from codecs import open
 from os import path
@@ -25,9 +25,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.6',
     ],
-
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     keywords='statistics probability',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=['numpy', 'scipy', 'autograd', 'astropy',
                       'pyketools']
 )

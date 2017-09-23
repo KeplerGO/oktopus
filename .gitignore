@@ -36,6 +36,7 @@ docs/_build
 dist
 build
 eggs
+.eggs
 parts
 bin
 var
