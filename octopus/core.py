@@ -165,23 +165,23 @@ class MultinomialLikelihood(Likelihood):
     for class_i. The Fisher Information Matrix is given by
     F(n, p) = n / (p * (1 - p)). Let's see how we can estimate p.
 
-    >>> from pyMLE import MultinomialLikelihood
+    >>> from octopus import MultinomialLikelihood
     >>> import autograd.numpy as np
     >>> counts = np.array([20, 30])
     >>> def ber_pmf(p):
-            return np.array([p, 1 - p])
+    ...     return np.array([p, 1 - p])
     >>> logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
     >>> p0 = 0.5 # our initial guess
     >>> p_hat = logL.fit(x0=p0)
     >>> p_hat.x
-        array([0.4])
+    array([ 0.4])
     >>> p_hat_unc = logL.uncertainties()
     >>> p_hat_unc
-    >>> array([ 0.06928203])
+    array([ 0.06928203])
     >>> 20 / (20 + 30) # theorectical MLE
-        0.4
+    0.4
     >>> np.sqrt(0.4 * 0.6 / (20 + 30)) # theorectical uncertanity
-        0.069282032302755092
+    0.069282032302755092
     """
 
     def __init__(self, data, mean):
@@ -253,10 +253,11 @@ class GaussianLikelihood(Likelihood):
     The following example demonstrates how one can fit a maximum likelihood
     line to some data:
 
-    >>> from pyMLE import GaussianLikelihood
+    >>> from octopus import GaussianLikelihood
     >>> import autograd.numpy as np
     >>> from matplotlib import pyplot as plt
     >>> x = np.linspace(0, 10, 200)
+    >>> np.random.seed(0)
     >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
     >>> def line(x, alpha, beta):
     ...     return alpha * x + beta
@@ -265,19 +266,19 @@ class GaussianLikelihood(Likelihood):
     >>> p0 = (1, 1) # dumb initial_guess for alpha and beta
     >>> p_hat = logL.fit(x0=p0)
     >>> p_hat.x # fitted parameters
-        array([ 3.00888507,  9.83031969])
+    array([  2.96263393,  10.32860717])
     >>> p_hat_unc = logL.uncertainties() # get uncertainties on fitted parameters
     >>> p_hat_unc
-        array([ 0.11466403,  0.55011405])
-    >>> plt.plot(x, fake_data, 'o')
-    >>> plt.plot(x, line(*p_hat.x))
+    array([ 0.11568693,  0.55871623])
+    >>> #plt.plot(x, fake_data, 'o')
+    >>> #plt.plot(x, line(*p_hat.x))
     >>> # The exact values from linear algebra would be:
     >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
-    >>> alpha, beta = np.dot(np.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
+    >>> alpha, beta = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
     >>> alpha
-        3.0088767708640294
+    2.9626408752841442
     >>> beta
-        9.8303661197685983
+    10.328616609861584
     """
 
     def __init__(self, data, mean, var):
