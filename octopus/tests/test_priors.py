@@ -1,5 +1,4 @@
 import pytest
-import numpu
 from ..core import UniformPrior, GaussianPrior, JointPrior
 
 def test_joint_prior():
