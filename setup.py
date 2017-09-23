@@ -28,6 +28,5 @@ setup(
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'pytest-cov'],
     keywords='statistics probability',
-    install_requires=['numpy', 'scipy', 'autograd', 'astropy',
-                      'pyketools']
+    install_requires=['numpy', 'scipy', 'autograd', 'astropy', 'pyketools']
 )
