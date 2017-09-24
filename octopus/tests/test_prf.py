@@ -28,9 +28,10 @@ def test_prf_vs_aperture_photometry():
     prf = KeplerPRF(channel=tpf[0].header['CHANNEL'],
                     column=col, row=row,
                     shape=tpf[1].data.shape)
-    fluxo, colo, rowo, bkgo = models.get_initial_guesses(data=tpf[1].data,
-                                                         X=prf.x,
-                                                         Y=prf.y)
+    fluxo, colo, rowo, sigmao = models.get_initial_guesses(data=tpf[1].data,
+                                                           X=prf.x,
+                                                           Y=prf.y)
+    bkgo = 230.  # estimated manually
     aperture_flux = tpf[1].data.sum()
     logL = core.PoissonLikelihood(tpf[1].data, prf.evaluate)
     fitresult = logL.fit((fluxo, colo, rowo, bkgo))
