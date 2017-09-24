@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+from numpy.testing import assert_array_equal
 from ..core import UniformPrior, GaussianPrior, JointPrior
 
 
@@ -21,6 +22,15 @@ def test_add_uniform_priors():
     assert np.isfinite(unif((.4999, .5, 2.5)))
     assert ~np.isfinite(unif((.5, .5, .0)))
 
+def test_gaussian_prior():
+    gauss = GaussianPrior(0, 1)
+    assert gauss(0) == 0.0
+    assert gauss(4) == 8.0
+
+def test_add_gaussian_priors():
+    gauss = GaussianPrior(0, 1) + GaussianPrior(1, 1)
+    assert gauss((0, 1)) == 0.0
+    assert gauss((2, 3)) == 4.0
 
 def test_joint_prior():
     unif = UniformPrior(-1, 1)

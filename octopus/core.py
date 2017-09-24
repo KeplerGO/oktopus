@@ -89,7 +89,7 @@ class JointPrior(Prior):
 
 class UniformPrior(Prior):
     """
-    Negative log likelihood for a n-dimensional independent uniform prior.
+    Negative log pdf for a n-dimensional independent uniform distribution.
 
     Parameters
     ----------
@@ -98,6 +98,7 @@ class UniformPrior(Prior):
     ub : int or array-like of ints
         Upper bounds (exclusive)
     """
+
     def __init__(self, lb, ub, name=None):
         self.lb = np.asarray([lb])
         self.ub = np.asarray([ub])
@@ -112,13 +113,19 @@ class UniformPrior(Prior):
             return JointPrior(self, other)
 
     def evaluate(self, params):
+        """
+        Parameters
+        ----------
+        params : float, int, or array-like
+        """
+
         if (self.lb <= params).all() and (params < self.ub).all():
             return - np.log(1 / (self.ub - self.lb)).sum()
         return np.inf
 
 
 class GaussianPrior(Prior):
-    """Negative log likelihood for a n-dimensional independent Gaussian."""
+    """Negative log pdf for a n-dimensional independent Gaussian."""
     def __init__(self, mean, var, name=None):
         self.mean = np.asarray([mean])
         self.var = np.asarray([var])
@@ -130,7 +137,7 @@ class GaussianPrior(Prior):
                              np.append(self.name, other.name))
 
     def evaluate(self, params):
-        return ((params - self.mean) ** 2 / self.var).sum()
+        return ((params - self.mean) ** 2 / (2 * self.var)).sum()
 
 
 class Likelihood(LossFunction):
