@@ -91,7 +91,7 @@ class UniformPrior(Prior):
     """
     Negative log pdf for a n-dimensional independent uniform distribution.
 
-    Parameters
+    Attributes
     ----------
     lb : int or array-like of ints
         Lower bounds (inclusive)
@@ -125,7 +125,16 @@ class UniformPrior(Prior):
 
 
 class GaussianPrior(Prior):
-    """Negative log pdf for a n-dimensional independent Gaussian."""
+    """Negative log pdf for a n-dimensional independent Gaussian.
+
+    Attributes
+    ----------
+    mean : float, int, or array-like
+        Mean
+    var : float, int, or array-like
+        Variance
+    """
+
     def __init__(self, mean, var, name=None):
         self.mean = np.asarray([mean])
         self.var = np.asarray([var])
