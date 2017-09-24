@@ -11,5 +11,5 @@ def test_fit(toy_data):
     mean = lambda l: npa.array([l])
     logL = PoissonLikelihood(data=toy_data, mean=mean)
     mean_hat = logL.fit(x0=np.median(toy_data))
-    np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=3)
-    np.testing.assert_almost_equal(logL.uncertainties(), sqrt(np.mean(toy_data)), decimal=2)
+    np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=4)
+    np.testing.assert_almost_equal(logL.uncertainties(), sqrt(np.mean(toy_data)), decimal=4)
