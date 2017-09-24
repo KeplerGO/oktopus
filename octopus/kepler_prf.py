@@ -93,6 +93,15 @@ class KeplerPRF(object):
         self.prepare_prf()
 
     def prf_to_detector(self, params):
+        """
+        Builds the PRF model onto detector coordinates.
+
+        Parameters
+        ----------
+        flux : float or array-like
+        centroid_col : float or array-like
+        centroid_row : float or array-like
+        """
         nsrcs = len(params) // 3
         if nsrcs > 1:
             F, xo, yo, self.prf_model = np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs), []
