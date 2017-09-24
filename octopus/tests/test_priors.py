@@ -10,6 +10,18 @@ def test_uniform_prior():
     assert np.isfinite(unif(x))
     assert not np.isfinite(unif(x + 1))
 
+def test_add_uniform_priors():
+    unif = UniformPrior(-.5, .5) + UniformPrior(.5, 1.)
+    assert isinstance(unif, UniformPrior)
+    assert np.isfinite(unif((.4999, .5)))
+    assert ~np.isfinite(unif((.5, .5)))
+
+    unif = unif + UniformPrior(2., 3.)
+    assert isinstance(unif, UniformPrior)
+    assert np.isfinite(unif((.4999, .5, 2.5)))
+    assert ~np.isfinite(unif((.5, .5, .0)))
+
+
 def test_joint_prior():
     unif = UniformPrior(-1, 1)
     gauss = GaussianPrior(0, 1)

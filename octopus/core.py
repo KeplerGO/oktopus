@@ -94,9 +94,9 @@ class UniformPrior(Prior):
     Parameters
     ----------
     lb : int or array-like of ints
-        Lower bounds
+        Lower bounds (inclusive)
     ub : int or array-like of ints
-        Upper bounds
+        Upper bounds (exclusive)
     """
     def __init__(self, lb, ub, name=None):
         self.lb = np.asarray([lb])
