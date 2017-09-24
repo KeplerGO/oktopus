@@ -106,7 +106,6 @@ class UniformPrior(Prior):
     -0.0
     >>> unif(1)
     inf
-
     """
 
     def __init__(self, lb, ub, name=None):
@@ -143,6 +142,13 @@ class GaussianPrior(Prior):
         Mean
     var : float, int, or array-like
         Variance
+
+    Examples
+    --------
+    >>> from octopus import GaussianPrior
+    >>> gauss = GaussianPrior(0, 1)
+    >>> gauss(2)
+    2.0
     """
 
     def __init__(self, mean, var, name=None):
