@@ -1,8 +1,8 @@
 import os
 import numpy as np
 from astropy.io import fits
+from astropy.utils.data import get_pkg_data_filename
 
-from . import PATH_TESTDATA
 from .. import models
 from .. import core
 from ..kepler_prf import KeplerPRF
@@ -22,7 +22,8 @@ def test_prf_normalization():
 
 def test_prf_vs_aperture_photometry():
     """Is the PRF photometry result consistent with simple aperture photometry?"""
-    tpf = fits.open(os.path.join(PATH_TESTDATA, "ktwo201907706-c01-first-cadence.fits.gz"))
+    tpf_fn = get_pkg_data_filename("data/ktwo201907706-c01-first-cadence.fits.gz")
+    tpf = fits.open(tpf_fn)
     col, row = 173, 526
     prf = KeplerPRF(channel=tpf[0].header['CHANNEL'],
                     column=col, row=row,
