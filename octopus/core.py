@@ -329,6 +329,25 @@ class PoissonPosterior(Posterior):
     prior : callable
         Negative log prior as a function of the parameters.
         See UniformPrior.
+
+    Examples
+    --------
+    >>> import math
+    >>> from octopus import PoissonPosterior, UniformPrior, GaussianPrior
+    >>> import numpy as np
+    >>> import autograd.numpy as npa
+    >>> np.random.seed(0)
+    >>> toy_data = np.random.randint(1, 20, size=100)
+    >>> def mean(l):
+    ...     return npa.array([l])
+    >>> logL = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(1, 20))
+    >>> mean_hat = logL.fit(x0=10.5)
+    >>> mean_hat.x # MAP is the same of MLE for uniform prior
+    array([ 9.28997498])
+    >>> logL = PoissonPosterior(data=toy_data, mean=mean, prior=GaussianPrior(10, 4))
+    >>> mean_hat = logL.fit(x0=10.5)
+    >>> mean_hat.x
+    array([ 9.30612488])
     """
 
     def __init__(self, data, mean, prior):
