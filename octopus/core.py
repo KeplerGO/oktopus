@@ -97,6 +97,16 @@ class UniformPrior(Prior):
         Lower bounds (inclusive)
     ub : int or array-like of ints
         Upper bounds (exclusive)
+
+    Examples
+    --------
+    >>> from octopus import UniformPrior
+    >>> unif = UniformPrior(0, 1)
+    >>> unif(.5)
+    -0.0
+    >>> unif(1)
+    inf
+
     """
 
     def __init__(self, lb, ub, name=None):
