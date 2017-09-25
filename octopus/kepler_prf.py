@@ -1,5 +1,3 @@
-from .models import get_initial_guesses
-from .core import PoissonLikelihood
 from abc import ABC, abstractmethod
 import os
 import glob
@@ -7,6 +5,8 @@ import math
 import scipy
 import numpy as np
 from astropy.io import fits as pyfits
+from octopus.models import get_initial_guesses
+from octopus.likelihood import PoissonLikelihood
 from pyke.utils import channel_to_module_output
 
 

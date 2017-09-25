@@ -1,0 +1,143 @@
+import numpy as np
+from .core import LossFunction
+from .likelihood import PoissonLikelihood, GaussianLikelihood, MultivariateGaussianLikelihood
+
+
+__all__ = ['Posterior', 'GaussianPosterior', 'PoissonPosterior', 'MultivariateGaussianPosterior']
+
+
+class Posterior(LossFunction):
+    """
+    A base class for a posterior distribution.
+    """
+
+    def evaluate(self, params):
+        return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
+
+
+class GaussianPosterior(Posterior):
+    """
+    Implements the negative log posterior distribution for uncorrelated
+    (possibly non identically) distributed Gaussian measurements with known
+    variances.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed data
+    mean : callable
+        Mean model
+    var : scalar or array-like
+        Uncertainties on the observed data.
+    prior : callable
+        Negative log prior as a function of the parameters
+        See UniformPrior
+
+    Examples
+    --------
+    >>> from octopus import GaussianPosterior, GaussianPrior, UniformPrior
+    >>> import autograd.numpy as np
+    >>> from matplotlib import pyplot as plt
+    >>> x = np.linspace(0, 10, 200)
+    >>> np.random.seed(0)
+    >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
+    >>> def line(x, slope, intercept):
+    ...     return slope * x + intercept
+    >>> my_line = lambda slope, intercept: line(x, slope, intercept)
+    >>> slope_prior = UniformPrior(lb=1, ub=10)
+    >>> intercept_prior = UniformPrior(lb=5, ub=20)
+    >>> joint_prior = slope_prior + intercept_prior
+    >>> logP = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
+    >>> p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept
+    >>> p_hat = logP.fit(x0=p0)
+    >>> p_hat.x # fitted parameters
+    array([  2.9626486 ,  10.32858499])
+    >>> #plt.plot(x, fake_data, 'o')
+    >>> #plt.plot(x, line(*p_hat.x))
+    >>> # The exact values from linear algebra are:
+    >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
+    >>> slope, intercept = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
+    >>> slope
+    2.9626408752841442
+    >>> intercept
+    10.328616609861584
+    """
+
+    def __init__(self, data, mean, var, prior):
+        self.data = data
+        self.mean = mean
+        self.logprior = prior
+        self.loglikelihood = GaussianLikelihood(data, mean, var)
+
+
+class PoissonPosterior(Posterior):
+    """
+    Implements the negative of the log posterior distribution for independent
+    (possibly non-identically) distributed Poisson measurements.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed count data
+    mean : callable
+        Mean of the Poisson distribution
+        Note: If you would like to get uncertainties by using the
+        `uncertainties` method, then this model must be defined with autograd
+        numpy wrapper.
+    prior : callable
+        Negative log prior as a function of the parameters
+        See UniformPrior.
+
+    Examples
+    --------
+    >>> import math
+    >>> from octopus import PoissonPosterior, UniformPrior, GaussianPrior
+    >>> import numpy as np
+    >>> import autograd.numpy as npa
+    >>> np.random.seed(0)
+    >>> toy_data = np.random.randint(1, 20, size=100)
+    >>> def mean(l):
+    ...     return npa.array([l])
+    >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(lb=1, ub=20))
+    >>> mean_hat = logP.fit(x0=10.5)
+    >>> mean_hat.x # MAP is the same of MLE for uniform prior
+    array([ 9.28997498])
+    >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=GaussianPrior(mean=10, var=4))
+    >>> mean_hat = logP.fit(x0=10.5)
+    >>> mean_hat.x
+    array([ 9.30612488])
+    """
+
+    def __init__(self, data, mean, prior):
+        self.data = data
+        self.mean = mean
+        self.logprior = prior
+        self.loglikelihood = PoissonLikelihood(data, mean)
+
+
+class MultivariateGaussianPosterior(Posterior):
+    """
+    Implements the posterior distribution for a multivariate gaussian distribution.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed data.
+    mean : callable
+        Mean model.
+    cov : callable
+        Kernel for the covariance matrix.
+    dim : int
+        Dimension (number of parameters) of the mean model.
+    prior : callable
+        Negative log prior as a function of the parameters.
+        See UniformPrior.
+    """
+
+    def __init__(self, data, mean, cov, dim, prior):
+        self.data = data
+        self.mean = mean
+        self.cov = cov
+        self.dim = dim
+        self.logprior = prior
+        self.loglikelihood = MultivariateGaussianLikelihood(data, mean, cov, dim)

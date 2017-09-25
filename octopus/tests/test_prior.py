@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from numpy.testing import assert_array_equal
-from ..core import UniformPrior, GaussianPrior, JointPrior
+from ..prior import UniformPrior, GaussianPrior, JointPrior
 
 
 def test_uniform_prior():
