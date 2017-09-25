@@ -441,7 +441,7 @@ class GaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the model
         """
-        return np.nansum((self.data - self.mean(*params)) ** 2 / self.var)
+        return np.nansum((self.data - self.mean(*params)) ** 2 / (2 * self.var))
 
 
 class MultivariateGaussianLikelihood(Likelihood):
