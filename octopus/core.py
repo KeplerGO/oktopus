@@ -5,7 +5,7 @@ from scipy.optimize import minimize
 
 
 __all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'PoissonPosterior',
-           'GaussianLikelihood', 'MultivariateGaussianLikelihood',
+           'GaussianLikelihood', 'GaussianPosterior', 'MultivariateGaussianLikelihood',
            'MultivariateGaussianPosterior', 'UniformPrior', 'GaussianPrior',
            'JointPrior']
 
@@ -137,6 +137,14 @@ class UniformPrior(Prior):
         else:
             return JointPrior(self, other)
 
+    @property
+    def mean(self):
+        return 0.5 * (self.lb + self.ub)
+
+    @property
+    def variance(self):
+        return (self.ub - self.lb) ** 2 / 12
+
     def evaluate(self, params):
         """
         Parameters
@@ -176,6 +184,18 @@ class GaussianPrior(Prior):
         return GaussianPrior(np.append(self.mean, other.mean),
                              np.append(self.var, other.var),
                              np.append(self.name, other.name))
+
+    @property
+    def mean(self):
+        return self._mean
+
+    @mean.setter
+    def mean(self, value):
+        self._mean = value
+
+    @property
+    def variance(self):
+        return self.var
 
     def evaluate(self, params):
         return ((params - self.mean) ** 2 / (2 * self.var)).sum()
@@ -334,6 +354,7 @@ class PoissonLikelihood(Likelihood):
     def evaluate(self, params):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
 
+
 class PoissonPosterior(Posterior):
     """
     Implements the negative of the log posterior distribution for independent
@@ -388,11 +409,11 @@ class GaussianLikelihood(Likelihood):
     Parameters
     ----------
     data : ndarray
-        Observed data.
+        Observed data
     mean : callable
-        Mean model.
+        Mean model
     var : float or array-like
-        Uncertainties on the observed data.
+        Uncertainties on the observed data
 
     Examples
     --------
@@ -442,6 +463,61 @@ class GaussianLikelihood(Likelihood):
             parameter vector of the model
         """
         return np.nansum((self.data - self.mean(*params)) ** 2 / (2 * self.var))
+
+
+class GaussianPosterior(Posterior):
+    """
+    Implements the negative log posterior distribution for uncorrelated
+    (possibly non identically) distributed Gaussian measurements with known
+    variances.
+
+    Parameters
+    ----------
+    data : ndarray
+        Observed data
+    mean : callable
+        Mean model
+    var : scalar or array-like
+        Uncertainties on the observed data.
+    prior : callable
+        Negative log prior as a function of the parameters
+        See UniformPrior
+
+    Examples
+    --------
+    >>> from octopus import GaussianPosterior, GaussianPrior, UniformPrior
+    >>> import autograd.numpy as np
+    >>> from matplotlib import pyplot as plt
+    >>> x = np.linspace(0, 10, 200)
+    >>> np.random.seed(0)
+    >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
+    >>> def line(x, slope, intercept):
+    ...     return slope * x + intercept
+    >>> my_line = lambda slope, intercept: line(x, slope, intercept)
+    >>> slope_prior = UniformPrior(lb=1, ub=10)
+    >>> intercept_prior = UniformPrior(lb=5, ub=20)
+    >>> joint_prior = slope_prior + intercept_prior
+    >>> logL = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
+    >>> p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept
+    >>> p_hat = logL.fit(x0=p0)
+    >>> p_hat.x # fitted parameters
+    array([  2.9626486 ,  10.32858499])
+    >>> #plt.plot(x, fake_data, 'o')
+    >>> #plt.plot(x, line(*p_hat.x))
+    >>> # The exact values from linear algebra are:
+    >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
+    >>> slope, intercept = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
+    >>> slope
+    2.9626408752841442
+    >>> intercept
+    10.328616609861584
+    """
+
+    def __init__(self, data, mean, var, prior):
+        self.data = data
+        self.mean = mean
+        self.logprior = prior
+        self.loglikelihood = GaussianLikelihood(data, mean, var)
 
 
 class MultivariateGaussianLikelihood(Likelihood):
