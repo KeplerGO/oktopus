@@ -56,6 +56,7 @@ class Prior(LossFunction):
     A base class for a prior distribution. Differently from Likelihood, a prior
     is a PDF that depends solely on the parameters, not on the observed data.
     """
+
     @property
     def name(self):
         return self._name
@@ -66,7 +67,12 @@ class Prior(LossFunction):
 
 
 class Posterior(LossFunction):
-    pass
+    """
+    A base class for a posterior distribution.
+    """
+
+    def evaluate(self, params):
+        return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
 
 
 class JointPrior(Prior):
@@ -148,9 +154,9 @@ class GaussianPrior(Prior):
 
     Attributes
     ----------
-    mean : float, int, or array-like
+    mean : scalar or array-like
         Mean
-    var : float, int, or array-like
+    var : scalar or array-like
         Variance
 
     Examples
@@ -176,6 +182,10 @@ class GaussianPrior(Prior):
 
 
 class Likelihood(LossFunction):
+    """
+    Defines a Likelihood function.
+    """
+
     def fisher_information_matrix(self):
         """
         Computes the Fisher Information Matrix using autograd
@@ -332,12 +342,14 @@ class PoissonPosterior(Posterior):
     Parameters
     ----------
     data : ndarray
-        Observed count data.
+        Observed count data
     mean : callable
-        Mean of the Poisson distribution.
-        Note: this model must be defined with autograd numpy wrapper.
+        Mean of the Poisson distribution
+        Note: If you would like to get uncertainties by using the
+        `uncertainties` method, then this model must be defined with autograd
+        numpy wrapper.
     prior : callable
-        Negative log prior as a function of the parameters.
+        Negative log prior as a function of the parameters
         See UniformPrior.
 
     Examples
@@ -365,9 +377,6 @@ class PoissonPosterior(Posterior):
         self.mean = mean
         self.logprior = prior
         self.loglikelihood = PoissonLikelihood(data, mean)
-
-    def evaluate(self, params):
-        return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
 
 
 class GaussianLikelihood(Likelihood):
