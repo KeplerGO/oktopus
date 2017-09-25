@@ -383,12 +383,12 @@ class PoissonPosterior(Posterior):
     >>> toy_data = np.random.randint(1, 20, size=100)
     >>> def mean(l):
     ...     return npa.array([l])
-    >>> logL = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(1, 20))
-    >>> mean_hat = logL.fit(x0=10.5)
+    >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(lb=1, ub=20))
+    >>> mean_hat = logP.fit(x0=10.5)
     >>> mean_hat.x # MAP is the same of MLE for uniform prior
     array([ 9.28997498])
-    >>> logL = PoissonPosterior(data=toy_data, mean=mean, prior=GaussianPrior(10, 4))
-    >>> mean_hat = logL.fit(x0=10.5)
+    >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=GaussianPrior(mean=10, var=4))
+    >>> mean_hat = logP.fit(x0=10.5)
     >>> mean_hat.x
     array([ 9.30612488])
     """
@@ -497,9 +497,9 @@ class GaussianPosterior(Posterior):
     >>> slope_prior = UniformPrior(lb=1, ub=10)
     >>> intercept_prior = UniformPrior(lb=5, ub=20)
     >>> joint_prior = slope_prior + intercept_prior
-    >>> logL = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
+    >>> logP = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
     >>> p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept
-    >>> p_hat = logL.fit(x0=p0)
+    >>> p_hat = logP.fit(x0=p0)
     >>> p_hat.x # fitted parameters
     array([  2.9626486 ,  10.32858499])
     >>> #plt.plot(x, fake_data, 'o')
