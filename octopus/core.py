@@ -11,6 +11,12 @@ __all__ = ['MultinomialLikelihood', 'PoissonLikelihood', 'PoissonPosterior',
 
 
 class LossFunction(ABC):
+    """An abstract class for an arbitrary loss (cost) function.
+    This type of function appears frequently in estimation problems where
+    the best estimator (given a set of observed data) is the one which
+    minimizes some sort of objective function.
+    """
+
     @abstractmethod
     def evaluate(self, params):
         """
@@ -23,7 +29,7 @@ class LossFunction(ABC):
 
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
-        Minimize the loss function using scipy.optimize.minimize.
+        Minimizes the loss function using `scipy.optimize.minimize`.
 
         Parameters
         ----------
@@ -32,13 +38,13 @@ class LossFunction(ABC):
         method : str
             Optimization algorithm
         kwargs : dict
-            Dictionary for additional arguments. See scipy.optimize.minimize.
+            Dictionary for additional arguments. See scipy.optimize.minimize
 
         Return
         ------
         opt_result : scipy.optimize.OptimizeResult object
             Object containing the results of the optimization process.
-            Note: this is also store in self.opt_result.
+            Note: this is also stored in self.opt_result.
         """
         self.opt_result = minimize(self.evaluate, x0=x0, method=method,
                                    **kwargs)
@@ -46,6 +52,10 @@ class LossFunction(ABC):
 
 
 class Prior(LossFunction):
+    """
+    A base class for a prior distribution. Differently from Likelihood, a prior
+    is a PDF that depends solely on the parameters, not on the observed data.
+    """
     @property
     def name(self):
         return self._name
