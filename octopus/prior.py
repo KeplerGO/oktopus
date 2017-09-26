@@ -126,9 +126,12 @@ class GaussianPrior(Prior):
         self.name = name
 
     def __add__(self, other):
-        return GaussianPrior(np.append(self.mean, other.mean),
-                             np.append(self.var, other.var),
-                             np.append(self.name, other.name))
+        if isinstance(other, GaussianPrior):
+            return GaussianPrior(np.append(self.mean, other.mean),
+                                 np.append(self.var, other.var),
+                                 np.append(self.name, other.name))
+        else:
+            return JointPrior(self, other)
 
     @property
     def mean(self):
