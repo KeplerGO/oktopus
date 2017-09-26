@@ -1,0 +1,529 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Likelihood Distributions &mdash; oktopus 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="oktopus 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="API Documentation" href="index.html"/>
+        <link rel="next" title="Posterior Distributions" href="posterior.html"/>
+        <link rel="prev" title="Prior Distributions" href="prior.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> oktopus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Likelihood Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oktopus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Documentation</a> &raquo;</li>
+        
+      <li>Likelihood Distributions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/likelihood.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-oktopus.likelihood">
+<span id="likelihood-distributions"></span><h1>Likelihood Distributions<a class="headerlink" href="#module-oktopus.likelihood" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="oktopus.likelihood.Likelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">Likelihood</code><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a Likelihood function.</p>
+<p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.likelihood.Likelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the negative of the log likelihood function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : ndarray</p>
+<blockquote>
+<div><p>parameter vector of the model</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>neg_loglikelihood</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Returns the negative log likelihood function evaluated at
+<code class="docutils literal"><span class="pre">params</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.Likelihood.fisher_information_matrix">
+<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Fisher Information Matrix using autograd</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fisher</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Fisher Information Matrix</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.Likelihood.uncertainties">
+<code class="descname">uncertainties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.uncertainties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.uncertainties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the uncertainties on the model parameters as the
+square root of the diagonal of the inverse of the Fisher
+Information Matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inv_fisher</strong> : square root of the diagonal of the inverse of the Fisher</p>
+<p class="last">Information Matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.likelihood.MultinomialLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">MultinomialLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultinomialLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the negative log likelihood function for the Multinomial
+distribution. This class also contains a method to compute maximum
+likelihood estimators for the probabilities of the Multinomial
+distribution.</p>
+<p class="rubric">Examples</p>
+<p>Suppose our data is divided in two classes and we would like to estimate
+the probability of occurence of each class with the condition that
+P(class_1) = 1 - P(class_2) = p. Suppose we have a sample with n_1 counts
+from class_1 and n_2 counts from class_2. Since the distribution of the
+number of counts is a binomial distribution, the MLE for P(class_1) is
+given as P(class_1) = n_1 / (n_1 + n_2), where n_i is the number of counts
+for class_i. The Fisher Information Matrix is given by
+F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">MultinomialLikelihood</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">ber_pmf</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logL</span> <span class="o">=</span> <span class="n">MultinomialLikelihood</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">ber_pmf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c1"># our initial guess</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([ 0.4])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span>
+<span class="go">array([ 0.06928203])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">20</span> <span class="o">/</span> <span class="p">(</span><span class="mi">20</span> <span class="o">+</span> <span class="mi">30</span><span class="p">)</span> <span class="c1"># theorectical MLE</span>
+<span class="go">0.4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.4</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">/</span> <span class="p">(</span><span class="mi">20</span> <span class="o">+</span> <span class="mi">30</span><span class="p">))</span> <span class="c1"># theorectical uncertanity</span>
+<span class="go">0.069282032302755092</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed count data.</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Events probabilities of the multinomial distribution.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<dl class="attribute">
+<dt id="oktopus.likelihood.MultinomialLikelihood.n_counts">
+<code class="descname">n_counts</code><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.n_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the sum of the number of counts in every bin.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.likelihood.PoissonLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">PoissonLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#PoissonLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.PoissonLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the negative log likelihood function for independent
+(possibly non-identically) distributed Poisson measurements.
+This class also contains a method to compute maximum likelihood estimators
+for the mean of the Poisson distribution.</p>
+<p class="rubric">Examples</p>
+<p>Suppose we want to estimate the expected number of planes arriving at
+gate 50 terminal 1 at SFO airport in a given hour of a given day using
+some data.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonLikelihood</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">npa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">toy_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">npa</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logL</span> <span class="o">=</span> <span class="n">PoissonLikelihood</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mf">10.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([ 9.28997498])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">toy_data</span><span class="p">)</span> <span class="c1"># theorectical MLE</span>
+<span class="go">9.2899999999999991</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_unc</span>
+<span class="go">array([ 3.04794603])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">toy_data</span><span class="p">))</span> <span class="c1"># theorectical Fisher information</span>
+<span class="go">3.047950130825634</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed count data.</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Mean of the Poisson distribution. Note: this model must be defined with autograd numpy wrapper.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.likelihood.GaussianLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">GaussianLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#GaussianLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.GaussianLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the likelihood function for independent
+(possibly non-identically) distributed Gaussian measurements
+with known variance.</p>
+<p class="rubric">Examples</p>
+<p>The following example demonstrates how one can fit a maximum likelihood
+line to some data:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianLikelihood</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fake_data</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">beta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_line</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logL</span> <span class="o">=</span> <span class="n">GaussianLikelihood</span><span class="p">(</span><span class="n">fake_data</span><span class="p">,</span> <span class="n">my_line</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># dumb initial_guess for alpha and beta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span> <span class="c1"># fitted parameters</span>
+<span class="go">array([  2.96263393,  10.32860717])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">()</span> <span class="c1"># get uncertainties on fitted parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span>
+<span class="go">array([ 0.11568693,  0.55871623])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#plt.plot(x, fake_data, &#39;o&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#plt.plot(x, line(*p_hat.x))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The exact values from linear algebra would be:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">M</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fake_data</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">alpha</span>
+<span class="go">2.9626408752841442</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beta</span>
+<span class="go">10.328616609861584</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed data</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Mean model</td>
+</tr>
+<tr class="row-odd"><td>var</td>
+<td>(float or array-like) Uncertainties on the observed data</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.likelihood.MultivariateGaussianLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">MultivariateGaussianLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>cov</em>, <em>dim</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the likelihood function of a multivariate gaussian distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Observed data.</p>
+</div></blockquote>
+<p><strong>mean</strong> : callable</p>
+<blockquote>
+<div><p>Mean model.</p>
+</div></blockquote>
+<p><strong>cov</strong> : callable</p>
+<blockquote>
+<div><p>Kernel for the covariance matrix.</p>
+</div></blockquote>
+<p><strong>dim</strong> : int</p>
+<blockquote class="last">
+<div><p>Dimension (number of parameters) of the mean model.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the negative of the log likelihood function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>parameter vector of the mean model and covariance matrix</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="posterior.html" class="btn btn-neutral float-right" title="Posterior Distributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="prior.html" class="btn btn-neutral" title="Prior Distributions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, KeplerGO.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
