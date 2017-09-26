@@ -49,8 +49,8 @@ class JointPrior(Prior):
 
 
 class UniformPrior(Prior):
-    """
-    Negative log pdf for a n-dimensional independent uniform distribution.
+    """Compute the negative log pdf for a n-dimensional independent uniform
+    distribution.
 
     Attributes
     ----------
@@ -83,19 +83,14 @@ class UniformPrior(Prior):
         return (self.ub - self.lb) ** 2 / 12
 
     def evaluate(self, params):
-        """
-        Parameters
-        ----------
-        params : float, int, or array-like
-        """
-
         if (self.lb <= params).all() and (params < self.ub).all():
             return - np.log(1 / (self.ub - self.lb)).sum()
         return np.inf
 
 
 class GaussianPrior(Prior):
-    """Negative log pdf for a n-dimensional independent Gaussian.
+    """Compute the negative log pdf for a n-dimensional independent Gaussian
+    distribution.
 
     Attributes
     ----------

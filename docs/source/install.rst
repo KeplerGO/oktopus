@@ -4,7 +4,7 @@
 Installation
 ************
 
-To install ``oktopus``, run::
+To install **oktopus**, run::
 
     $ pip install oktopus
 

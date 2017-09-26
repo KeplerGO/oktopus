@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import autograd.numpy as np
 from autograd import jacobian
 from .core import LossFunction
@@ -44,11 +45,29 @@ class Likelihood(LossFunction):
 
         Returns
         -------
-        unc : square root of the diagonal of the inverse of the Fisher
+        inv_fisher : square root of the diagonal of the inverse of the Fisher
         Information Matrix
         """
         inv_fisher = np.linalg.inv(self.fisher_information_matrix())
         return np.sqrt(np.diag(inv_fisher))
+
+    @abstractmethod
+    def evaluate(self, params):
+        """
+        Evaluates the negative of the log likelihood function.
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the model
+
+        Returns
+        -------
+        neg_loglikelihood : scalar
+            Returns the negative log likelihood function evaluated at
+            ``params``.
+        """
+        pass
 
 
 class MultinomialLikelihood(Likelihood):
@@ -58,7 +77,7 @@ class MultinomialLikelihood(Likelihood):
     likelihood estimators for the probabilities of the Multinomial
     distribution.
 
-    Parameters
+    Attributes
     ----------
     data : ndarray
         Observed count data.
@@ -101,6 +120,9 @@ class MultinomialLikelihood(Likelihood):
 
     @property
     def n_counts(self):
+        """
+        Returns the sum of the number of counts in every bin.
+        """
         return self.data.sum()
 
     def evaluate(self, params):
@@ -118,7 +140,7 @@ class PoissonLikelihood(Likelihood):
     This class also contains a method to compute maximum likelihood estimators
     for the mean of the Poisson distribution.
 
-    Parameters
+    Attributes
     ----------
     data : ndarray
         Observed count data.
@@ -167,7 +189,7 @@ class GaussianLikelihood(Likelihood):
     (possibly non-identically) distributed Gaussian measurements
     with known variance.
 
-    Parameters
+    Attributes
     ----------
     data : ndarray
         Observed data
@@ -215,14 +237,6 @@ class GaussianLikelihood(Likelihood):
         self.var = var
 
     def evaluate(self, params):
-        """
-        Returns the negative of the log likelihood function.
-
-        Parameters
-        ----------
-        params : ndarray
-            parameter vector of the model
-        """
         return np.nansum((self.data - self.mean(*params)) ** 2 / (2 * self.var))
 
 
@@ -250,7 +264,7 @@ class MultivariateGaussianLikelihood(Likelihood):
 
     def evaluate(self, params):
         """
-        Returns the negative of the log likelihood function.
+        Computes the negative of the log likelihood function.
 
         Parameters
         ----------
