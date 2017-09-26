@@ -23,8 +23,8 @@ setup(
     version='0.1.dev1',
     description='soft-bodied, eight-armed package for beautiful inference',
     long_description=long_description,
-    url='https://github.com/mirca/octopus',
-    author='Octopus developers',
+    url='https://github.com/mirca/oktopus',
+    author='KeplerGO',
     author_email='jvmirca@gmail.com',
     license='MIT',
     classifiers=[

@@ -35,7 +35,7 @@ class GaussianPosterior(Posterior):
 
     Examples
     --------
-    >>> from octopus import GaussianPosterior, GaussianPrior, UniformPrior, JointPrior
+    >>> from oktopus import GaussianPosterior, GaussianPrior, UniformPrior, JointPrior
     >>> import autograd.numpy as np
     >>> from matplotlib import pyplot as plt
     >>> x = np.linspace(0, 10, 200)
@@ -91,7 +91,7 @@ class PoissonPosterior(Posterior):
     Examples
     --------
     >>> import math
-    >>> from octopus import PoissonPosterior, UniformPrior, GaussianPrior
+    >>> from oktopus import PoissonPosterior, UniformPrior, GaussianPrior
     >>> import numpy as np
     >>> import autograd.numpy as npa
     >>> np.random.seed(0)

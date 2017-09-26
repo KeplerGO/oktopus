@@ -10,7 +10,7 @@ Welcome to oktopus's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+.. include:: ../../README.md
 
 Indices and tables
 ==================

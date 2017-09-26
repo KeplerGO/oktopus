@@ -30,7 +30,7 @@ class JointPrior(Prior):
 
     Examples
     --------
-    >>> from octopus import UniformPrior, GaussianPrior, JointPrior
+    >>> from oktopus import UniformPrior, GaussianPrior, JointPrior
     >>> jp = JointPrior(UniformPrior(-0.5, 0.5), GaussianPrior(0, 1))
     >>> jp.evaluate((0, 0))
     0.0
@@ -61,7 +61,7 @@ class UniformPrior(Prior):
 
     Examples
     --------
-    >>> from octopus import UniformPrior
+    >>> from oktopus import UniformPrior
     >>> unif = UniformPrior(0, 1)
     >>> unif(.5)
     -0.0
@@ -106,7 +106,7 @@ class GaussianPrior(Prior):
 
     Examples
     --------
-    >>> from octopus import GaussianPrior
+    >>> from oktopus import GaussianPrior
     >>> gauss = GaussianPrior(0, 1)
     >>> gauss(2)
     2.0

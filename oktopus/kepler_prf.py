@@ -5,8 +5,8 @@ import math
 import scipy
 import numpy as np
 from astropy.io import fits as pyfits
-from octopus.models import get_initial_guesses
-from octopus.likelihood import PoissonLikelihood
+from oktopus.models import get_initial_guesses
+from oktopus.likelihood import PoissonLikelihood
 from pyke.utils import channel_to_module_output
 
 

@@ -76,7 +76,7 @@ class MultinomialLikelihood(Likelihood):
     for class_i. The Fisher Information Matrix is given by
     F(n, p) = n / (p * (1 - p)). Let's see how we can estimate p.
 
-    >>> from octopus import MultinomialLikelihood
+    >>> from oktopus import MultinomialLikelihood
     >>> import autograd.numpy as np
     >>> counts = np.array([20, 30])
     >>> def ber_pmf(p):
@@ -133,7 +133,7 @@ class PoissonLikelihood(Likelihood):
     some data.
 
     >>> import math
-    >>> from octopus import PoissonLikelihood
+    >>> from oktopus import PoissonLikelihood
     >>> import numpy as np
     >>> import autograd.numpy as npa
     >>> np.random.seed(0)
@@ -181,7 +181,7 @@ class GaussianLikelihood(Likelihood):
     The following example demonstrates how one can fit a maximum likelihood
     line to some data:
 
-    >>> from octopus import GaussianLikelihood
+    >>> from oktopus import GaussianLikelihood
     >>> import autograd.numpy as np
     >>> from matplotlib import pyplot as plt
     >>> x = np.linspace(0, 10, 200)
