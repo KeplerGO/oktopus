@@ -7,7 +7,7 @@ from astropy.utils.data import get_pkg_data_filename
 from .. import models
 from ..likelihood import PoissonLikelihood
 from ..posterior import PoissonPosterior
-from ..prior import UniformPrior, GaussianPrior
+from ..prior import UniformPrior, GaussianPrior, JointPrior
 from ..kepler_prf import KeplerPRF
 
 
@@ -36,15 +36,15 @@ def test_prf_vs_aperture_photometry():
                                                            Y=prf.y)
     bkgo = np.mean(tpf[1].data)
     aperture_flux = tpf[1].data.sum() - bkgo
-    prior = (GaussianPrior(mean=fluxo, var=math.sqrt(fluxo)) +
-             UniformPrior(lb=prf.x[0], ub=prf.x[-1]) +
-             UniformPrior(lb=prf.y[0], ub=prf.y[-1])+
-             GaussianPrior(mean=bkgo, var=bkgo))
+    prior = JointPrior(GaussianPrior(mean=fluxo, var=math.sqrt(fluxo)),
+                       UniformPrior(lb=prf.x[0], ub=prf.x[-1]),
+                       UniformPrior(lb=prf.y[0], ub=prf.y[-1]),
+                       GaussianPrior(mean=bkgo, var=bkgo))
     logL = PoissonPosterior(tpf[1].data, prf.evaluate, prior=prior)
     fitresult = logL.fit((fluxo, colo, rowo, bkgo))
     print(fitresult)
     prf_flux, prf_col, prf_row, prf_bkg = fitresult.x
-    assert np.isclose(prf_col, col+9, atol=5)
-    assert np.isclose(prf_row, row+9, atol=5)
+    assert np.isclose(prf_col, col+9, rtol=1e-3)
+    assert np.isclose(prf_row, row+9, rtol=1e-3)
     assert np.isclose(prf_bkg, np.percentile(tpf[1].data, 10), rtol=0.1)
     assert np.isclose(aperture_flux, prf_flux, rtol=0.1)
