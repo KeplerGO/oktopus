@@ -19,10 +19,6 @@ class Prior(LossFunction):
     def name(self, value='param_name'):
         self._name = value
 
-    def __add__(self, other):
-        return JointPrior(self, other)
-
-
 class JointPrior(Prior):
     """Combine indepedent priors by summing the negative of the log
     of their distributions.
@@ -33,8 +29,8 @@ class JointPrior(Prior):
 
     Examples
     --------
-    >>> from octopus import UniformPrior, GaussianPrior
-    >>> jp = UniformPrior(-0.5, 0.5) + GaussianPrior(0, 1)
+    >>> from octopus import UniformPrior, GaussianPrior, JointPrior
+    >>> jp = JointPrior([UniformPrior(-0.5, 0.5), GaussianPrior(0, 1)])
     >>> jp.evaluate((0, 0))
     0.0
     >>> jp((0, 0)) # jp is also a callable to .evaluate
@@ -42,12 +38,12 @@ class JointPrior(Prior):
     """
 
     def __init__(self, *args):
-        self.args = args
+        self.components = args
 
     def evaluate(self, params):
         p = 0
         for i in range(len(params)):
-            p += self.args[i].evaluate(params[i])
+            p += self.components[i].evaluate(params[i])
         return p
 
 
@@ -76,14 +72,6 @@ class UniformPrior(Prior):
         self.lb = np.asarray([lb])
         self.ub = np.asarray([ub])
         self.name = name
-
-    def __add__(self, other):
-        if isinstance(other, UniformPrior):
-            return UniformPrior(np.append(self.lb, other.lb),
-                                np.append(self.ub, other.ub),
-                                np.append(self.name, other.name))
-        else:
-            return JointPrior(self, other)
 
     @property
     def mean(self):
@@ -127,14 +115,6 @@ class GaussianPrior(Prior):
         self.mean = np.asarray([mean])
         self.var = np.asarray([var])
         self.name = name
-
-    def __add__(self, other):
-        if isinstance(other, GaussianPrior):
-            return GaussianPrior(np.append(self.mean, other.mean),
-                                 np.append(self.var, other.var),
-                                 np.append(self.name, other.name))
-        else:
-            return JointPrior(self, other)
 
     @property
     def mean(self):
