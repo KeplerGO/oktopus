@@ -39,3 +39,7 @@ def test_joint_prior():
 
     assert jp.evaluate((.5, .5)) == unif.evaluate(.5) + gauss.evaluate(.5)
     assert not np.isfinite(jp((1.5, .5)))
+
+    jp = jp + jp
+    assert jp.evaluate((.5, .5, .5, .5)) == 2 * (unif.evaluate(.5) + gauss.evaluate(.5))
+    assert not np.isfinite(jp((1.5, 1.5, 1.5, 1.5)))

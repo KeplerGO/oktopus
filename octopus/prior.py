@@ -19,6 +19,9 @@ class Prior(LossFunction):
     def name(self, value='param_name'):
         self._name = value
 
+    def __add__(self, other):
+        return JointPrior(self, other)
+
 
 class JointPrior(Prior):
     """Combine indepedent priors by summing the negative of the log
