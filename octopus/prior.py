@@ -30,7 +30,7 @@ class JointPrior(Prior):
     Examples
     --------
     >>> from octopus import UniformPrior, GaussianPrior, JointPrior
-    >>> jp = JointPrior([UniformPrior(-0.5, 0.5), GaussianPrior(0, 1)])
+    >>> jp = JointPrior(UniformPrior(-0.5, 0.5), GaussianPrior(0, 1))
     >>> jp.evaluate((0, 0))
     0.0
     >>> jp((0, 0)) # jp is also a callable to .evaluate
