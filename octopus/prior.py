@@ -19,13 +19,14 @@ class Prior(LossFunction):
     def name(self, value='param_name'):
         self._name = value
 
+
 class JointPrior(Prior):
     """Combine indepedent priors by summing the negative of the log
     of their distributions.
 
     Attributes
     ----------
-    args : list or tuple of instances of Prior
+    args : tuple of instances of Prior
 
     Examples
     --------
