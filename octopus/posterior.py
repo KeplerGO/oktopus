@@ -35,7 +35,7 @@ class GaussianPosterior(Posterior):
 
     Examples
     --------
-    >>> from octopus import GaussianPosterior, GaussianPrior, UniformPrior
+    >>> from octopus import GaussianPosterior, GaussianPrior, UniformPrior, JointPrior
     >>> import autograd.numpy as np
     >>> from matplotlib import pyplot as plt
     >>> x = np.linspace(0, 10, 200)
@@ -46,7 +46,7 @@ class GaussianPosterior(Posterior):
     >>> my_line = lambda slope, intercept: line(x, slope, intercept)
     >>> slope_prior = UniformPrior(lb=1, ub=10)
     >>> intercept_prior = UniformPrior(lb=5, ub=20)
-    >>> joint_prior = slope_prior + intercept_prior
+    >>> joint_prior = JointPrior(slope_prior, intercept_prior)
     >>> logP = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
     >>> p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept
     >>> p_hat = logP.fit(x0=p0)
