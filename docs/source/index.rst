@@ -22,6 +22,10 @@ or::
 
 And you're all set!
 
+.. toctree::
+
+    api/index
+
 
 Indices and tables
 ==================
