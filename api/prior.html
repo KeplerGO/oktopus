@@ -36,7 +36,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="oktopus 0.1 documentation" href="../index.html"/>
-        <link rel="up" title="API Documentation" href="index.html"/>
+        <link rel="up" title="API documentation" href="index.html"/>
         <link rel="next" title="Likelihood Distributions" href="likelihood.html"/>
         <link rel="prev" title="Abstract Classes" href="core.html"/> 
 
@@ -93,7 +93,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Prior Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
@@ -144,7 +144,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="index.html">API Documentation</a> &raquo;</li>
+          <li><a href="index.html">API documentation</a> &raquo;</li>
         
       <li>Prior Distributions</li>
     
@@ -174,6 +174,36 @@
 is a PDF that depends solely on the parameters, not on the observed data.</p>
 <p class="rubric">Attributes</p>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.prior.Prior.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#Prior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.Prior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the negative of the log of the PDF at params.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : scalar or array-like</p>
+<blockquote>
+<div><p>Value at which the PDF will be evaluated</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>prior_value</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Value of the negative of the log of the PDF at params.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.Prior.name">
+<code class="descname">name</code><a class="headerlink" href="#oktopus.prior.Prior.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A name associated with the prior.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -181,6 +211,8 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 <em class="property">class </em><code class="descclassname">oktopus.prior.</code><code class="descname">JointPrior</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#JointPrior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.JointPrior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Combine indepedent priors by summing the negative of the log
 of their distributions.</p>
+<p class="rubric">Notes</p>
+<p><code class="docutils literal"><span class="pre">*args</span></code> are stored in <code class="docutils literal"><span class="pre">self.components</span></code>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">GaussianPrior</span><span class="p">,</span> <span class="n">JointPrior</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">UniformPrior</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -203,6 +235,32 @@ of their distributions.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.prior.JointPrior.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#JointPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.JointPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the JointPrior at params.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like</p>
+<blockquote>
+<div><p>Value at which the JointPrior will be evaluated.
+This must have the same dimension as the number of Priors used
+to initialize the object</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>joint_prior</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Sum of the negative of the log of each distribution given in <strong>args</strong>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -235,6 +293,21 @@ distribution.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.prior.UniformPrior.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#UniformPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.UniformPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.UniformPrior.mean">
+<code class="descname">mean</code><a class="headerlink" href="#oktopus.prior.UniformPrior.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.UniformPrior.variance">
+<code class="descname">variance</code><a class="headerlink" href="#oktopus.prior.UniformPrior.variance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -265,6 +338,21 @@ distribution.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.prior.GaussianPrior.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#GaussianPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.GaussianPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.GaussianPrior.mean">
+<code class="descname">mean</code><a class="headerlink" href="#oktopus.prior.GaussianPrior.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.GaussianPrior.variance">
+<code class="descname">variance</code><a class="headerlink" href="#oktopus.prior.GaussianPrior.variance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
