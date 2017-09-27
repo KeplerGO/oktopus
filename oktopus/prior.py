@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import numpy as np
 from .core import LossFunction
 
@@ -13,11 +14,28 @@ class Prior(LossFunction):
 
     @property
     def name(self):
+        """A name associated with the prior."""
         return self._name
 
     @name.setter
     def name(self, value='param_name'):
         self._name = value
+
+    @abstractmethod
+    def evaluate(self, params):
+        """Evaluates the negative of the log of the PDF at params.
+
+        Parameters
+        ----------
+        params : scalar or array-like
+            Value at which the PDF will be evaluated
+
+        Returns
+        -------
+        prior_value : scalar
+            Value of the negative of the log of the PDF at params.
+        """
+        pass
 
 
 class JointPrior(Prior):
@@ -36,12 +54,30 @@ class JointPrior(Prior):
     0.0
     >>> jp((0, 0)) # jp is also a callable to .evaluate
     0.0
+
+    Notes
+    -----
+    ``*args`` are stored in ``self.components``.
     """
 
     def __init__(self, *args):
         self.components = args
 
     def evaluate(self, params):
+        """Evaluates the JointPrior at params.
+
+        Parameters
+        ----------
+        params : array-like
+            Value at which the JointPrior will be evaluated.
+            This must have the same dimension as the number of Priors used
+            to initialize the object
+
+        Returns
+        -------
+        joint_prior : scalar
+            Sum of the negative of the log of each distribution given in **args**.
+        """
         p = 0
         for i in range(len(params)):
             p += self.components[i].evaluate(params[i])
