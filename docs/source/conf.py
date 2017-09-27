@@ -182,5 +182,5 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/reference', None),
                        'scipy': ('http://docs.scipy.org/doc/scipy/reference', None)}
