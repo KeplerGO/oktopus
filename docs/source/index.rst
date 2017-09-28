@@ -16,7 +16,7 @@ Documentation
 
     install
     api/index
-    examples
+    ipython
 
 
 Indices and tables
