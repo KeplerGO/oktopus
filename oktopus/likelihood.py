@@ -154,6 +154,11 @@ class PoissonLikelihood(Likelihood):
     gate 50 terminal 1 at SFO airport in a given hour of a given day using
     some data.
 
+    Notes
+    -----
+    See https://mirca.github.io/geerts-conjecture/ for the mathematical
+    derivation of the likelihood expression.
+
     >>> import math
     >>> from oktopus import PoissonLikelihood
     >>> import numpy as np
