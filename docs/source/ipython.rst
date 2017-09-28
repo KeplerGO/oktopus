@@ -8,3 +8,4 @@ IPython notebooks
 
     notebooks/poisson.ipynb
     notebooks/mvgaussian.ipynb
+    notebooks/prffitting.ipynb
