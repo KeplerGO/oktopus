@@ -43,18 +43,18 @@ class PRFModel(ABC):
 
     @abstractmethod
     def evaluate(self, params):
-    """Builds the PRF model parametrized by params.
+        """Builds the PRF model parametrized by params.
 
-    Parameters
-    ----------
-    *params : list-like
-        Parameter values used to build a PRF model.
+        Parameters
+        ----------
+        *params : list-like
+            Parameter values used to build a PRF model.
 
-    Returns
-    -------
-    prf_model : 2D array
-        PRF/PSF model.
-    """
+        Returns
+        -------
+        prf_model : 2D array
+            PRF/PSF model.
+        """
         pass
 
 
