@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ======================
-Welcome to 🐙 Oktopus!
+Welcome to 🐙 oktopus!
 ======================
 
 *************
@@ -16,6 +16,7 @@ Documentation
 
     install
     api/index
+    ipython
 
 
 Indices and tables

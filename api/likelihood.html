@@ -100,6 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a></li>
 </ul>
 
             
@@ -165,7 +166,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-oktopus.likelihood">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="module-oktopus.likelihood">
 <span id="likelihood-distributions"></span><h1>Likelihood Distributions<a class="headerlink" href="#module-oktopus.likelihood" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="oktopus.likelihood.Likelihood">
@@ -273,19 +308,29 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="6%" />
-<col width="94%" />
+<col width="11%" />
+<col width="89%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed count data.</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Events probabilities of the multinomial distribution.</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.likelihood.MultinomialLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultinomialLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix">
+<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultinomialLikelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="oktopus.likelihood.MultinomialLikelihood.n_counts">
 <code class="descname">n_counts</code><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.n_counts" title="Permalink to this definition">¶</a></dt>
@@ -329,19 +374,24 @@ some data.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="4%" />
-<col width="96%" />
+<col width="7%" />
+<col width="93%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed count data.</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Mean of the Poisson distribution. Note: this model must be defined with autograd numpy wrapper.</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.likelihood.PoissonLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#PoissonLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -384,22 +434,27 @@ line to some data:</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="7%" />
-<col width="93%" />
+<col width="13%" />
+<col width="88%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed data</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Mean model</td>
 </tr>
-<tr class="row-odd"><td>var</td>
+<tr class="row-odd"><td><strong>var</strong></td>
 <td>(float or array-like) Uncertainties on the observed data</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<dl class="method">
+<dt id="oktopus.likelihood.GaussianLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#GaussianLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -448,6 +503,21 @@ line to some data:</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.MultivariateGaussianLikelihood.fisher_information_matrix">
+<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.MultivariateGaussianLikelihood.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties">
+<code class="descname">uncertainties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood.uncertainties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

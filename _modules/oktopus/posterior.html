@@ -92,6 +92,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipython.html">IPython notebooks</a></li>
 </ul>
 
             
@@ -165,12 +166,22 @@
 
 
 <div class="viewcode-block" id="Posterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.Posterior">[docs]</a><span class="k">class</span> <span class="nc">Posterior</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A base class for a posterior distribution.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;A base class for a posterior distribution.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Posterior.evaluate"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.Posterior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates the negative of the log of the posterior at params.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : scalar or array-like</span>
+<span class="sd">            Value at which the posterior will be evaluated</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        value : scalar</span>
+<span class="sd">            Value of the negative of the log of the posterior at params</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="GaussianPosterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.GaussianPosterior">[docs]</a><span class="k">class</span> <span class="nc">GaussianPosterior</span><span class="p">(</span><span class="n">Posterior</span><span class="p">):</span>
@@ -220,7 +231,6 @@
 <span class="sd">    &gt;&gt;&gt; intercept</span>
 <span class="sd">    10.328616609861584</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>

@@ -92,6 +92,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython.html">IPython notebooks</a></li>
 </ul>
 
             
@@ -166,6 +167,7 @@
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#S"><strong>S</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
@@ -176,9 +178,17 @@
       <li><a href="api/core.html#oktopus.core.LossFunction.evaluate">evaluate() (oktopus.core.LossFunction method)</a>
 
       <ul>
+        <li><a href="api/likelihood.html#oktopus.likelihood.GaussianLikelihood.evaluate">(oktopus.likelihood.GaussianLikelihood method)</a>
+</li>
         <li><a href="api/likelihood.html#oktopus.likelihood.Likelihood.evaluate">(oktopus.likelihood.Likelihood method)</a>
 </li>
+        <li><a href="api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.evaluate">(oktopus.likelihood.MultinomialLikelihood method)</a>
+</li>
         <li><a href="api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate">(oktopus.likelihood.MultivariateGaussianLikelihood method)</a>
+</li>
+        <li><a href="api/likelihood.html#oktopus.likelihood.PoissonLikelihood.evaluate">(oktopus.likelihood.PoissonLikelihood method)</a>
+</li>
+        <li><a href="api/posterior.html#oktopus.posterior.Posterior.evaluate">(oktopus.posterior.Posterior method)</a>
 </li>
         <li><a href="api/prior.html#oktopus.prior.GaussianPrior.evaluate">(oktopus.prior.GaussianPrior method)</a>
 </li>
@@ -196,7 +206,13 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/likelihood.html#oktopus.likelihood.Likelihood.fisher_information_matrix">fisher_information_matrix() (oktopus.likelihood.Likelihood method)</a>
+
+      <ul>
+        <li><a href="api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix">(oktopus.likelihood.MultinomialLikelihood method)</a>
 </li>
+        <li><a href="api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.fisher_information_matrix">(oktopus.likelihood.MultivariateGaussianLikelihood method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/core.html#oktopus.core.LossFunction.fit">fit() (oktopus.core.LossFunction method)</a>
@@ -302,11 +318,23 @@
   </ul></td>
 </tr></table>
 
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.sample">sample() (oktopus.likelihood.MultivariateGaussianLikelihood method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/likelihood.html#oktopus.likelihood.Likelihood.uncertainties">uncertainties() (oktopus.likelihood.Likelihood method)</a>
+
+      <ul>
+        <li><a href="api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties">(oktopus.likelihood.MultivariateGaussianLikelihood method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/prior.html#oktopus.prior.UniformPrior">UniformPrior (class in oktopus.prior)</a>
