@@ -32,7 +32,7 @@ class Prior(LossFunction):
 
         Returns
         -------
-        prior_value : scalar
+        value : scalar
             Value of the negative of the log of the PDF at params.
         """
         pass
@@ -68,14 +68,14 @@ class JointPrior(Prior):
 
         Parameters
         ----------
-        params : array-like
+        params : tuple
             Value at which the JointPrior will be evaluated.
             This must have the same dimension as the number of Priors used
             to initialize the object
 
         Returns
         -------
-        joint_prior : scalar
+        value : scalar
             Sum of the negative of the log of each distribution given in **args**.
         """
         p = 0

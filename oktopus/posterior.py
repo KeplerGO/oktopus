@@ -7,11 +7,21 @@ __all__ = ['Posterior', 'GaussianPosterior', 'PoissonPosterior', 'MultivariateGa
 
 
 class Posterior(LossFunction):
-    """
-    A base class for a posterior distribution.
-    """
+    """A base class for a posterior distribution."""
 
     def evaluate(self, params):
+        """Evaluates the negative of the log of the posterior at params.
+
+        Parameters
+        ----------
+        params : scalar or array-like
+            Value at which the posterior will be evaluated
+
+        Returns
+        -------
+        value : scalar
+            Value of the negative of the log of the posterior at params
+        """
         return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
 
 
@@ -62,7 +72,6 @@ class GaussianPosterior(Posterior):
     >>> intercept
     10.328616609861584
     """
-
     def __init__(self, data, mean, var, prior):
         self.data = data
         self.mean = mean
