@@ -1,9 +1,0 @@
-.. _examples:
-
-*****************
-IPython notebooks
-*****************
-
-.. toctree::
-
-    notebooks/poisson_likelihood_example.ipynb
