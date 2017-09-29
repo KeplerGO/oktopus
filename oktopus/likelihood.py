@@ -156,8 +156,8 @@ class PoissonLikelihood(Likelihood):
 
     Notes
     -----
-    See https://mirca.github.io/geerts-conjecture/ for the mathematical
-    derivation of the likelihood expression.
+    See `here <https://mirca.github.io/geerts-conjecture/>`_ for the mathematical
+    derivation of the Poisson likelihood expression.
 
     >>> import math
     >>> from oktopus import PoissonLikelihood
