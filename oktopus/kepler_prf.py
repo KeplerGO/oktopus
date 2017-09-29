@@ -1,5 +1,4 @@
 from . import DEFAULT_PRFDIR
-from .models import get_initial_guesses
 from abc import ABC, abstractmethod
 import os
 import glob
@@ -7,8 +6,8 @@ import math
 import scipy
 import numpy as np
 from astropy.io import fits as pyfits
-from octopus.models import get_initial_guesses
-from octopus.likelihood import PoissonLikelihood
+from oktopus.models import get_initial_guesses
+from oktopus.likelihood import PoissonLikelihood
 from pyke.utils import channel_to_module_output
 
 
@@ -16,13 +15,47 @@ __all__ = ['KeplerPRFPhotometry', 'KeplerPRF']
 
 
 class PRFPhotometry(ABC):
-    # Let's restrict this for TPFs for now. Should be easily extensible though.
+    """An abstract base class for a general PRF/PSF photometry algorithm
+    for target pixel files."""
+
     @abstractmethod
     def do_photometry(self, tpf, initial_guesses=None):
+        """Perform photometry on a given target pixel file.
+
+        Parameters
+        ----------
+        tpf : pyke.TargetPixelFile instance
+            A target pixel file instance
+        initial_guesses : None or array-like
+            A vector of initial estimates for the PRF/PSF model
+        """
         pass
 
     @abstractmethod
     def generate_residuals_movie(self):
+        """Creates a movie showing the residuals (image - fitted stars)
+        for every cadence.
+        """
+        pass
+
+
+class PRFModel(ABC):
+    """An abstract base class for a general PRF/PSF parametric model."""
+
+    @abstractmethod
+    def evaluate(self, params):
+        """Builds the PRF model parametrized by params.
+
+        Parameters
+        ----------
+        *params : list-like
+            Parameter values used to build a PRF model.
+
+        Returns
+        -------
+        prf_model : 2D array
+            PRF/PSF model.
+        """
         pass
 
 
@@ -30,6 +63,10 @@ class KeplerPRFPhotometry(PRFPhotometry):
     """
     This class performs PRF Photometry on a target pixel file from
     NASA's Kepler/K2 missions.
+
+    Attributes
+    ----------
+    prf_model : instance of PRFModel
     """
     # Let's borrow as much as possible from photutils here. Ideally,
     # this could be a child class from BasicPSFPhotometry.
@@ -48,10 +85,11 @@ class KeplerPRFPhotometry(PRFPhotometry):
             initial_guesses, _ = get_inital_guesses(tpf.flux)
 
         for t in range(len(tpf.time)):
-            logL = self.loss_function(tpf.flux, self.prf_model)
+            logL = self.loss_function(tpf.flux[t], self.prf_model)
             opt_result = logL.fit(*initial_guesses).x
-            residuals_opt_result = tpf.flux - self.prf_model(*opt_result.x)
-            self.opt_params.append(opt_result.x)
+            residuals_opt_result = tpf.flux - self.prf_model(*opt_result)
+            initial_guesses = opt_result
+            self.opt_params.append(opt_result)
             self.residuals.append(residuals_opt_result)
             self.uncertainties.append(logL.uncertainties())
 
@@ -70,12 +108,11 @@ class KeplerPRF(object):
     calibration files and to create a model that can be fit as a function
     of flux and centroid position.
 
-    Parameters
+    Attributes
     ----------
     prf_files_dir : str
         Relative or aboslute path to a directory containing the Pixel Response
         Function calibration files produced during Kepler data comissioning.
-
     channel : int
         KeplerTargetPixelFile.channel
     shape : (int, int)
@@ -92,17 +129,26 @@ class KeplerPRF(object):
         self.shape = shape
         self.column = column
         self.row = row
-        self.prepare_prf()
+        self._prepare_prf()
 
     def prf_to_detector(self, params):
         """
-        Builds the PRF model onto detector coordinates.
+        Interpolates the PRF model onto detector coordinates.
 
         Parameters
         ----------
         flux : float or array-like
+            Total integrated flux of the PRF
         centroid_col : float or array-like
+            Column coordinate of the centroid
         centroid_row : float or array-like
+            Row coordinate of the centroid
+
+        Returns
+        -------
+        prf_model : 2D array
+            Two dimensional array representing the PRF values parametrized
+            by `params`.
         """
         nsrcs = len(params) // 3
         if nsrcs > 1:
@@ -121,7 +167,7 @@ class KeplerPRF(object):
     def evaluate(self, *params):
         return self.prf_to_detector(params[:-1]) + params[-1]
 
-    def read_prf_calibration_file(self, path, ext):
+    def _read_prf_calibration_file(self, path, ext):
         prf_cal_file = pyfits.open(path)
         data = prf_cal_file[ext].data
         # looks like these data below are the same for all prf calibration files
@@ -132,7 +178,7 @@ class KeplerPRF(object):
         prf_cal_file.close()
         return data, crval1p, crval2p, cdelt1p, cdelt2p
 
-    def prepare_prf(self):
+    def _prepare_prf(self):
         n_hdu = 5
         min_prf_weight = 1e-6
         module, output = channel_to_module_output(self.channel)
@@ -152,7 +198,7 @@ class KeplerPRF(object):
         cdelt1p = np.zeros(n_hdu, dtype='float32')
         cdelt2p = np.zeros(n_hdu, dtype='float32')
         for i in range(n_hdu):
-            prfn[i], crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i] = self.read_prf_calibration_file(prffile, i+1)
+            prfn[i], crval1p[i], crval2p[i], cdelt1p[i], cdelt2p[i] = self._read_prf_calibration_file(prffile, i+1)
         prfn = np.array(prfn)
         PRFx = np.arange(0.5, np.shape(prfn[0])[1] + 0.5)
         PRFy = np.arange(0.5, np.shape(prfn[0])[0] + 0.5)
