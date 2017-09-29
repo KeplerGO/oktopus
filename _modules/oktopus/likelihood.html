@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>oktopus.likelihood &mdash; oktopus  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="oktopus  documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> oktopus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipython.html">IPython notebooks</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oktopus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>oktopus.likelihood</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for oktopus.likelihood</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">autograd</span> <span class="k">import</span> <span class="n">jacobian</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">LossFunction</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Likelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;MultinomialLikelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;PoissonLikelihood&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;GaussianLikelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;MultivariateGaussianLikelihood&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Likelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.Likelihood">[docs]</a><span class="k">class</span> <span class="nc">Likelihood</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines a Likelihood function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Likelihood.fisher_information_matrix"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.Likelihood.fisher_information_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">fisher_information_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the Fisher Information Matrix using autograd</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fisher : ndarray</span>
+<span class="sd">            Fisher Information Matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">fisher</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_params</span><span class="p">,</span> <span class="n">n_params</span><span class="p">))</span>
+        <span class="n">grad_mean</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">opt_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span><span class="o">.</span><span class="n">x</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="n">grad_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">argnum</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
+                <span class="n">fisher</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">grad_mean</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="o">*</span><span class="n">opt_params</span><span class="p">)</span>
+                                 <span class="o">*</span> <span class="n">grad_mean</span><span class="p">[</span><span class="n">j</span><span class="p">](</span><span class="o">*</span><span class="n">opt_params</span><span class="p">)</span>
+                                 <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">opt_params</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+                <span class="n">fisher</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fisher</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fisher</span></div>
+
+<div class="viewcode-block" id="Likelihood.uncertainties"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.Likelihood.uncertainties">[docs]</a>    <span class="k">def</span> <span class="nf">uncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the uncertainties on the model parameters as the</span>
+<span class="sd">        square root of the diagonal of the inverse of the Fisher</span>
+<span class="sd">        Information Matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        inv_fisher : square root of the diagonal of the inverse of the Fisher</span>
+<span class="sd">        Information Matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inv_fisher</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fisher_information_matrix</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">inv_fisher</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Likelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.Likelihood.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluates the negative of the log likelihood function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            parameter vector of the model</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        neg_loglikelihood : scalar</span>
+<span class="sd">            Returns the negative log likelihood function evaluated at</span>
+<span class="sd">            ``params``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="MultinomialLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood">[docs]</a><span class="k">class</span> <span class="nc">MultinomialLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the negative log likelihood function for the Multinomial</span>
+<span class="sd">    distribution. This class also contains a method to compute maximum</span>
+<span class="sd">    likelihood estimators for the probabilities of the Multinomial</span>
+<span class="sd">    distribution.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ndarray</span>
+<span class="sd">        Observed count data.</span>
+<span class="sd">    mean : callable</span>
+<span class="sd">        Events probabilities of the multinomial distribution.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Suppose our data is divided in two classes and we would like to estimate</span>
+<span class="sd">    the probability of occurence of each class with the condition that</span>
+<span class="sd">    P(class_1) = 1 - P(class_2) = p. Suppose we have a sample with n_1 counts</span>
+<span class="sd">    from class_1 and n_2 counts from class_2. Since the distribution of the</span>
+<span class="sd">    number of counts is a binomial distribution, the MLE for P(class_1) is</span>
+<span class="sd">    given as P(class_1) = n_1 / (n_1 + n_2), where n_i is the number of counts</span>
+<span class="sd">    for class_i. The Fisher Information Matrix is given by</span>
+<span class="sd">    F(n, p) = n / (p * (1 - p)). Let&#39;s see how we can estimate p.</span>
+
+<span class="sd">    &gt;&gt;&gt; from oktopus import MultinomialLikelihood</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; counts = np.array([20, 30])</span>
+<span class="sd">    &gt;&gt;&gt; def ber_pmf(p):</span>
+<span class="sd">    ...     return np.array([p, 1 - p])</span>
+<span class="sd">    &gt;&gt;&gt; logL = MultinomialLikelihood(data=counts, mean=ber_pmf)</span>
+<span class="sd">    &gt;&gt;&gt; p0 = 0.5 # our initial guess</span>
+<span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0)</span>
+<span class="sd">    &gt;&gt;&gt; p_hat.x</span>
+<span class="sd">    array([ 0.4])</span>
+<span class="sd">    &gt;&gt;&gt; p_hat_unc = logL.uncertainties()</span>
+<span class="sd">    &gt;&gt;&gt; p_hat_unc</span>
+<span class="sd">    array([ 0.06928203])</span>
+<span class="sd">    &gt;&gt;&gt; 20 / (20 + 30) # theorectical MLE</span>
+<span class="sd">    0.4</span>
+<span class="sd">    &gt;&gt;&gt; np.sqrt(0.4 * 0.6 / (20 + 30)) # theorectical uncertanity</span>
+<span class="sd">    0.069282032302755092</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the sum of the number of counts in every bin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MultinomialLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MultinomialLikelihood.fisher_information_matrix"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">fisher_information_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_counts</span> <span class="o">*</span> <span class="nb">super</span><span class="p">(</span><span class="n">MultinomialLikelihood</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fisher_information_matrix</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="PoissonLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.PoissonLikelihood">[docs]</a><span class="k">class</span> <span class="nc">PoissonLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the negative log likelihood function for independent</span>
+<span class="sd">    (possibly non-identically) distributed Poisson measurements.</span>
+<span class="sd">    This class also contains a method to compute maximum likelihood estimators</span>
+<span class="sd">    for the mean of the Poisson distribution.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ndarray</span>
+<span class="sd">        Observed count data.</span>
+<span class="sd">    mean : callable</span>
+<span class="sd">        Mean of the Poisson distribution.</span>
+<span class="sd">        Note: this model must be defined with autograd numpy wrapper.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Suppose we want to estimate the expected number of planes arriving at</span>
+<span class="sd">    gate 50 terminal 1 at SFO airport in a given hour of a given day using</span>
+<span class="sd">    some data.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See `here &lt;https://mirca.github.io/geerts-conjecture/&gt;`_ for the mathematical</span>
+<span class="sd">    derivation of the Poisson likelihood expression.</span>
+
+<span class="sd">    &gt;&gt;&gt; import math</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus import PoissonLikelihood</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as npa</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; toy_data = np.random.randint(1, 20, size=100)</span>
+<span class="sd">    &gt;&gt;&gt; def mean(l):</span>
+<span class="sd">    ...     return npa.array([l])</span>
+<span class="sd">    &gt;&gt;&gt; logL = PoissonLikelihood(data=toy_data, mean=mean)</span>
+<span class="sd">    &gt;&gt;&gt; mean_hat = logL.fit(x0=10.5)</span>
+<span class="sd">    &gt;&gt;&gt; mean_hat.x</span>
+<span class="sd">    array([ 9.28997498])</span>
+<span class="sd">    &gt;&gt;&gt; np.mean(toy_data) # theorectical MLE</span>
+<span class="sd">    9.2899999999999991</span>
+<span class="sd">    &gt;&gt;&gt; mean_unc = logL.uncertainties()</span>
+<span class="sd">    &gt;&gt;&gt; mean_unc</span>
+<span class="sd">    array([ 3.04794603])</span>
+<span class="sd">    &gt;&gt;&gt; math.sqrt(np.mean(toy_data)) # theorectical Fisher information</span>
+<span class="sd">    3.047950130825634</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+
+<div class="viewcode-block" id="PoissonLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.PoissonLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span></div></div>
+
+
+<div class="viewcode-block" id="GaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">GaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the likelihood function for independent</span>
+<span class="sd">    (possibly non-identically) distributed Gaussian measurements</span>
+<span class="sd">    with known variance.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ndarray</span>
+<span class="sd">        Observed data</span>
+<span class="sd">    mean : callable</span>
+<span class="sd">        Mean model</span>
+<span class="sd">    var : float or array-like</span>
+<span class="sd">        Uncertainties on the observed data</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    The following example demonstrates how one can fit a maximum likelihood</span>
+<span class="sd">    line to some data:</span>
+
+<span class="sd">    &gt;&gt;&gt; from oktopus import GaussianLikelihood</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from matplotlib import pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(0, 10, 200)</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)</span>
+<span class="sd">    &gt;&gt;&gt; def line(x, alpha, beta):</span>
+<span class="sd">    ...     return alpha * x + beta</span>
+<span class="sd">    &gt;&gt;&gt; my_line = lambda a, b: line(x, a, b)</span>
+<span class="sd">    &gt;&gt;&gt; logL = GaussianLikelihood(fake_data, my_line, 4)</span>
+<span class="sd">    &gt;&gt;&gt; p0 = (1, 1) # dumb initial_guess for alpha and beta</span>
+<span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0)</span>
+<span class="sd">    &gt;&gt;&gt; p_hat.x # fitted parameters</span>
+<span class="sd">    array([  2.96263393,  10.32860717])</span>
+<span class="sd">    &gt;&gt;&gt; p_hat_unc = logL.uncertainties() # get uncertainties on fitted parameters</span>
+<span class="sd">    &gt;&gt;&gt; p_hat_unc</span>
+<span class="sd">    array([ 0.11568693,  0.55871623])</span>
+<span class="sd">    &gt;&gt;&gt; #plt.plot(x, fake_data, &#39;o&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; #plt.plot(x, line(*p_hat.x))</span>
+<span class="sd">    &gt;&gt;&gt; # The exact values from linear algebra would be:</span>
+<span class="sd">    &gt;&gt;&gt; M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])</span>
+<span class="sd">    &gt;&gt;&gt; alpha, beta = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))</span>
+<span class="sd">    &gt;&gt;&gt; alpha</span>
+<span class="sd">    2.9626408752841442</span>
+<span class="sd">    &gt;&gt;&gt; beta</span>
+<span class="sd">    10.328616609861584</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
+
+<div class="viewcode-block" id="GaussianLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="MultivariateGaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">MultivariateGaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the likelihood function of a multivariate gaussian distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ndarray</span>
+<span class="sd">        Observed data.</span>
+<span class="sd">    mean : callable</span>
+<span class="sd">        Mean model.</span>
+<span class="sd">    cov : callable</span>
+<span class="sd">        Kernel for the covariance matrix.</span>
+<span class="sd">    dim : int</span>
+<span class="sd">        Dimension (number of parameters) of the mean model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+
+<div class="viewcode-block" id="MultivariateGaussianLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the negative of the log likelihood function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            parameter vector of the mean model and covariance matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">]</span> <span class="c1"># mean model parameters</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:]</span> <span class="c1"># kernel parameters (hyperparameters)</span>
+
+        <span class="n">residual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">slogdet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="o">*</span><span class="n">alpha</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">residual</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="o">*</span><span class="n">alpha</span><span class="p">),</span> <span class="n">residual</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="MultivariateGaussianLikelihood.sample"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span><span class="o">.</span><span class="n">x</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">]),</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:]),</span>
+                                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultivariateGaussianLikelihood.fisher_information_matrix"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.fisher_information_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">fisher_information_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="MultivariateGaussianLikelihood.uncertainties"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties">[docs]</a>    <span class="k">def</span> <span class="nf">uncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, KeplerGO.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

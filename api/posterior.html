@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Posterior Distributions &mdash; oktopus  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="oktopus  documentation" href="../index.html"/>
+        <link rel="up" title="API documentation" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> oktopus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Posterior Distributions</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oktopus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API documentation</a> &raquo;</li>
+        
+      <li>Posterior Distributions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/posterior.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="module-oktopus.posterior">
+<span id="posterior-distributions"></span><h1>Posterior Distributions<a class="headerlink" href="#module-oktopus.posterior" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="oktopus.posterior.Posterior">
+<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">Posterior</code><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class for a posterior distribution.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.posterior.Posterior.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the negative of the log of the posterior at params.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : scalar or array-like</p>
+<blockquote>
+<div><p>Value at which the posterior will be evaluated</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>value</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Value of the negative of the log of the posterior at params</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.posterior.GaussianPosterior">
+<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">GaussianPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>var</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#GaussianPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.GaussianPosterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the negative log posterior distribution for uncorrelated
+(possibly non identically) distributed Gaussian measurements with known
+variances.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Observed data</p>
+</div></blockquote>
+<p><strong>mean</strong> : callable</p>
+<blockquote>
+<div><p>Mean model</p>
+</div></blockquote>
+<p><strong>var</strong> : scalar or array-like</p>
+<blockquote>
+<div><p>Uncertainties on the observed data.</p>
+</div></blockquote>
+<p><strong>prior</strong> : callable</p>
+<blockquote class="last">
+<div><p>Negative log prior as a function of the parameters
+See UniformPrior</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianPosterior</span><span class="p">,</span> <span class="n">GaussianPrior</span><span class="p">,</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">JointPrior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fake_data</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_line</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">:</span> <span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slope_prior</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">intercept_prior</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">joint_prior</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">slope_prior</span><span class="p">,</span> <span class="n">intercept_prior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">GaussianPosterior</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">fake_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">my_line</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">joint_prior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope_prior</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">intercept_prior</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="c1"># initial guesses for slope and intercept</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span> <span class="c1"># fitted parameters</span>
+<span class="go">array([  2.9626486 ,  10.32858499])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#plt.plot(x, fake_data, &#39;o&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#plt.plot(x, line(*p_hat.x))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The exact values from linear algebra are:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">M</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fake_data</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slope</span>
+<span class="go">2.9626408752841442</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">intercept</span>
+<span class="go">10.328616609861584</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.posterior.PoissonPosterior">
+<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">PoissonPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#PoissonPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.PoissonPosterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the negative of the log posterior distribution for independent
+(possibly non-identically) distributed Poisson measurements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Observed count data</p>
+</div></blockquote>
+<p><strong>mean</strong> : callable</p>
+<blockquote>
+<div><p>Mean of the Poisson distribution
+Note: If you would like to get uncertainties by using the
+<cite>uncertainties</cite> method, then this model must be defined with autograd
+numpy wrapper.</p>
+</div></blockquote>
+<p><strong>prior</strong> : callable</p>
+<blockquote class="last">
+<div><p>Negative log prior as a function of the parameters
+See UniformPrior.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonPosterior</span><span class="p">,</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">GaussianPrior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">npa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">toy_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">npa</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">PoissonPosterior</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mf">10.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span><span class="o">.</span><span class="n">x</span> <span class="c1"># MAP is the same of MLE for uniform prior</span>
+<span class="go">array([ 9.28997498])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">PoissonPosterior</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">GaussianPrior</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mf">10.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([ 9.30612488])</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.posterior.MultivariateGaussianPosterior">
+<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">MultivariateGaussianPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>cov</em>, <em>dim</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#MultivariateGaussianPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.MultivariateGaussianPosterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the posterior distribution for a multivariate gaussian distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Observed data.</p>
+</div></blockquote>
+<p><strong>mean</strong> : callable</p>
+<blockquote>
+<div><p>Mean model.</p>
+</div></blockquote>
+<p><strong>cov</strong> : callable</p>
+<blockquote>
+<div><p>Kernel for the covariance matrix.</p>
+</div></blockquote>
+<p><strong>dim</strong> : int</p>
+<blockquote>
+<div><p>Dimension (number of parameters) of the mean model.</p>
+</div></blockquote>
+<p><strong>prior</strong> : callable</p>
+<blockquote class="last">
+<div><p>Negative log prior as a function of the parameters.
+See UniformPrior.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, KeplerGO.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
