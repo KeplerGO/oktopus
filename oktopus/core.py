@@ -31,11 +31,12 @@ class LossFunction(ABC):
         pass
 
     def __call__(self, params):
+        """Calls :func:`evaluate`."""
         return self.evaluate(params)
 
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
-        Minimizes the loss function using :func:`scipy.optimize.minimize`.
+        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`.
 
         Parameters
         ----------

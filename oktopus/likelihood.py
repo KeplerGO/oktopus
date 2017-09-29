@@ -15,7 +15,7 @@ class Likelihood(LossFunction):
 
     def fisher_information_matrix(self):
         """
-        Computes the Fisher Information Matrix using autograd
+        Computes the Fisher Information Matrix.
 
         Returns
         -------
