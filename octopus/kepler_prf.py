@@ -1,6 +1,5 @@
 from . import DEFAULT_PRFDIR
 from .models import get_initial_guesses
-from .core import PoissonLikelihood
 from abc import ABC, abstractmethod
 import os
 import glob
@@ -8,6 +7,8 @@ import math
 import scipy
 import numpy as np
 from astropy.io import fits as pyfits
+from octopus.models import get_initial_guesses
+from octopus.likelihood import PoissonLikelihood
 from pyke.utils import channel_to_module_output
 
 
@@ -94,6 +95,15 @@ class KeplerPRF(object):
         self.prepare_prf()
 
     def prf_to_detector(self, params):
+        """
+        Builds the PRF model onto detector coordinates.
+
+        Parameters
+        ----------
+        flux : float or array-like
+        centroid_col : float or array-like
+        centroid_row : float or array-like
+        """
         nsrcs = len(params) // 3
         if nsrcs > 1:
             F, xo, yo, self.prf_model = np.zeros(nsrcs), np.zeros(nsrcs), np.zeros(nsrcs), []
