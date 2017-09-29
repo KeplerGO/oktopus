@@ -36,9 +36,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="oktopus 0.1 documentation" href="../index.html"/>
-        <link rel="up" title="API documentation" href="index.html"/>
-        <link rel="next" title="Posterior Distributions" href="posterior.html"/>
-        <link rel="prev" title="Prior Distributions" href="prior.html"/> 
+        <link rel="up" title="API documentation" href="index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,7 +94,9 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Likelihood Distributions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Likelihood Distributions</a><ul class="simple">
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a></li>
 </ul>
 </li>
@@ -207,6 +207,29 @@
 <em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">Likelihood</code><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a Likelihood function.</p>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.evaluate" title="oktopus.likelihood.Likelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Evaluates the negative of the log likelihood function.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="oktopus.likelihood.Likelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>()</td>
+<td>Computes the Fisher Information Matrix using autograd</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.uncertainties" title="oktopus.likelihood.Likelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>()</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.likelihood.Likelihood.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -321,6 +344,29 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="oktopus.likelihood.MultinomialLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix" title="oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.likelihood.MultinomialLikelihood.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultinomialLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -347,8 +393,8 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 This class also contains a method to compute maximum likelihood estimators
 for the mean of the Poisson distribution.</p>
 <p class="rubric">Notes</p>
-<p>See <a class="reference external" href="https://mirca.github.io/geerts-conjecture/">https://mirca.github.io/geerts-conjecture/</a> for the mathematical
-derivation of the likelihood expression.</p>
+<p>See <a class="reference external" href="https://mirca.github.io/geerts-conjecture/">here</a> for the mathematical
+derivation of the Poisson likelihood expression.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonLikelihood</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -390,6 +436,29 @@ some data.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="oktopus.likelihood.PoissonLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>()</td>
+<td>Computes the Fisher Information Matrix using autograd</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.likelihood.PoissonLikelihood.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#PoissonLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -453,6 +522,29 @@ line to some data:</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="oktopus.likelihood.GaussianLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>()</td>
+<td>Computes the Fisher Information Matrix using autograd</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.likelihood.GaussianLikelihood.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#GaussianLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -489,6 +581,32 @@ line to some data:</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Computes the negative of the log likelihood function.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.fisher_information_matrix" title="oktopus.likelihood.MultivariateGaussianLikelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.sample" title="oktopus.likelihood.MultivariateGaussianLikelihood.sample"><code class="xref py py-obj docutils literal"><span class="pre">sample</span></code></a>(**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties" title="oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -533,15 +651,6 @@ line to some data:</p>
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="posterior.html" class="btn btn-neutral float-right" title="Posterior Distributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="prior.html" class="btn btn-neutral" title="Prior Distributions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

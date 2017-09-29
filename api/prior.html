@@ -36,9 +36,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="oktopus 0.1 documentation" href="../index.html"/>
-        <link rel="up" title="API documentation" href="index.html"/>
-        <link rel="next" title="Likelihood Distributions" href="likelihood.html"/>
-        <link rel="prev" title="Abstract Classes" href="core.html"/> 
+        <link rel="up" title="API documentation" href="index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -95,7 +93,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Prior Distributions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Prior Distributions</a><ul class="simple">
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a></li>
 </ul>
@@ -208,7 +208,35 @@
 <dd><p>A base class for a prior distribution. Differently from Likelihood, a prior
 is a PDF that depends solely on the parameters, not on the observed data.</p>
 <p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.prior.Prior.name" title="oktopus.prior.Prior.name"><code class="xref py py-obj docutils literal"><span class="pre">name</span></code></a></td>
+<td>A name associated with the prior.</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Evaluates the negative of the log of the PDF at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.prior.Prior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#Prior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.Prior.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -270,6 +298,23 @@ of their distributions.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Evaluates the JointPrior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.prior.JointPrior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#JointPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.JointPrior.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -328,6 +373,23 @@ distribution.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.prior.UniformPrior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#UniformPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.UniformPrior.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -373,6 +435,23 @@ distribution.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.prior.GaussianPrior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#GaussianPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.GaussianPrior.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -399,15 +478,6 @@ distribution.</p>
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="likelihood.html" class="btn btn-neutral float-right" title="Likelihood Distributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="core.html" class="btn btn-neutral" title="Abstract Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

@@ -366,15 +366,15 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>%matplotlib inline
-from astropy.io import fits as pyfits
-import tqdm
-import numpy as np
-import matplotlib.pyplot as pl
-from pyke import KeplerTargetPixelFile, KeplerQualityFlags
-import photutils.aperture as apr
-from oktopus import PoissonLikelihood
-from oktopus.kepler_prf import KeplerPRF
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">pyke</span> <span class="k">import</span> <span class="n">KeplerTargetPixelFile</span><span class="p">,</span> <span class="n">KeplerQualityFlags</span>
+<span class="kn">import</span> <span class="nn">photutils.aperture</span> <span class="k">as</span> <span class="nn">apr</span>
+<span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonLikelihood</span>
+<span class="kn">from</span> <span class="nn">oktopus.kepler_prf</span> <span class="k">import</span> <span class="n">KeplerPRF</span>
 </pre></div>
 </div>
 </div>
@@ -397,12 +397,12 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>tpf = KeplerTargetPixelFile(&#39;ktwo224364733-c91_lpd-targ.fits&#39;,
-                            quality_bitmask=KeplerQualityFlags.QUALITY_ZERO_BITMASK)
-bkg = tpf.estimate_background()
-apr.CircularAperture((941.5, 878.5), r=2).plot()
-apr.CircularAperture((944.5, 875.5), r=2).plot()
-tpf.plot(scale=&#39;sqrt&#39;)
+<span></span><span class="n">tpf</span> <span class="o">=</span> <span class="n">KeplerTargetPixelFile</span><span class="p">(</span><span class="s1">&#39;ktwo224364733-c91_lpd-targ.fits&#39;</span><span class="p">,</span>
+                            <span class="n">quality_bitmask</span><span class="o">=</span><span class="n">KeplerQualityFlags</span><span class="o">.</span><span class="n">QUALITY_ZERO_BITMASK</span><span class="p">)</span>
+<span class="n">bkg</span> <span class="o">=</span> <span class="n">tpf</span><span class="o">.</span><span class="n">estimate_background</span><span class="p">()</span>
+<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">941.5</span><span class="p">,</span> <span class="mf">878.5</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">944.5</span><span class="p">,</span> <span class="mf">875.5</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">tpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="s1">&#39;sqrt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -430,10 +430,10 @@ tpf.plot(scale=&#39;sqrt&#39;)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>lc1, lc2 = np.zeros(len(tpf.time)), np.zeros(len(tpf.time))
-for i in range(len(tpf.time)):
-    lc1[i] = apr.CircularAperture((941.5 - tpf.column, 878.5 - tpf.row), r=2).do_photometry(tpf.flux[i])[0]
-    lc2[i] = apr.CircularAperture((944.5 - tpf.column, 875.5 - tpf.row), r=2).do_photometry(tpf.flux[i])[0]
+<span></span><span class="n">lc1</span><span class="p">,</span> <span class="n">lc2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
+    <span class="n">lc1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">941.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">878.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lc2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">944.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">875.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -443,8 +443,8 @@ for i in range(len(tpf.time)):
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[10, 4])
-pl.plot(tpf.time, (lc1 - np.mean(lc1)) / np.std(lc1), &#39;x&#39;, markersize=1)
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc1</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc1</span><span class="p">),</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -471,8 +471,8 @@ pl.plot(tpf.time, (lc1 - np.mean(lc1)) / np.std(lc1), &#39;x&#39;, markersize=1)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[10, 4])
-pl.plot(tpf.time, (lc2 - np.mean(lc2)) / np.std(lc2), &#39;x&#39;, markersize=1)
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc2</span><span class="p">),</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -499,8 +499,8 @@ pl.plot(tpf.time, (lc2 - np.mean(lc2)) / np.std(lc2), &#39;x&#39;, markersize=1)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[10, 4])
-pl.plot(tpf.time, (bkg - np.mean(bkg)) / np.std(bkg), &#39;o&#39;, markersize=1)
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">bkg</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bkg</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">bkg</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -527,37 +527,37 @@ pl.plot(tpf.time, (bkg - np.mean(bkg)) / np.std(bkg), &#39;o&#39;, markersize=1)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>xc1_hat, xc2_hat = [], []
-yc1_hat, yc2_hat = [], []
-f1_hat, f2_hat = [], []
-bkg_hat = []
-residuals = []
-loglike = []
-prf1, prf2 = [], []
-best_fit_params = []
-kepprf = KeplerPRF(&quot;/Users/jvmirca/.pyke/kepler-prf-calibration-data/&quot;,
-                   tpf.channel, (tpf.shape[1], tpf.shape[2]),
-                   tpf.column, tpf.row)
-for i in tqdm.tqdm(range(len(tpf.time))):
-    x0 = (lc1[i] - 12.5 * bkg[i],
-          lc2[i] - 12.5 * bkg[i],
-          941.5, 944.5,
-          878.5, 875.5,
-          bkg[i])
-    logL = PoissonLikelihood(tpf.flux[i], kepprf.evaluate)
-    result = logL.fit(x0, method=&#39;Powell&#39;, options={&#39;xtol&#39;:1e-10, &#39;ftol&#39;:1e-10})
-    best_fit_params = np.append(best_fit_params, result.x)
-    loglike = np.append(loglike, logL.evaluate(result.x))
-    f1_hat = np.append(f1_hat, result.x[0])
-    f2_hat = np.append(f2_hat, result.x[1])
-    xc1_hat = np.append(xc1_hat, result.x[2])
-    xc2_hat = np.append(xc2_hat, result.x[3])
-    yc1_hat = np.append(yc1_hat, result.x[4])
-    yc2_hat = np.append(yc2_hat, result.x[5])
-    bkg_hat = np.append(bkg_hat, result.x[6])
-    prf1 = np.append(prf1, kepprf.prf_model[0])
-    prf2 = np.append(prf2, kepprf.prf_model[1])
-    residuals = np.append(residuals, kepprf.evaluate(*result.x) - tpf.flux[i])
+<span></span><span class="n">xc1_hat</span><span class="p">,</span> <span class="n">xc2_hat</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">yc1_hat</span><span class="p">,</span> <span class="n">yc2_hat</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">f1_hat</span><span class="p">,</span> <span class="n">f2_hat</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">bkg_hat</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">residuals</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">loglike</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">prf1</span><span class="p">,</span> <span class="n">prf2</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">best_fit_params</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">kepprf</span> <span class="o">=</span> <span class="n">KeplerPRF</span><span class="p">(</span><span class="s2">&quot;/Users/jvmirca/.pyke/kepler-prf-calibration-data/&quot;</span><span class="p">,</span>
+                   <span class="n">tpf</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                   <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))):</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="p">(</span><span class="n">lc1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">12.5</span> <span class="o">*</span> <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+          <span class="n">lc2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">12.5</span> <span class="o">*</span> <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+          <span class="mf">941.5</span><span class="p">,</span> <span class="mf">944.5</span><span class="p">,</span>
+          <span class="mf">878.5</span><span class="p">,</span> <span class="mf">875.5</span><span class="p">,</span>
+          <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">logL</span> <span class="o">=</span> <span class="n">PoissonLikelihood</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Powell&#39;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;xtol&#39;</span><span class="p">:</span><span class="mf">1e-10</span><span class="p">,</span> <span class="s1">&#39;ftol&#39;</span><span class="p">:</span><span class="mf">1e-10</span><span class="p">})</span>
+    <span class="n">best_fit_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_fit_params</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">loglike</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loglike</span><span class="p">,</span> <span class="n">logL</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">f1_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f1_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">f2_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f2_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">xc1_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xc1_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">xc2_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xc2_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">yc1_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yc1_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">yc2_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yc2_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">bkg_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bkg_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prf1</span><span class="p">,</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">prf_model</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prf2</span><span class="p">,</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">prf_model</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -577,9 +577,9 @@ for i in tqdm.tqdm(range(len(tpf.time))):
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[18, 4])
-pl.plot(tpf.time, yc2_hat, &#39;x&#39;, markersize=1)
-pl.ylim([875.4, 875.46])
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">yc2_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">875.4</span><span class="p">,</span> <span class="mf">875.46</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -606,8 +606,8 @@ pl.ylim([875.4, 875.46])
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[18, 4])
-pl.plot(tpf.time, yc1_hat, &#39;x&#39;, markersize=1)
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">yc1_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -634,8 +634,8 @@ pl.plot(tpf.time, yc1_hat, &#39;x&#39;, markersize=1)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[18, 4])
-pl.plot(tpf.time, xc1_hat, &#39;x&#39;, markersize=1)
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">xc1_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -662,8 +662,8 @@ pl.plot(tpf.time, xc1_hat, &#39;x&#39;, markersize=1)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>residuals = residuals.reshape(tpf.shape)
-fitted_prf = kepprf.evaluate
+<span></span><span class="n">residuals</span> <span class="o">=</span> <span class="n">residuals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">fitted_prf</span> <span class="o">=</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">evaluate</span>
 </pre></div>
 </div>
 </div>
@@ -673,10 +673,10 @@ fitted_prf = kepprf.evaluate
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>i = 100
-pl.imshow(fitted_prf(f1_hat[i], f2_hat[i], xc1_hat[i], xc2_hat[i], yc1_hat[i], yc2_hat[i], bkg_hat[i]),
-           origin=&#39;lower&#39;, extent=(940, 949, 872, 880))
-pl.colorbar()
+<span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fitted_prf</span><span class="p">(</span><span class="n">f1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">f2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bkg_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+           <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">940</span><span class="p">,</span> <span class="mi">949</span><span class="p">,</span> <span class="mi">872</span><span class="p">,</span> <span class="mi">880</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -703,8 +703,8 @@ pl.colorbar()
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.imshow(residuals[i], origin=&#39;lower&#39;)
-pl.colorbar()
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">residuals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -731,8 +731,8 @@ pl.colorbar()
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>prf1 = np.array(prf1)
-prf2 = np.array(prf2)
+<span></span><span class="n">prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prf1</span><span class="p">)</span>
+<span class="n">prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prf2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -742,8 +742,8 @@ prf2 = np.array(prf2)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>prf1 = prf1.reshape(tpf.shape)
-prf2 = prf2.reshape(tpf.shape)
+<span></span><span class="n">prf1</span> <span class="o">=</span> <span class="n">prf1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">prf2</span> <span class="o">=</span> <span class="n">prf2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -753,9 +753,9 @@ prf2 = prf2.reshape(tpf.shape)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.imshow(prf1[i], origin=&#39;lower&#39;, extent=(940, 949, 872, 880))
-apr.CircularAperture((xc1_hat[i], yc1_hat[i]), r=1.5).plot()
-pl.colorbar()
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prf1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">940</span><span class="p">,</span> <span class="mi">949</span><span class="p">,</span> <span class="mi">872</span><span class="p">,</span> <span class="mi">880</span><span class="p">))</span>
+<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="n">xc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -782,9 +782,9 @@ pl.colorbar()
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.imshow(prf2[i], origin=&#39;lower&#39;, extent=(940, 949, 872, 880))
-apr.CircularAperture((xc2_hat[i], yc2_hat[i]), r=1.5).plot()
-pl.colorbar()
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prf2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">940</span><span class="p">,</span> <span class="mi">949</span><span class="p">,</span> <span class="mi">872</span><span class="p">,</span> <span class="mi">880</span><span class="p">))</span>
+<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="n">xc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -811,12 +811,12 @@ pl.colorbar()
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>lc_prf1 = np.zeros(len(tpf.time))
-lc_prf2 = np.zeros(len(tpf.time))
+<span></span><span class="n">lc_prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+<span class="n">lc_prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
 
-for i in range(len(tpf.time)):
-    lc_prf1[i] = apr.CircularAperture((941.5 - tpf.column, 878.5 - tpf.row), r=2).do_photometry(prf1[i])[0]
-    lc_prf2[i] = apr.CircularAperture((944.5 - tpf.column, 875.5 - tpf.row), r=1.5).do_photometry(prf2[i])[0]
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
+    <span class="n">lc_prf1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">941.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">878.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">prf1</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lc_prf2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">944.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">875.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">prf2</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -826,10 +826,10 @@ for i in range(len(tpf.time)):
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[10, 4])
-pl.plot(tpf.time, (lc_prf1 - np.mean(lc_prf1)) / np.std(lc_prf1), &#39;o&#39;, markersize=1)
-pl.plot(tpf.time, (lc1 - np.mean(lc1)) / np.std(lc1), &#39;o&#39;, markersize=1)
-pl.ylim([-2, 3])
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc_prf1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc_prf1</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc_prf1</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc1</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc1</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -856,10 +856,10 @@ pl.ylim([-2, 3])
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>pl.figure(figsize=[10, 4])
-pl.plot(tpf.time, (lc_prf2 - np.mean(lc_prf2)) / np.std(lc_prf2), &#39;o&#39;, markersize=1)
-pl.plot(tpf.time, (lc2 - np.mean(lc2)) / np.std(lc2), &#39;o&#39;, markersize=1)
-pl.ylim([-2, 3])
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc_prf2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc_prf2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc_prf2</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc2</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>

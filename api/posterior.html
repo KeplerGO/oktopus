@@ -36,9 +36,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="oktopus 0.1 documentation" href="../index.html"/>
-        <link rel="up" title="API documentation" href="index.html"/>
-        <link rel="next" title="IPython notebooks" href="../ipython.html"/>
-        <link rel="prev" title="Likelihood Distributions" href="likelihood.html"/> 
+        <link rel="up" title="API documentation" href="index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -97,7 +95,9 @@
 <li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Posterior Distributions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Posterior Distributions</a><ul class="simple">
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a></li>
@@ -207,6 +207,23 @@
 <em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">Posterior</code><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior" title="Permalink to this definition">¶</a></dt>
 <dd><p>A base class for a posterior distribution.</p>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="oktopus.posterior.Posterior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior.evaluate" title="Permalink to this definition">¶</a></dt>
@@ -294,6 +311,23 @@ See UniformPrior</p>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -345,6 +379,23 @@ See UniformPrior.</p>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -381,6 +432,23 @@ See UniformPrior.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
+<td>Evaluates the negative of the log of the posterior at params.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -392,15 +460,6 @@ See UniformPrior.</p>
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../ipython.html" class="btn btn-neutral float-right" title="IPython notebooks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="likelihood.html" class="btn btn-neutral" title="Likelihood Distributions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
