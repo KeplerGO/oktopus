@@ -3,11 +3,11 @@ import math
 import numpy as np
 from astropy.io import fits
 from astropy.utils.data import get_pkg_data_filename
-
 from .. import models
 from ..likelihood import PoissonLikelihood
 from ..posterior import PoissonPosterior
 from ..prior import UniformPrior, GaussianPrior, JointPrior
+from .. import core
 from ..kepler_prf import KeplerPRF
 
 
