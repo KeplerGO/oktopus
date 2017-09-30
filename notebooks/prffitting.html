@@ -373,7 +373,7 @@ div.nboutput div.output_area.stderr {
 <span class="kn">from</span> <span class="nn">pyke</span> <span class="k">import</span> <span class="n">KeplerTargetPixelFile</span><span class="p">,</span> <span class="n">KeplerQualityFlags</span>
 <span class="kn">import</span> <span class="nn">photutils.aperture</span> <span class="k">as</span> <span class="nn">apr</span>
 <span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonLikelihood</span>
-<span class="kn">from</span> <span class="nn">oktopus.kepler_prf</span> <span class="k">import</span> <span class="n">KeplerPRF</span>
+<span class="kn">from</span> <span class="nn">pyke.kepler_prf</span> <span class="k">import</span> <span class="n">KeplerPRF</span>
 </pre></div>
 </div>
 </div>
@@ -453,7 +453,7 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11bb9ba58&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x117a99b70&gt;]
 </pre></div>
 </div>
 </div>
@@ -481,7 +481,7 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11bd540b8&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x117c4e3c8&gt;]
 </pre></div>
 </div>
 </div>
@@ -509,7 +509,7 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11be7ecf8&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11773cda0&gt;]
 </pre></div>
 </div>
 </div>
@@ -534,9 +534,9 @@ or matplotlib.backends is imported for the first time.
 <span class="n">loglike</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">prf1</span><span class="p">,</span> <span class="n">prf2</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
 <span class="n">best_fit_params</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">kepprf</span> <span class="o">=</span> <span class="n">KeplerPRF</span><span class="p">(</span><span class="s2">&quot;/Users/jvmirca/.pyke/kepler-prf-calibration-data/&quot;</span><span class="p">,</span>
-                   <span class="n">tpf</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
-                   <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">)</span>
+<span class="n">kepprf</span> <span class="o">=</span> <span class="n">KeplerPRF</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                   <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">,</span>
+                   <span class="n">prf_files_dir</span><span class="o">=</span><span class="s2">&quot;/Users/jvmirca/.pyke/kepler-prf-calibration-data/&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))):</span>
     <span class="n">x0</span> <span class="o">=</span> <span class="p">(</span><span class="n">lc1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">12.5</span> <span class="o">*</span> <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
           <span class="n">lc2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">12.5</span> <span class="o">*</span> <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -565,14 +565,14 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
- 28%|██▊       | 343/1213 [02:04&lt;05:21,  2.71it/s]/Users/jvmirca/anaconda3/lib/python3.6/site-packages/autograd/core.py:82: RuntimeWarning: invalid value encountered in log
+ 28%|██▊       | 343/1213 [02:10&lt;05:15,  2.76it/s]/Users/jvmirca/anaconda3/lib/python3.6/site-packages/autograd/core.py:82: RuntimeWarning: invalid value encountered in log
   result_value = self.fun(*argvals, **kwargs)
-100%|██████████| 1213/1213 [07:18&lt;00:00,  2.69it/s]
+100%|██████████| 1213/1213 [07:19&lt;00:00,  2.69it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -584,7 +584,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[33]:
+<span></span>Out[8]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -601,7 +601,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -612,11 +612,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[18]:
+<span></span>Out[9]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11d43e6d8&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x109198940&gt;]
 </pre></div>
 </div>
 </div>
@@ -629,7 +629,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -640,11 +640,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[19]:
+<span></span>Out[10]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11d5d5d30&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x109e5dd30&gt;]
 </pre></div>
 </div>
 </div>
@@ -657,7 +657,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -668,7 +668,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -681,11 +681,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[21]:
+<span></span>Out[12]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11cfef9e8&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x1178ffac8&gt;
 </pre></div>
 </div>
 </div>
@@ -698,7 +698,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -709,11 +709,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[22]:
+<span></span>Out[13]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11bb14128&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11821d9e8&gt;
 </pre></div>
 </div>
 </div>
@@ -726,7 +726,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -737,7 +737,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [24]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -748,7 +748,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -760,11 +760,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[26]:
+<span></span>Out[16]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11d930940&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x119301c88&gt;
 </pre></div>
 </div>
 </div>
@@ -777,7 +777,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -789,11 +789,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[27]:
+<span></span>Out[17]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11d993550&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x119340e48&gt;
 </pre></div>
 </div>
 </div>
@@ -806,7 +806,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [28]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -821,7 +821,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -834,7 +834,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[31]:
+<span></span>Out[19]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -851,7 +851,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [32]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -864,7 +864,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[32]:
+<span></span>Out[20]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>

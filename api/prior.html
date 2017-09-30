@@ -252,7 +252,7 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>value</strong> : scalar</p>
 <blockquote class="last">
-<div><p>Value of the negative of the log of the PDF at params.</p>
+<div><p>Value of the negative of the log of the PDF at params</p>
 </div></blockquote>
 </td>
 </tr>
@@ -274,7 +274,7 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 <dd><p>Combine indepedent priors by summing the negative of the log
 of their distributions.</p>
 <p class="rubric">Notes</p>
-<p><code class="docutils literal"><span class="pre">*args</span></code> are stored in <code class="docutils literal"><span class="pre">self.components</span></code>.</p>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>args are stored in <code class="docutils literal"><span class="pre">self.components</span></code>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">GaussianPrior</span><span class="p">,</span> <span class="n">JointPrior</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">UniformPrior</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -287,12 +287,12 @@ of their distributions.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%" />
-<col width="88%" />
+<col width="6%" />
+<col width="94%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>args</td>
-<td>(tuple of instances of Prior)</td>
+<tr class="row-odd"><td><a href="#id3"><span class="problematic" id="id4">*</span></a>args</td>
+<td>(tuple of instances of :class:Prior) Instances of :class:Prior to be combined</td>
 </tr>
 </tbody>
 </table>
@@ -307,7 +307,7 @@ of their distributions.</p>
 <td>Calls <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
-<td>Evaluates the JointPrior at params.</td>
+<td>Computes the sum of the log of each distribution given in <em>args</em> evaluated at <em>params</em>.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
 <td>Minimizes the <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
@@ -317,22 +317,23 @@ of their distributions.</p>
 <dl class="method">
 <dt id="oktopus.prior.JointPrior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#JointPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.JointPrior.evaluate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluates the JointPrior at params.</p>
+<dd><p>Computes the sum of the log of each distribution given in <em>args</em>
+evaluated at <em>params</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : tuple</p>
 <blockquote>
-<div><p>Value at which the JointPrior will be evaluated.
-This must have the same dimension as the number of Priors used
+<div><p>Value at which the JointPrior instance will be evaluated.
+This must have the same dimension as the number of priors used
 to initialize the object</p>
 </div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>value</strong> : scalar</p>
 <blockquote class="last">
-<div><p>Sum of the negative of the log of each distribution given in <strong>args</strong>.</p>
+<div><p>Sum of the negative of the log of each distribution given in <strong>args</strong></p>
 </div></blockquote>
 </td>
 </tr>
@@ -345,7 +346,7 @@ to initialize the object</p>
 <dl class="class">
 <dt id="oktopus.prior.UniformPrior">
 <em class="property">class </em><code class="descclassname">oktopus.prior.</code><code class="descname">UniformPrior</code><span class="sig-paren">(</span><em>lb</em>, <em>ub</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#UniformPrior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.UniformPrior" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the negative log pdf for a n-dimensional independent uniform
+<dd><p>Computes the negative log pdf for a n-dimensional independent uniform
 distribution.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">UniformPrior</span>
@@ -397,19 +398,21 @@ distribution.</p>
 <dl class="attribute">
 <dt id="oktopus.prior.UniformPrior.mean">
 <code class="descname">mean</code><a class="headerlink" href="#oktopus.prior.UniformPrior.mean" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the mean of the uniform distributions</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="oktopus.prior.UniformPrior.variance">
 <code class="descname">variance</code><a class="headerlink" href="#oktopus.prior.UniformPrior.variance" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the variance of the uniform distributions</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="oktopus.prior.GaussianPrior">
 <em class="property">class </em><code class="descclassname">oktopus.prior.</code><code class="descname">GaussianPrior</code><span class="sig-paren">(</span><em>mean</em>, <em>var</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#GaussianPrior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.GaussianPrior" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the negative log pdf for a n-dimensional independent Gaussian
+<dd><p>Computes the negative log pdf for a n-dimensional independent Gaussian
 distribution.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianPrior</span>

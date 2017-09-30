@@ -189,7 +189,7 @@
 <span class="sd">    (possibly non identically) distributed Gaussian measurements with known</span>
 <span class="sd">    variances.</span>
 
-<span class="sd">    Parameters</span>
+<span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : ndarray</span>
 <span class="sd">        Observed data</span>
@@ -205,7 +205,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from oktopus import GaussianPosterior, GaussianPrior, UniformPrior, JointPrior</span>
 <span class="sd">    &gt;&gt;&gt; import autograd.numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; from matplotlib import pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; #from matplotlib import pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; x = np.linspace(0, 10, 200)</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
 <span class="sd">    &gt;&gt;&gt; fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)</span>
@@ -242,7 +242,7 @@
 <span class="sd">    Implements the negative of the log posterior distribution for independent</span>
 <span class="sd">    (possibly non-identically) distributed Poisson measurements.</span>
 
-<span class="sd">    Parameters</span>
+<span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : ndarray</span>
 <span class="sd">        Observed count data</span>
@@ -250,10 +250,10 @@
 <span class="sd">        Mean of the Poisson distribution</span>
 <span class="sd">        Note: If you would like to get uncertainties by using the</span>
 <span class="sd">        `uncertainties` method, then this model must be defined with autograd</span>
-<span class="sd">        numpy wrapper.</span>
+<span class="sd">        numpy wrapper</span>
 <span class="sd">    prior : callable</span>
-<span class="sd">        Negative log prior as a function of the parameters</span>
-<span class="sd">        See UniformPrior.</span>
+<span class="sd">        Negative log prior as a function of the parameters.</span>
+<span class="sd">        See UniformPrior</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -286,19 +286,19 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the posterior distribution for a multivariate gaussian distribution.</span>
 
-<span class="sd">    Parameters</span>
+<span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : ndarray</span>
-<span class="sd">        Observed data.</span>
+<span class="sd">        Observed data</span>
 <span class="sd">    mean : callable</span>
-<span class="sd">        Mean model.</span>
+<span class="sd">        Mean model</span>
 <span class="sd">    cov : callable</span>
-<span class="sd">        Kernel for the covariance matrix.</span>
+<span class="sd">        Kernel for the covariance matrix</span>
 <span class="sd">    dim : int</span>
-<span class="sd">        Dimension (number of parameters) of the mean model.</span>
+<span class="sd">        Dimension (number of parameters) of the mean model</span>
 <span class="sd">    prior : callable</span>
 <span class="sd">        Negative log prior as a function of the parameters.</span>
-<span class="sd">        See UniformPrior.</span>
+<span class="sd">        See :class:UniformPrior</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>

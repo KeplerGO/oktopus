@@ -302,12 +302,13 @@ distribution.</p>
 <p class="rubric">Examples</p>
 <p>Suppose our data is divided in two classes and we would like to estimate
 the probability of occurence of each class with the condition that
-P(class_1) = 1 - P(class_2) = p. Suppose we have a sample with n_1 counts
-from class_1 and n_2 counts from class_2. Since the distribution of the
-number of counts is a binomial distribution, the MLE for P(class_1) is
-given as P(class_1) = n_1 / (n_1 + n_2), where n_i is the number of counts
-for class_i. The Fisher Information Matrix is given by
-F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
+<span class="math">\(P(class_1) = 1 - P(class_2) = p\)</span>. Suppose we have a sample with
+<span class="math">\(n_1\)</span> counts from <span class="math">\(class_1\)</span> and <span class="math">\(n_2\)</span> counts from
+<span class="math">\(class_2\)</span>. Assuming the distribution of the number of counts is a
+binomial distribution, the MLE for :math`P(class_1)` is given as
+<span class="math">\(P(class_1) = \dfrac{n_1}{n_1 + n_2}\)</span>. The Fisher Information Matrix
+is given by <span class="math">\(F(n, p) = \dfrac{n}{p * (1 - p)}\)</span>. Let’s see how we can
+estimate <span class="math">\(p\)</span>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">MultinomialLikelihood</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
@@ -335,10 +336,10 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>data</td>
-<td>(ndarray) Observed count data.</td>
+<td>(ndarray) Observed count data</td>
 </tr>
 <tr class="row-even"><td>mean</td>
-<td>(callable) Events probabilities of the multinomial distribution.</td>
+<td>(callable) Events probabilities of the multinomial distribution</td>
 </tr>
 </tbody>
 </table>
@@ -379,7 +380,7 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 <dl class="attribute">
 <dt id="oktopus.likelihood.MultinomialLikelihood.n_counts">
 <code class="descname">n_counts</code><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.n_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the sum of the number of counts in every bin.</p>
+<dd><p>Returns the sum of the number of counts over all bin.</p>
 </dd></dl>
 
 </dd></dl>
@@ -394,6 +395,10 @@ for the mean of the Poisson distribution.</p>
 <p class="rubric">Notes</p>
 <p>See <a class="reference external" href="https://mirca.github.io/geerts-conjecture/">here</a> for the mathematical
 derivation of the Poisson likelihood expression.</p>
+<p class="rubric">Examples</p>
+<p>Suppose we want to estimate the expected number of planes arriving at
+gate 50 terminal 1 at SFO airport in a given hour of a given day using
+some data.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonLikelihood</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -415,22 +420,18 @@ derivation of the Poisson likelihood expression.</p>
 <span class="go">3.047950130825634</span>
 </pre></div>
 </div>
-<p class="rubric">Examples</p>
-<p>Suppose we want to estimate the expected number of planes arriving at
-gate 50 terminal 1 at SFO airport in a given hour of a given day using
-some data.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="4%" />
-<col width="96%" />
+<col width="3%" />
+<col width="97%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>data</td>
-<td>(ndarray) Observed count data.</td>
+<td>(ndarray) Observed count data</td>
 </tr>
 <tr class="row-even"><td>mean</td>
-<td>(callable) Mean of the Poisson distribution. Note: this model must be defined with autograd numpy wrapper.</td>
+<td>(callable) Mean of the Poisson distribution Note: If you want to compute uncertainties, this model must be defined with autograd numpy wrapper</td>
 </tr>
 </tbody>
 </table>
@@ -476,7 +477,7 @@ with known variance.</p>
 line to some data:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianLikelihood</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#from matplotlib import pyplot as plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fake_data</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>

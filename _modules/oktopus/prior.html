@@ -191,7 +191,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        value : scalar</span>
-<span class="sd">            Value of the negative of the log of the PDF at params.</span>
+<span class="sd">            Value of the negative of the log of the PDF at params</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
 
@@ -202,7 +202,8 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    args : tuple of instances of Prior</span>
+<span class="sd">    *args : tuple of instances of :class:Prior</span>
+<span class="sd">        Instances of :class:Prior to be combined</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -215,26 +216,27 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    ``*args`` are stored in ``self.components``.</span>
+<span class="sd">    *args are stored in ``self.components``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">args</span>
 
 <div class="viewcode-block" id="JointPrior.evaluate"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.JointPrior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Evaluates the JointPrior at params.</span>
+        <span class="sd">&quot;&quot;&quot;Computes the sum of the log of each distribution given in *args*</span>
+<span class="sd">        evaluated at *params*.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        params : tuple</span>
-<span class="sd">            Value at which the JointPrior will be evaluated.</span>
-<span class="sd">            This must have the same dimension as the number of Priors used</span>
+<span class="sd">            Value at which the JointPrior instance will be evaluated.</span>
+<span class="sd">            This must have the same dimension as the number of priors used</span>
 <span class="sd">            to initialize the object</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        value : scalar</span>
-<span class="sd">            Sum of the negative of the log of each distribution given in **args**.</span>
+<span class="sd">            Sum of the negative of the log of each distribution given in **args**</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)):</span>
@@ -243,7 +245,7 @@
 
 
 <div class="viewcode-block" id="UniformPrior"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.UniformPrior">[docs]</a><span class="k">class</span> <span class="nc">UniformPrior</span><span class="p">(</span><span class="n">Prior</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the negative log pdf for a n-dimensional independent uniform</span>
+    <span class="sd">&quot;&quot;&quot;Computes the negative log pdf for a n-dimensional independent uniform</span>
 <span class="sd">    distribution.</span>
 
 <span class="sd">    Attributes</span>
@@ -270,10 +272,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the mean of the uniform distributions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lb</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the variance of the uniform distributions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ub</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">12</span>
 
 <div class="viewcode-block" id="UniformPrior.evaluate"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.UniformPrior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
@@ -283,7 +289,7 @@
 
 
 <div class="viewcode-block" id="GaussianPrior"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.GaussianPrior">[docs]</a><span class="k">class</span> <span class="nc">GaussianPrior</span><span class="p">(</span><span class="n">Prior</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the negative log pdf for a n-dimensional independent Gaussian</span>
+    <span class="sd">&quot;&quot;&quot;Computes the negative log pdf for a n-dimensional independent Gaussian</span>
 <span class="sd">    distribution.</span>
 
 <span class="sd">    Attributes</span>

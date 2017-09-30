@@ -255,35 +255,10 @@
 <dd><p>Implements the negative log posterior distribution for uncorrelated
 (possibly non identically) distributed Gaussian measurements with known
 variances.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
-<blockquote>
-<div><p>Observed data</p>
-</div></blockquote>
-<p><strong>mean</strong> : callable</p>
-<blockquote>
-<div><p>Mean model</p>
-</div></blockquote>
-<p><strong>var</strong> : scalar or array-like</p>
-<blockquote>
-<div><p>Uncertainties on the observed data.</p>
-</div></blockquote>
-<p><strong>prior</strong> : callable</p>
-<blockquote class="last">
-<div><p>Negative log prior as a function of the parameters
-See UniformPrior</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianPosterior</span><span class="p">,</span> <span class="n">GaussianPrior</span><span class="p">,</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">JointPrior</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#from matplotlib import pyplot as plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fake_data</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -309,6 +284,27 @@ See UniformPrior</p>
 <span class="go">10.328616609861584</span>
 </pre></div>
 </div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed data</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Mean model</td>
+</tr>
+<tr class="row-odd"><td>var</td>
+<td>(scalar or array-like) Uncertainties on the observed data.</td>
+</tr>
+<tr class="row-even"><td>prior</td>
+<td>(callable) Negative log prior as a function of the parameters See UniformPrior</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -334,30 +330,6 @@ See UniformPrior</p>
 <em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">PoissonPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#PoissonPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.PoissonPosterior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the negative of the log posterior distribution for independent
 (possibly non-identically) distributed Poisson measurements.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
-<blockquote>
-<div><p>Observed count data</p>
-</div></blockquote>
-<p><strong>mean</strong> : callable</p>
-<blockquote>
-<div><p>Mean of the Poisson distribution
-Note: If you would like to get uncertainties by using the
-<cite>uncertainties</cite> method, then this model must be defined with autograd
-numpy wrapper.</p>
-</div></blockquote>
-<p><strong>prior</strong> : callable</p>
-<blockquote class="last">
-<div><p>Negative log prior as a function of the parameters
-See UniformPrior.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonPosterior</span><span class="p">,</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">GaussianPrior</span>
@@ -377,6 +349,24 @@ See UniformPrior.</p>
 <span class="go">array([ 9.30612488])</span>
 </pre></div>
 </div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed count data</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Mean of the Poisson distribution Note: If you would like to get uncertainties by using the <cite>uncertainties</cite> method, then this model must be defined with autograd numpy wrapper</td>
+</tr>
+<tr class="row-odd"><td>prior</td>
+<td>(callable) Negative log prior as a function of the parameters. See UniformPrior</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -401,32 +391,27 @@ See UniformPrior.</p>
 <dt id="oktopus.posterior.MultivariateGaussianPosterior">
 <em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">MultivariateGaussianPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>cov</em>, <em>dim</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#MultivariateGaussianPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.MultivariateGaussianPosterior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the posterior distribution for a multivariate gaussian distribution.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
-<blockquote>
-<div><p>Observed data.</p>
-</div></blockquote>
-<p><strong>mean</strong> : callable</p>
-<blockquote>
-<div><p>Mean model.</p>
-</div></blockquote>
-<p><strong>cov</strong> : callable</p>
-<blockquote>
-<div><p>Kernel for the covariance matrix.</p>
-</div></blockquote>
-<p><strong>dim</strong> : int</p>
-<blockquote>
-<div><p>Dimension (number of parameters) of the mean model.</p>
-</div></blockquote>
-<p><strong>prior</strong> : callable</p>
-<blockquote class="last">
-<div><p>Negative log prior as a function of the parameters.
-See UniformPrior.</p>
-</div></blockquote>
-</td>
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed data</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Mean model</td>
+</tr>
+<tr class="row-odd"><td>cov</td>
+<td>(callable) Kernel for the covariance matrix</td>
+</tr>
+<tr class="row-even"><td>dim</td>
+<td>(int) Dimension (number of parameters) of the mean model</td>
+</tr>
+<tr class="row-odd"><td>prior</td>
+<td>(callable) Negative log prior as a function of the parameters. See :class:UniformPrior</td>
 </tr>
 </tbody>
 </table>
