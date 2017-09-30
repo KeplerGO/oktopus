@@ -210,7 +210,7 @@ class GaussianLikelihood(Likelihood):
 
     >>> from oktopus import GaussianLikelihood
     >>> import autograd.numpy as np
-    >>> from matplotlib import pyplot as plt
+    >>> #from matplotlib import pyplot as plt
     >>> x = np.linspace(0, 10, 200)
     >>> np.random.seed(0)
     >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
