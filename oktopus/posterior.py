@@ -31,7 +31,7 @@ class GaussianPosterior(Posterior):
     (possibly non identically) distributed Gaussian measurements with known
     variances.
 
-    Parameters
+    Attributes
     ----------
     data : ndarray
         Observed data
@@ -84,7 +84,7 @@ class PoissonPosterior(Posterior):
     Implements the negative of the log posterior distribution for independent
     (possibly non-identically) distributed Poisson measurements.
 
-    Parameters
+    Attributes
     ----------
     data : ndarray
         Observed count data
@@ -92,10 +92,10 @@ class PoissonPosterior(Posterior):
         Mean of the Poisson distribution
         Note: If you would like to get uncertainties by using the
         `uncertainties` method, then this model must be defined with autograd
-        numpy wrapper.
+        numpy wrapper
     prior : callable
-        Negative log prior as a function of the parameters
-        See UniformPrior.
+        Negative log prior as a function of the parameters.
+        See UniformPrior
 
     Examples
     --------
@@ -128,19 +128,19 @@ class MultivariateGaussianPosterior(Posterior):
     """
     Implements the posterior distribution for a multivariate gaussian distribution.
 
-    Parameters
+    Attributes
     ----------
     data : ndarray
-        Observed data.
+        Observed data
     mean : callable
-        Mean model.
+        Mean model
     cov : callable
-        Kernel for the covariance matrix.
+        Kernel for the covariance matrix
     dim : int
-        Dimension (number of parameters) of the mean model.
+        Dimension (number of parameters) of the mean model
     prior : callable
         Negative log prior as a function of the parameters.
-        See UniformPrior.
+        See :class:UniformPrior
     """
 
     def __init__(self, data, mean, cov, dim, prior):

@@ -80,20 +80,21 @@ class MultinomialLikelihood(Likelihood):
     Attributes
     ----------
     data : ndarray
-        Observed count data.
+        Observed count data
     mean : callable
-        Events probabilities of the multinomial distribution.
+        Events probabilities of the multinomial distribution
 
     Examples
     --------
     Suppose our data is divided in two classes and we would like to estimate
     the probability of occurence of each class with the condition that
-    P(class_1) = 1 - P(class_2) = p. Suppose we have a sample with n_1 counts
-    from class_1 and n_2 counts from class_2. Since the distribution of the
-    number of counts is a binomial distribution, the MLE for P(class_1) is
-    given as P(class_1) = n_1 / (n_1 + n_2), where n_i is the number of counts
-    for class_i. The Fisher Information Matrix is given by
-    F(n, p) = n / (p * (1 - p)). Let's see how we can estimate p.
+    :math:`P(class_1) = 1 - P(class_2) = p`. Suppose we have a sample with
+    :math:`n_1` counts from :math:`class_1` and :math:`n_2` counts from
+    :math:`class_2`. Assuming the distribution of the number of counts is a
+    binomial distribution, the MLE for :math`P(class_1)` is given as
+    :math:`P(class_1) = \dfrac{n_1}{n_1 + n_2}`. The Fisher Information Matrix
+    is given by :math:`F(n, p) = \dfrac{n}{p * (1 - p)}`. Let's see how we can
+    estimate :math:`p`.
 
     >>> from oktopus import MultinomialLikelihood
     >>> import autograd.numpy as np
@@ -121,7 +122,7 @@ class MultinomialLikelihood(Likelihood):
     @property
     def n_counts(self):
         """
-        Returns the sum of the number of counts in every bin.
+        Returns the sum of the number of counts over all bin.
         """
         return self.data.sum()
 
@@ -143,21 +144,22 @@ class PoissonLikelihood(Likelihood):
     Attributes
     ----------
     data : ndarray
-        Observed count data.
+        Observed count data
     mean : callable
-        Mean of the Poisson distribution.
-        Note: this model must be defined with autograd numpy wrapper.
+        Mean of the Poisson distribution
+        Note: If you want to compute uncertainties, this model must be defined
+        with autograd numpy wrapper
+
+    Notes
+    -----
+    See `here <https://mirca.github.io/geerts-conjecture/>`_ for the mathematical
+    derivation of the Poisson likelihood expression.
 
     Examples
     --------
     Suppose we want to estimate the expected number of planes arriving at
     gate 50 terminal 1 at SFO airport in a given hour of a given day using
     some data.
-
-    Notes
-    -----
-    See `here <https://mirca.github.io/geerts-conjecture/>`_ for the mathematical
-    derivation of the Poisson likelihood expression.
 
     >>> import math
     >>> from oktopus import PoissonLikelihood
