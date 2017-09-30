@@ -7,7 +7,21 @@ __all__ = ['Posterior', 'GaussianPosterior', 'PoissonPosterior', 'MultivariateGa
 
 
 class Posterior(LossFunction):
-    """A base class for a posterior distribution."""
+    """Defines a posterior distribution.
+
+    Attributes
+    ----------
+        likelihood : callable or instance of :class:oktopus.Likelihood
+            If callable, must provide a method called `evaluate` which returns
+            the negative of the log likelihood.
+        prior : callable or instance of :class:oktopus.Prior
+            If callable, must provide a method called `evaluate` which returns
+            the negative of the log of the distribution.
+    """
+
+    def __init__(self, likelihood, prior):
+        self.loglikelihood = likelihood
+        self.logprior = prior
 
     def evaluate(self, params):
         """Evaluates the negative of the log of the posterior at params.
