@@ -11,12 +11,12 @@ class Posterior(LossFunction):
 
     Attributes
     ----------
-        likelihood : callable or instance of :class:oktopus.Likelihood
-            If callable, must provide a method called `evaluate` which returns
-            the negative of the log likelihood.
-        prior : callable or instance of :class:oktopus.Prior
-            If callable, must provide a method called `evaluate` which returns
-            the negative of the log of the distribution.
+    likelihood : callable or instance of :class:oktopus.Likelihood
+        If callable, must provide a method called `evaluate` which returns
+        the negative of the log likelihood.
+    prior : callable or instance of :class:oktopus.Prior
+        If callable, must provide a method called `evaluate` which returns
+        the negative of the log of the distribution.
     """
 
     def __init__(self, likelihood, prior):
