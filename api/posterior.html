@@ -203,8 +203,23 @@
 <span id="posterior-distributions"></span><h1>Posterior Distributions<a class="headerlink" href="#module-oktopus.posterior" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="oktopus.posterior.Posterior">
-<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">Posterior</code><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior" title="Permalink to this definition">¶</a></dt>
-<dd><p>A base class for a posterior distribution.</p>
+<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">Posterior</code><span class="sig-paren">(</span><em>likelihood</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a posterior distribution.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>likelihood</td>
+<td>(callable or instance of :class:oktopus.Likelihood) If callable, must provide a method called <cite>evaluate</cite> which returns the negative of the log likelihood.</td>
+</tr>
+<tr class="row-even"><td>prior</td>
+<td>(callable or instance of :class:oktopus.Prior) If callable, must provide a method called <cite>evaluate</cite> which returns the negative of the log of the distribution.</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>

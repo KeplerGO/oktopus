@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Simultaneously fitting PRFs in K2 &mdash; oktopus  documentation</title>
+  <title>Simultaneously fitting PRFs in K2 Campaing 11 &mdash; oktopus  documentation</title>
   
 
   
@@ -37,8 +37,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="oktopus  documentation" href="../index.html"/>
         <link rel="up" title="IPython notebooks" href="../ipython.html"/>
-        <link rel="next" title="Simultaneously fitting PRFs in K2 Campaing 11" href="cluster-c11-prf-fitting.html"/>
-        <link rel="prev" title="Fitting a line to correlated Gaussian data" href="mvgaussian.html"/> 
+        <link rel="prev" title="Simultaneously fitting PRFs in K2" href="prffitting.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,8 +95,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../ipython.html">IPython notebooks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="poisson.html">Fitting a line to Poisson data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mvgaussian.html">Fitting a line to correlated Gaussian data</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Simultaneously fitting PRFs in K2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cluster-c11-prf-fitting.html">Simultaneously fitting PRFs in K2 Campaing 11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prffitting.html">Simultaneously fitting PRFs in K2</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simultaneously fitting PRFs in K2 Campaing 11</a></li>
 </ul>
 </li>
 </ul>
@@ -146,13 +145,13 @@
         
           <li><a href="../ipython.html">IPython notebooks</a> &raquo;</li>
         
-      <li>Simultaneously fitting PRFs in K2</li>
+      <li>Simultaneously fitting PRFs in K2 Campaing 11</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/notebooks/prffitting.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/notebooks/cluster-c11-prf-fitting.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -359,8 +358,8 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="Simultaneously-fitting-PRFs-in-K2">
-<h1>Simultaneously fitting PRFs in K2<a class="headerlink" href="#Simultaneously-fitting-PRFs-in-K2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Simultaneously-fitting-PRFs-in-K2-Campaing-11">
+<h1>Simultaneously fitting PRFs in K2 Campaing 11<a class="headerlink" href="#Simultaneously-fitting-PRFs-in-K2-Campaing-11" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
@@ -392,37 +391,41 @@ or matplotlib.backends is imported for the first time.
   warnings.warn(_use_error_msg)
 </pre></div></div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">rc</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span> <span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;size&#39;</span>   <span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+        <span class="s1">&#39;serif&#39;</span>  <span class="p">:</span> <span class="s1">&#39;New Century Schoolbook&#39;</span><span class="p">}</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">font</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">tpf</span> <span class="o">=</span> <span class="n">KeplerTargetPixelFile</span><span class="p">(</span><span class="s1">&#39;ktwo224364733-c91_lpd-targ.fits&#39;</span><span class="p">,</span>
+<span></span><span class="n">tpf</span> <span class="o">=</span> <span class="n">KeplerTargetPixelFile</span><span class="p">(</span><span class="s1">&#39;ktwo200127447-c111_lpd-targ.fits.gz&#39;</span><span class="p">,</span>
                             <span class="n">quality_bitmask</span><span class="o">=</span><span class="n">KeplerQualityFlags</span><span class="o">.</span><span class="n">QUALITY_ZERO_BITMASK</span><span class="p">)</span>
-<span class="n">bkg</span> <span class="o">=</span> <span class="n">tpf</span><span class="o">.</span><span class="n">estimate_background</span><span class="p">()</span>
-<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">941.5</span><span class="p">,</span> <span class="mf">878.5</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">944.5</span><span class="p">,</span> <span class="mf">875.5</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">tpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="s1">&#39;sqrt&#39;</span><span class="p">)</span>
+<span class="n">bkg</span> <span class="o">=</span> <span class="n">tpf</span><span class="o">.</span><span class="n">estimate_background</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">1008.5</span><span class="p">,</span> <span class="mf">687.5</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">1008.5</span><span class="p">,</span> <span class="mf">689.5</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">tpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/Users/jvmirca/dev/astropy/astropy/visualization/stretch.py:115: RuntimeWarning: invalid value encountered in sqrt
-  np.sqrt(values, out=values)
-/Users/jvmirca/anaconda3/lib/python3.6/site-packages/matplotlib/colors.py:496: RuntimeWarning: invalid value encountered in less
-  cbook._putmask(xa, xa &lt; 0.0, -1)
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_2_1.png" src="../_images/notebooks_prffitting_2_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_3_0.png" src="../_images/notebooks_cluster-c11-prf-fitting_3_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -431,10 +434,10 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">lc1</span><span class="p">,</span> <span class="n">lc2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+<span></span><span class="n">lc1</span><span class="p">,</span> <span class="n">lc2</span><span class="p">,</span> <span class="n">lc3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
-    <span class="n">lc1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">941.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">878.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">lc2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">944.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">875.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lc1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">1008.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">687.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lc2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">1008.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">689.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -445,7 +448,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc1</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc1</span><span class="p">),</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">lc1</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -455,7 +458,7 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x117a99b70&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x113ee7e80&gt;]
 </pre></div>
 </div>
 </div>
@@ -463,7 +466,7 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_4_1.png" src="../_images/notebooks_prffitting_4_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_5_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_5_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -473,7 +476,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc2</span><span class="p">),</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">lc2</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -483,7 +486,7 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x117c4e3c8&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x113feedd8&gt;]
 </pre></div>
 </div>
 </div>
@@ -491,7 +494,7 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_5_1.png" src="../_images/notebooks_prffitting_5_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_6_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_6_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -501,7 +504,7 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">bkg</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bkg</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">bkg</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -511,7 +514,7 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11773cda0&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x113ba31d0&gt;]
 </pre></div>
 </div>
 </div>
@@ -519,7 +522,7 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_6_1.png" src="../_images/notebooks_prffitting_6_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_7_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_7_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -542,8 +545,8 @@ or matplotlib.backends is imported for the first time.
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))):</span>
     <span class="n">x0</span> <span class="o">=</span> <span class="p">(</span><span class="n">lc1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">12.5</span> <span class="o">*</span> <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
           <span class="n">lc2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">12.5</span> <span class="o">*</span> <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-          <span class="mf">941.5</span><span class="p">,</span> <span class="mf">944.5</span><span class="p">,</span>
-          <span class="mf">878.5</span><span class="p">,</span> <span class="mf">875.5</span><span class="p">,</span>
+          <span class="mf">1008.5</span><span class="p">,</span> <span class="mf">1008.5</span><span class="p">,</span>
+          <span class="mf">687.5</span><span class="p">,</span> <span class="mf">689.5</span><span class="p">,</span>
           <span class="n">bkg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">logL</span> <span class="o">=</span> <span class="n">PoissonLikelihood</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Powell&#39;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;xtol&#39;</span><span class="p">:</span><span class="mf">1e-10</span><span class="p">,</span> <span class="s1">&#39;ftol&#39;</span><span class="p">:</span><span class="mf">1e-10</span><span class="p">})</span>
@@ -558,7 +561,7 @@ or matplotlib.backends is imported for the first time.
     <span class="n">bkg_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bkg_hat</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
     <span class="n">prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prf1</span><span class="p">,</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">prf_model</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prf2</span><span class="p">,</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">prf_model</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">tpf</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">kepprf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -567,30 +570,29 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
- 28%|██▊       | 343/1213 [02:10&lt;05:15,  2.76it/s]/Users/jvmirca/anaconda3/lib/python3.6/site-packages/autograd/core.py:82: RuntimeWarning: invalid value encountered in log
+ 66%|██████▌   | 681/1038 [07:35&lt;04:58,  1.19it/s]/Users/jvmirca/anaconda3/lib/python3.6/site-packages/autograd/core.py:82: RuntimeWarning: invalid value encountered in log
   result_value = self.fun(*argvals, **kwargs)
-100%|██████████| 1213/1213 [07:19&lt;00:00,  2.69it/s]
+100%|██████████| 1038/1038 [13:04&lt;00:00,  1.23s/it]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">yc2_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">875.4</span><span class="p">,</span> <span class="mf">875.46</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[8]:
+<span></span>Out[23]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>(875.4, 875.46)
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115a8a518&gt;]
 </pre></div>
 </div>
 </div>
@@ -598,12 +600,12 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_8_1.png" src="../_images/notebooks_prffitting_8_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_9_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_9_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -614,11 +616,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[9]:
+<span></span>Out[24]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x109198940&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115a62048&gt;]
 </pre></div>
 </div>
 </div>
@@ -626,12 +628,12 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_9_1.png" src="../_images/notebooks_prffitting_9_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_10_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_10_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -642,11 +644,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[10]:
+<span></span>Out[25]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x109e5dd30&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115b8eb70&gt;]
 </pre></div>
 </div>
 </div>
@@ -654,12 +656,96 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_10_1.png" src="../_images/notebooks_prffitting_10_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_11_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_11_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">xc2_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[26]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115d29710&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_12_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_12_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">f1_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[27]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x1152201d0&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_13_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_13_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">f2_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[28]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115285400&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_14_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_14_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -670,24 +756,24 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fitted_prf</span><span class="p">(</span><span class="n">f1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">f2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bkg_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
-           <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">940</span><span class="p">,</span> <span class="mi">949</span><span class="p">,</span> <span class="mi">872</span><span class="p">,</span> <span class="mi">880</span><span class="p">))</span>
+           <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[12]:
+<span></span>Out[29]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x1178ffac8&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x114a8b5f8&gt;
 </pre></div>
 </div>
 </div>
@@ -695,12 +781,29 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_12_1.png" src="../_images/notebooks_prffitting_12_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_16_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_16_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">tpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nframe</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_17_0.png" src="../_images/notebooks_cluster-c11-prf-fitting_17_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -711,11 +814,11 @@ or matplotlib.backends is imported for the first time.
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[13]:
+<span></span>Out[31]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11821d9e8&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x1193a7080&gt;
 </pre></div>
 </div>
 </div>
@@ -723,87 +826,7 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_13_1.png" src="../_images/notebooks_prffitting_13_1.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prf1</span><span class="p">)</span>
-<span class="n">prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prf2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">prf1</span> <span class="o">=</span> <span class="n">prf1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">prf2</span> <span class="o">=</span> <span class="n">prf2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prf1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">940</span><span class="p">,</span> <span class="mi">949</span><span class="p">,</span> <span class="mi">872</span><span class="p">,</span> <span class="mi">880</span><span class="p">))</span>
-<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="n">xc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc1_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[16]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x119301c88&gt;
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_16_1.png" src="../_images/notebooks_prffitting_16_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prf2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">940</span><span class="p">,</span> <span class="mi">949</span><span class="p">,</span> <span class="mi">872</span><span class="p">,</span> <span class="mi">880</span><span class="p">))</span>
-<span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="n">xc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yc2_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[17]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x119340e48&gt;
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_17_1.png" src="../_images/notebooks_prffitting_17_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_18_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_18_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -812,35 +835,29 @@ or matplotlib.backends is imported for the first time.
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">lc_prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
-<span class="n">lc_prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
-    <span class="n">lc_prf1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">941.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">878.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">prf1</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">lc_prf2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">apr</span><span class="o">.</span><span class="n">CircularAperture</span><span class="p">((</span><span class="mf">944.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="mf">875.5</span> <span class="o">-</span> <span class="n">tpf</span><span class="o">.</span><span class="n">row</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">do_photometry</span><span class="p">(</span><span class="n">prf2</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span></span><span class="n">prf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prf1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">prf2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prf2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc_prf1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc_prf1</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc_prf1</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc1</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc1</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prf2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[19]:
+<span></span>Out[32]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>(-2, 3)
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11996af28&gt;
 </pre></div>
 </div>
 </div>
@@ -848,29 +865,27 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_19_1.png" src="../_images/notebooks_prffitting_19_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_20_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_20_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc_prf2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc_prf2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc_prf2</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">lc2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lc2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">lc2</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span></span><span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prf1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[20]:
+<span></span>Out[33]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>(-2, 3)
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x119b0cd30&gt;
 </pre></div>
 </div>
 </div>
@@ -878,7 +893,17 @@ or matplotlib.backends is imported for the first time.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_prffitting_20_1.png" src="../_images/notebooks_prffitting_20_1.png" />
+<img alt="../_images/notebooks_cluster-c11-prf-fitting_21_1.png" src="../_images/notebooks_cluster-c11-prf-fitting_21_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -893,10 +918,8 @@ or matplotlib.backends is imported for the first time.
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cluster-c11-prf-fitting.html" class="btn btn-neutral float-right" title="Simultaneously fitting PRFs in K2 Campaing 11" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="mvgaussian.html" class="btn btn-neutral" title="Fitting a line to correlated Gaussian data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="prffitting.html" class="btn btn-neutral" title="Simultaneously fitting PRFs in K2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

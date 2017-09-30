@@ -165,7 +165,21 @@
 
 
 <div class="viewcode-block" id="Posterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.Posterior">[docs]</a><span class="k">class</span> <span class="nc">Posterior</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A base class for a posterior distribution.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Defines a posterior distribution.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    likelihood : callable or instance of :class:oktopus.Likelihood</span>
+<span class="sd">        If callable, must provide a method called `evaluate` which returns</span>
+<span class="sd">        the negative of the log likelihood.</span>
+<span class="sd">    prior : callable or instance of :class:oktopus.Prior</span>
+<span class="sd">        If callable, must provide a method called `evaluate` which returns</span>
+<span class="sd">        the negative of the log of the distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">likelihood</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span> <span class="o">=</span> <span class="n">prior</span>
 
 <div class="viewcode-block" id="Posterior.evaluate"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.Posterior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the negative of the log of the posterior at params.</span>
