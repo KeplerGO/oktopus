@@ -2,7 +2,7 @@
 ==========
 |ci-badge|
 
-.. |ci-badge| image:: https://travis-ci.org/mirca/oktopus.svg?branch=master
+.. |ci-badge| image:: https://travis-ci.org/KeplerGO/oktopus.svg?branch=master
 
 A soft-bodied, eight-armed package for beautiful inference.
 
@@ -12,7 +12,7 @@ To install ``oktopus``, run::
 
 or::
 
-    git clone https://github.com/mirca/oktopus.git
+    git clone https://github.com/KeplerGO/oktopus.git
     cd oktopus
     pip install -e .
 
