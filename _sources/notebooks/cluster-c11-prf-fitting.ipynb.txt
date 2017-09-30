@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Simultaneously fitting PRFs in K2 Campaing 11"
+    "# Fitting PRFs in K2 Campaign 11.1"
    ]
   },
   {
@@ -40,7 +40,9 @@
   {
    "cell_type": "code",
    "execution_count": 22,
-   "metadata": {},
+   "metadata": {
+    "collapsed": true
+   },
    "outputs": [],
    "source": [
     "from matplotlib import rc\n",
@@ -79,7 +81,9 @@
   {
    "cell_type": "code",
    "execution_count": 3,
-   "metadata": {},
+   "metadata": {
+    "collapsed": true
+   },
    "outputs": [],
    "source": [
     "lc1, lc2, lc3 = np.zeros(len(tpf.time)), np.zeros(len(tpf.time)), np.zeros(len(tpf.time))\n",

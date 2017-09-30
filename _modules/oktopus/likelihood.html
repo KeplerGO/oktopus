@@ -269,8 +269,8 @@
 <span class="sd">    array([ 0.06928203])</span>
 <span class="sd">    &gt;&gt;&gt; 20 / (20 + 30) # theorectical MLE</span>
 <span class="sd">    0.4</span>
-<span class="sd">    &gt;&gt;&gt; np.sqrt(0.4 * 0.6 / (20 + 30)) # theorectical uncertanity</span>
-<span class="sd">    0.069282032302755092</span>
+<span class="sd">    &gt;&gt;&gt; print(np.sqrt(0.4 * 0.6 / (20 + 30))) # theorectical uncertanity</span>
+<span class="sd">    0.0692820323028</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
@@ -331,12 +331,12 @@
 <span class="sd">    &gt;&gt;&gt; mean_hat = logL.fit(x0=10.5)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat.x</span>
 <span class="sd">    array([ 9.28997498])</span>
-<span class="sd">    &gt;&gt;&gt; np.mean(toy_data) # theorectical MLE</span>
-<span class="sd">    9.2899999999999991</span>
+<span class="sd">    &gt;&gt;&gt; print(np.mean(toy_data)) # theorectical MLE</span>
+<span class="sd">    9.29</span>
 <span class="sd">    &gt;&gt;&gt; mean_unc = logL.uncertainties()</span>
 <span class="sd">    &gt;&gt;&gt; mean_unc</span>
 <span class="sd">    array([ 3.04794603])</span>
-<span class="sd">    &gt;&gt;&gt; math.sqrt(np.mean(toy_data)) # theorectical Fisher information</span>
+<span class="sd">    &gt;&gt;&gt; print(math.sqrt(np.mean(toy_data))) # theorectical Fisher information</span>
 <span class="sd">    3.047950130825634</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -390,10 +390,10 @@
 <span class="sd">    &gt;&gt;&gt; # The exact values from linear algebra would be:</span>
 <span class="sd">    &gt;&gt;&gt; M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])</span>
 <span class="sd">    &gt;&gt;&gt; alpha, beta = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))</span>
-<span class="sd">    &gt;&gt;&gt; alpha</span>
-<span class="sd">    2.9626408752841442</span>
-<span class="sd">    &gt;&gt;&gt; beta</span>
-<span class="sd">    10.328616609861584</span>
+<span class="sd">    &gt;&gt;&gt; print(alpha)</span>
+<span class="sd">    2.96264087528</span>
+<span class="sd">    &gt;&gt;&gt; print(beta)</span>
+<span class="sd">    10.3286166099</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
