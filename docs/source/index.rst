@@ -6,6 +6,10 @@
 ======================
 Welcome to 🐙 oktopus!
 ======================
+|ci-badge| |cov-badge|
+
+.. |ci-badge| image:: https://travis-ci.org/KeplerGO/oktopus.svg?branch=master
+.. |cov-badge| image:: https://codecov.io/gh/mirca/oktopus/branch/master/graph/badge.svg
 
 **oktopus** is all about Bayes' Law:
 
