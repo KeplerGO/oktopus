@@ -81,11 +81,12 @@ class GaussianPosterior(Posterior):
     >>> # The exact values from linear algebra are:
     >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
     >>> slope, intercept = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
-    >>> slope
-    2.9626408752841442
-    >>> intercept
-    10.328616609861584
+    >>> print(slope)
+    2.96264087528
+    >>> print(intercept)
+    10.3286166099
     """
+
     def __init__(self, data, mean, var, prior):
         self.data = data
         self.mean = mean

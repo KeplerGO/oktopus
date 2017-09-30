@@ -111,8 +111,8 @@ class MultinomialLikelihood(Likelihood):
     array([ 0.06928203])
     >>> 20 / (20 + 30) # theorectical MLE
     0.4
-    >>> np.sqrt(0.4 * 0.6 / (20 + 30)) # theorectical uncertanity
-    0.069282032302755092
+    >>> print(np.sqrt(0.4 * 0.6 / (20 + 30))) # theorectical uncertanity
+    0.0692820323028
     """
 
     def __init__(self, data, mean):
@@ -173,12 +173,12 @@ class PoissonLikelihood(Likelihood):
     >>> mean_hat = logL.fit(x0=10.5)
     >>> mean_hat.x
     array([ 9.28997498])
-    >>> np.mean(toy_data) # theorectical MLE
-    9.2899999999999991
+    >>> print(np.mean(toy_data)) # theorectical MLE
+    9.29
     >>> mean_unc = logL.uncertainties()
     >>> mean_unc
     array([ 3.04794603])
-    >>> math.sqrt(np.mean(toy_data)) # theorectical Fisher information
+    >>> print(math.sqrt(np.mean(toy_data))) # theorectical Fisher information
     3.047950130825634
     """
 
@@ -232,10 +232,10 @@ class GaussianLikelihood(Likelihood):
     >>> # The exact values from linear algebra would be:
     >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
     >>> alpha, beta = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
-    >>> alpha
-    2.9626408752841442
-    >>> beta
-    10.328616609861584
+    >>> print(alpha)
+    2.96264087528
+    >>> print(beta)
+    10.3286166099
     """
 
     def __init__(self, data, mean, var):
