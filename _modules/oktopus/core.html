@@ -189,11 +189,12 @@
         <span class="k">pass</span></div>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calls :func:`evaluate`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LossFunction.fit"><a class="viewcode-back" href="../../api/core.html#oktopus.core.LossFunction.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Nelder-Mead&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Minimizes the loss function using :func:`scipy.optimize.minimize`.</span>
+<span class="sd">        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

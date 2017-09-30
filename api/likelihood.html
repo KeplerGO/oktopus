@@ -213,16 +213,16 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td></td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.Likelihood.evaluate" title="oktopus.likelihood.Likelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.evaluate" title="oktopus.likelihood.Likelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Evaluates the negative of the log likelihood function.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="oktopus.likelihood.Likelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>()</td>
-<td>Computes the Fisher Information Matrix using autograd</td>
+<td>Computes the Fisher Information Matrix.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.Likelihood.evaluate" title="oktopus.likelihood.Likelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.uncertainties" title="oktopus.likelihood.Likelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>()</td>
 <td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
@@ -257,7 +257,7 @@
 <dl class="method">
 <dt id="oktopus.likelihood.Likelihood.fisher_information_matrix">
 <code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Fisher Information Matrix using autograd</p>
+<dd><p>Computes the Fisher Information Matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -350,7 +350,7 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td></td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="oktopus.likelihood.MultinomialLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="oktopus.likelihood.MultinomialLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
@@ -359,7 +359,7 @@ F(n, p) = n / (p * (1 - p)). Let’s see how we can estimate p.</p>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="oktopus.likelihood.MultinomialLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
 <td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
@@ -442,16 +442,16 @@ some data.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td></td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="oktopus.likelihood.PoissonLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="oktopus.likelihood.PoissonLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>()</td>
-<td>Computes the Fisher Information Matrix using autograd</td>
+<td>Computes the Fisher Information Matrix.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="oktopus.likelihood.PoissonLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
 <td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
@@ -528,16 +528,16 @@ line to some data:</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td></td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="oktopus.likelihood.GaussianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="oktopus.likelihood.GaussianLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>()</td>
-<td>Computes the Fisher Information Matrix using autograd</td>
+<td>Computes the Fisher Information Matrix.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="oktopus.likelihood.GaussianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
 <td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
@@ -587,7 +587,7 @@ line to some data:</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td></td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Computes the negative of the log likelihood function.</td>
@@ -596,7 +596,7 @@ line to some data:</p>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the loss function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.sample" title="oktopus.likelihood.MultivariateGaussianLikelihood.sample"><code class="xref py py-obj docutils literal"><span class="pre">sample</span></code></a>(**kwargs)</td>
 <td></td>

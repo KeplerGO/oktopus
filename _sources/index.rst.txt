@@ -23,7 +23,7 @@ With that in mind, **oktopus** provides an easy interface to solve problems such
 
     \arg \min_{\theta \in \Theta} - \log p(\mathbf{y} | \theta)
 
-2. Fisher Information Matrix:
+2. *Fisher Information Matrix*:
 
 .. math::
 
