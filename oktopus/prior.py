@@ -33,7 +33,7 @@ class Prior(LossFunction):
         Returns
         -------
         value : scalar
-            Value of the negative of the log of the PDF at params.
+            Value of the negative of the log of the PDF at params
         """
         pass
 
@@ -44,7 +44,8 @@ class JointPrior(Prior):
 
     Attributes
     ----------
-    args : tuple of instances of Prior
+    *args : tuple of instances of :class:Prior
+        Instances of :class:Prior to be combined
 
     Examples
     --------
@@ -57,26 +58,27 @@ class JointPrior(Prior):
 
     Notes
     -----
-    ``*args`` are stored in ``self.components``.
+    *args are stored in ``self.components``.
     """
 
     def __init__(self, *args):
         self.components = args
 
     def evaluate(self, params):
-        """Evaluates the JointPrior at params.
+        """Computes the sum of the log of each distribution given in *args*
+        evaluated at *params*.
 
         Parameters
         ----------
         params : tuple
-            Value at which the JointPrior will be evaluated.
-            This must have the same dimension as the number of Priors used
+            Value at which the JointPrior instance will be evaluated.
+            This must have the same dimension as the number of priors used
             to initialize the object
 
         Returns
         -------
         value : scalar
-            Sum of the negative of the log of each distribution given in **args**.
+            Sum of the negative of the log of each distribution given in **args**
         """
         p = 0
         for i in range(len(params)):
@@ -85,7 +87,7 @@ class JointPrior(Prior):
 
 
 class UniformPrior(Prior):
-    """Compute the negative log pdf for a n-dimensional independent uniform
+    """Computes the negative log pdf for a n-dimensional independent uniform
     distribution.
 
     Attributes
@@ -112,10 +114,14 @@ class UniformPrior(Prior):
 
     @property
     def mean(self):
+        """Returns the mean of the uniform distributions
+        """
         return 0.5 * (self.lb + self.ub)
 
     @property
     def variance(self):
+        """Returns the variance of the uniform distributions
+        """
         return (self.ub - self.lb) ** 2 / 12
 
     def evaluate(self, params):
@@ -125,7 +131,7 @@ class UniformPrior(Prior):
 
 
 class GaussianPrior(Prior):
-    """Compute the negative log pdf for a n-dimensional independent Gaussian
+    """Computes the negative log pdf for a n-dimensional independent Gaussian
     distribution.
 
     Attributes

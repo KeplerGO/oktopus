@@ -26,7 +26,7 @@ class LossFunction(ABC):
         -------
         loss_fun : scalar
             Returns the scalar value of the loss function evaluated at
-            **params**.
+            **params**
         """
         pass
 
