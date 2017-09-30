@@ -212,7 +212,7 @@ class GaussianLikelihood(Likelihood):
 
     >>> from oktopus import GaussianLikelihood
     >>> import autograd.numpy as np
-    >>> #from matplotlib import pyplot as plt
+    >>> from matplotlib import pyplot as plt # doctest: +SKIP
     >>> x = np.linspace(0, 10, 200)
     >>> np.random.seed(0)
     >>> fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
@@ -227,8 +227,8 @@ class GaussianLikelihood(Likelihood):
     >>> p_hat_unc = logL.uncertainties() # get uncertainties on fitted parameters
     >>> p_hat_unc
     array([ 0.11568693,  0.55871623])
-    >>> #plt.plot(x, fake_data, 'o')
-    >>> #plt.plot(x, line(*p_hat.x))
+    >>> plt.plot(x, fake_data, 'o') # doctest: +SKIP
+    >>> plt.plot(x, line(*p_hat.x)) # doctest: +SKIP
     >>> # The exact values from linear algebra would be:
     >>> M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
     >>> alpha, beta = np.dot(np.linalg.inv(M), np.array([np.sum(fake_data * x), np.sum(fake_data)]))
