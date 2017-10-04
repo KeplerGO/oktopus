@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import numpy as np
 from scipy.optimize import minimize
 
 
@@ -56,3 +57,50 @@ class LossFunction(ABC):
         self.opt_result = minimize(self.evaluate, x0=x0, method=method,
                                    **kwargs)
         return self.opt_result
+
+class L1Norm(LossFunction):
+    """Defines the L1 Norm loss function. L1 norm is usually useful
+    to optimize the "median" model, i.e., it is more robust to
+    outliers than the quadratic loss function.
+
+    Attributes
+    ----------
+    data : array-like
+        Observed data
+    model : callable
+        A functional form that defines the model
+    regularization : callable
+        A functional form that defines the regularization
+        term
+    """
+
+    def __init__(self, data, model, regularization=None):
+        self.data = data
+        self.model = model
+        self.regularization = regularization
+        if self.regularization is None:
+            self._evaluate = self._evaluate_wo_regularization
+        else:
+            self._evaluate = self._evaluate_w_regularization
+
+    @property
+    def regularization(self):
+        return self._regularization
+
+    @regularization.setter
+    def regularization(self, func):
+        if func is not None:
+            self._regularization = func
+        else:
+            self._regularization = None
+
+    def _evaluate_wo_regularization(self, *params):
+        return  np.nansum(np.absolute(self.data - self.model(*params)))
+
+    def _evaluate_w_regularization(self, *params):
+        return  np.nansum(np.absolute(self.data - self.model(params[:-1]))
+                          + params[-1] * self.regularization(params[:-1]))
+
+    def evaluate(self, params):
+        return self._evaluate(*params)
+
