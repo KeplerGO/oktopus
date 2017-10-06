@@ -77,6 +77,10 @@ class MultinomialLikelihood(Likelihood):
     likelihood estimators for the probabilities of the Multinomial
     distribution.
 
+    .. math::
+
+        \arg \min_{\theta \in \Theta} - \sum_k y_k \cdot \log p_k(\theta)
+
     Attributes
     ----------
     data : ndarray
@@ -141,6 +145,10 @@ class PoissonLikelihood(Likelihood):
     This class also contains a method to compute maximum likelihood estimators
     for the mean of the Poisson distribution.
 
+    .. math::
+
+         \arg \min_{\theta \in \Theta} \sum_k \lambda_k(\theta) - y_k \cdot \log \lambda_k(\theta)
+
     Attributes
     ----------
     data : ndarray
@@ -195,6 +203,10 @@ class GaussianLikelihood(Likelihood):
     Implements the likelihood function for independent
     (possibly non-identically) distributed Gaussian measurements
     with known variance.
+
+    .. math::
+
+         \arg \min_{\theta \in \Theta} \dfrac{1}{2}\sum_k \left(\dfrac{y_k - \mu_k(\theta)}{\sigma_k}\right)^2
 
     Attributes
     ----------
