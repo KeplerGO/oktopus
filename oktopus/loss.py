@@ -63,6 +63,10 @@ class L1Norm(LossFunction):
     to optimize the "median" model, i.e., it is more robust to
     outliers than the quadratic loss function.
 
+    .. math::
+
+        \arg \min_{\theta \in \Theta} \sum_k |y_k - f_\theta (x_k)|
+
     Attributes
     ----------
     data : array-like
@@ -70,8 +74,7 @@ class L1Norm(LossFunction):
     model : callable
         A functional form that defines the model
     regularization : callable
-        A functional form that defines the regularization
-        term
+        A functional form that defines the regularization term
     """
 
     def __init__(self, data, model, regularization=None):
