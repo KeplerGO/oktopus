@@ -5,7 +5,7 @@ API documentation
 .. toctree::
     :maxdepth: 1
 
-    core
+    loss
     prior
     likelihood
     posterior

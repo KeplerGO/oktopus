@@ -71,7 +71,7 @@ class Likelihood(LossFunction):
 
 
 class MultinomialLikelihood(Likelihood):
-    """
+    r"""
     Implements the negative log likelihood function for the Multinomial
     distribution. This class also contains a method to compute maximum
     likelihood estimators for the probabilities of the Multinomial
@@ -139,7 +139,7 @@ class MultinomialLikelihood(Likelihood):
 
 
 class PoissonLikelihood(Likelihood):
-    """
+    r"""
     Implements the negative log likelihood function for independent
     (possibly non-identically) distributed Poisson measurements.
     This class also contains a method to compute maximum likelihood estimators
@@ -199,7 +199,7 @@ class PoissonLikelihood(Likelihood):
 
 
 class GaussianLikelihood(Likelihood):
-    """
+    r"""
     Implements the likelihood function for independent
     (possibly non-identically) distributed Gaussian measurements
     with known variance.
