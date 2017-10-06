@@ -159,7 +159,7 @@
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
 <span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">autograd</span> <span class="k">import</span> <span class="n">jacobian</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">LossFunction</span>
+<span class="kn">from</span> <span class="nn">.loss</span> <span class="k">import</span> <span class="n">LossFunction</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Likelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;MultinomialLikelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;PoissonLikelihood&#39;</span><span class="p">,</span>
@@ -229,11 +229,15 @@
 
 
 <div class="viewcode-block" id="MultinomialLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood">[docs]</a><span class="k">class</span> <span class="nc">MultinomialLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the negative log likelihood function for the Multinomial</span>
 <span class="sd">    distribution. This class also contains a method to compute maximum</span>
 <span class="sd">    likelihood estimators for the probabilities of the Multinomial</span>
 <span class="sd">    distribution.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \arg \min_{\theta \in \Theta} - \sum_k y_k \cdot \log p_k(\theta)</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -293,11 +297,15 @@
 
 
 <div class="viewcode-block" id="PoissonLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.PoissonLikelihood">[docs]</a><span class="k">class</span> <span class="nc">PoissonLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the negative log likelihood function for independent</span>
 <span class="sd">    (possibly non-identically) distributed Poisson measurements.</span>
 <span class="sd">    This class also contains a method to compute maximum likelihood estimators</span>
 <span class="sd">    for the mean of the Poisson distribution.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">         \arg \min_{\theta \in \Theta} \sum_k \lambda_k(\theta) - y_k \cdot \log \lambda_k(\theta)</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -349,10 +357,14 @@
 
 
 <div class="viewcode-block" id="GaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">GaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the likelihood function for independent</span>
 <span class="sd">    (possibly non-identically) distributed Gaussian measurements</span>
 <span class="sd">    with known variance.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">         \arg \min_{\theta \in \Theta} \dfrac{1}{2}\sum_k \left(\dfrac{y_k - \mu_k(\theta)}{\sigma_k}\right)^2</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>

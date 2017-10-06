@@ -91,7 +91,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="core.html">Abstract Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Likelihood Distributions</a><ul class="simple">
 </ul>
@@ -299,6 +299,8 @@ Information Matrix.</p>
 distribution. This class also contains a method to compute maximum
 likelihood estimators for the probabilities of the Multinomial
 distribution.</p>
+<div class="math">
+\[\arg \min_{\theta \in \Theta} - \sum_k y_k \cdot \log p_k(\theta)\]</div>
 <p class="rubric">Examples</p>
 <p>Suppose our data is divided in two classes and we would like to estimate
 the probability of occurence of each class with the condition that
@@ -392,6 +394,8 @@ estimate <span class="math">\(p\)</span>.</p>
 (possibly non-identically) distributed Poisson measurements.
 This class also contains a method to compute maximum likelihood estimators
 for the mean of the Poisson distribution.</p>
+<div class="math">
+\[\arg \min_{\theta \in \Theta} \sum_k \lambda_k(\theta) - y_k \cdot \log \lambda_k(\theta)\]</div>
 <p class="rubric">Notes</p>
 <p>See <a class="reference external" href="https://mirca.github.io/geerts-conjecture/">here</a> for the mathematical
 derivation of the Poisson likelihood expression.</p>
@@ -472,6 +476,8 @@ some data.</p>
 <dd><p>Implements the likelihood function for independent
 (possibly non-identically) distributed Gaussian measurements
 with known variance.</p>
+<div class="math">
+\[\arg \min_{\theta \in \Theta} \dfrac{1}{2}\sum_k \left(\dfrac{y_k - \mu_k(\theta)}{\sigma_k}\right)^2\]</div>
 <p class="rubric">Examples</p>
 <p>The following example demonstrates how one can fit a maximum likelihood
 line to some data:</p>

@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Loss Functions &mdash; oktopus  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="oktopus  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> oktopus
+          
+
+          
+            
+            <img src="../_static/oktopus-logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oktopus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Loss Functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/loss.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="module-oktopus.loss">
+<span id="loss-functions"></span><h1>Loss Functions<a class="headerlink" href="#module-oktopus.loss" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="oktopus.loss.LossFunction">
+<em class="property">class </em><code class="descclassname">oktopus.loss.</code><code class="descname">LossFunction</code><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>An abstract class for an arbitrary loss (cost) function.
+This type of function appears frequently in estimation problems where
+the best estimator (given a set of observed data) is the one which
+minimizes some sort of objective function.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td>Calls <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td>Returns the loss function evaluated at params.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.loss.LossFunction.fit" title="oktopus.loss.LossFunction.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(x0[,&nbsp;method])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.loss.LossFunction.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the loss function evaluated at params.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : ndarray</p>
+<blockquote>
+<div><p>parameter vector of the model</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>loss_fun</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Returns the scalar value of the loss function evaluated at
+<strong>params</strong></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oktopus.loss.LossFunction.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>x0</em>, <em>method='Nelder-Mead'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x0</strong> : ndarray</p>
+<blockquote>
+<div><p>Initial guesses on the parameter estimates</p>
+</div></blockquote>
+<p><strong>method</strong> : str</p>
+<blockquote>
+<div><p>Optimization algorithm</p>
+</div></blockquote>
+<p><strong>kwargs</strong> : dict</p>
+<blockquote>
+<div><p>Dictionary for additional arguments. See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>opt_result</strong> : <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.OptimizeResult.html#scipy.optimize.OptimizeResult" title="(in SciPy v0.19.1)"><code class="xref py py-class docutils literal"><span class="pre">scipy.optimize.OptimizeResult</span></code></a> object</p>
+<blockquote class="last">
+<div><p>Object containing the results of the optimization process.
+Note: this is also stored in <strong>self.opt_result</strong>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.loss.L1Norm">
+<em class="property">class </em><code class="descclassname">oktopus.loss.</code><code class="descname">L1Norm</code><span class="sig-paren">(</span><em>data</em>, <em>model</em>, <em>regularization=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#L1Norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.L1Norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the L1 Norm loss function. L1 norm is usually useful
+to optimize the “median” model, i.e., it is more robust to
+outliers than the quadratic loss function.</p>
+<div class="math">
+\[rg \min_{      heta \in \Theta} \sum_k |y_k - f_       heta (x_k)|\]</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(array-like) Observed data</td>
+</tr>
+<tr class="row-even"><td>model</td>
+<td>(callable) A functional form that defines the model</td>
+</tr>
+<tr class="row-odd"><td>regularization</td>
+<td>(callable) A functional form that defines the regularization term</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td>Calls <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.loss.L1Norm.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#L1Norm.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.L1Norm.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.loss.L1Norm.regularization">
+<code class="descname">regularization</code><a class="headerlink" href="#oktopus.loss.L1Norm.regularization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, KeplerGO.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
