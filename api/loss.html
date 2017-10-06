@@ -35,7 +35,9 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="oktopus  documentation" href="../index.html"/> 
+    <link rel="top" title="oktopus  documentation" href="../index.html"/>
+        <link rel="up" title="API documentation" href="index.html"/>
+        <link rel="prev" title="API documentation" href="index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -87,9 +89,17 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">API documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loss Functions</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a></li>
 </ul>
 
@@ -134,6 +144,8 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API documentation</a> &raquo;</li>
         
       <li>Loss Functions</li>
     
@@ -205,20 +217,20 @@ minimizes some sort of objective function.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
-<td>Returns the loss function evaluated at params.</td>
+<td>Returns the loss function evaluated at params</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#oktopus.loss.LossFunction.fit" title="oktopus.loss.LossFunction.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="oktopus.loss.LossFunction.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.evaluate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the loss function evaluated at params.</p>
+<dd><p>Returns the loss function evaluated at params</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -243,7 +255,7 @@ minimizes some sort of objective function.</p>
 <dl class="method">
 <dt id="oktopus.loss.LossFunction.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>x0</em>, <em>method='Nelder-Mead'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</p>
+<dd><p>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -282,7 +294,7 @@ Note: this is also stored in <strong>self.opt_result</strong>.</p>
 to optimize the “median” model, i.e., it is more robust to
 outliers than the quadratic loss function.</p>
 <div class="math">
-\[rg \min_{      heta \in \Theta} \sum_k |y_k - f_       heta (x_k)|\]</div>
+\[\arg \min_{\theta \in \Theta} \sum_k |y_k - f_\theta (x_k)|\]</div>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -309,13 +321,13 @@ outliers than the quadratic loss function.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -340,6 +352,13 @@ outliers than the quadratic loss function.</p>
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="API documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
