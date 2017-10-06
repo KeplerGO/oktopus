@@ -1,5 +1,5 @@
 import numpy as np
-from .core import LossFunction
+from .loss import LossFunction
 from .likelihood import PoissonLikelihood, GaussianLikelihood, MultivariateGaussianLikelihood
 
 

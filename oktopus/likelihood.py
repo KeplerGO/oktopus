@@ -1,7 +1,7 @@
 from abc import abstractmethod
 import autograd.numpy as np
 from autograd import jacobian
-from .core import LossFunction
+from .loss import LossFunction
 
 
 __all__ = ['Likelihood', 'MultinomialLikelihood', 'PoissonLikelihood',

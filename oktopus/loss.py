@@ -3,7 +3,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 
-__all__ = ['LossFunction']
+__all__ = ['LossFunction', 'L1Norm']
 
 
 class LossFunction(ABC):

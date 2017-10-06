@@ -1,6 +1,6 @@
 from abc import abstractmethod
 import numpy as np
-from .core import LossFunction
+from .loss import LossFunction
 
 
 __all__ = ['Prior', 'JointPrior', 'UniformPrior', 'GaussianPrior']
