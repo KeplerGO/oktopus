@@ -16,7 +16,7 @@ class LossFunction(ABC):
     @abstractmethod
     def evaluate(self, params):
         """
-        Returns the loss function evaluated at params.
+        Returns the loss function evaluated at params
 
         Parameters
         ----------
@@ -32,12 +32,12 @@ class LossFunction(ABC):
         pass
 
     def __call__(self, params):
-        """Calls :func:`evaluate`."""
+        """Calls :func:`evaluate`"""
         return self.evaluate(params)
 
     def fit(self, x0, method='Nelder-Mead', **kwargs):
         """
-        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`.
+        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`
 
         Parameters
         ----------
@@ -59,7 +59,7 @@ class LossFunction(ABC):
         return self.opt_result
 
 class L1Norm(LossFunction):
-    """Defines the L1 Norm loss function. L1 norm is usually useful
+    r"""Defines the L1 Norm loss function. L1 norm is usually useful
     to optimize the "median" model, i.e., it is more robust to
     outliers than the quadratic loss function.
 
