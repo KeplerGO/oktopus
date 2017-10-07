@@ -75,6 +75,21 @@ class L1Norm(LossFunction):
         A functional form that defines the model
     regularization : callable
         A functional form that defines the regularization term
+
+    Examples
+    --------
+    >>> from oktopus import L1Norm
+    >>> import numpy as np
+    >>> np.random.seed(0)
+    >>> y = np.random.exponential(size=50)
+    >>> def constant_model(a):
+    ...     return a
+    >>> l1norm = L1Norm(data=y, model=constant_model)
+    >>> result = l1norm.fit(x0=np.mean(y))
+    >>> result.x
+    array([ 0.8401012])
+    >>> print(np.median(y)) # the analytical solution
+    0.839883776803
     """
 
     def __init__(self, data, model, regularization=None):
