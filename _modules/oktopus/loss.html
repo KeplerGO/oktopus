@@ -223,7 +223,7 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \arg \min_{\theta \in \Theta} \sum_k |y_k - f_\theta (x_k)|</span>
+<span class="sd">        \arg \min_{\theta \in \Theta} \sum_k |y_k - f(x_k, \theta)|</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -233,6 +233,21 @@
 <span class="sd">        A functional form that defines the model</span>
 <span class="sd">    regularization : callable</span>
 <span class="sd">        A functional form that defines the regularization term</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus import L1Norm</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; y = np.random.exponential(size=50)</span>
+<span class="sd">    &gt;&gt;&gt; def constant_model(a):</span>
+<span class="sd">    ...     return a</span>
+<span class="sd">    &gt;&gt;&gt; l1norm = L1Norm(data=y, model=constant_model)</span>
+<span class="sd">    &gt;&gt;&gt; result = l1norm.fit(x0=np.mean(y))</span>
+<span class="sd">    &gt;&gt;&gt; result.x</span>
+<span class="sd">    array([ 0.8401012])</span>
+<span class="sd">    &gt;&gt;&gt; print(np.median(y)) # the analytical solution</span>
+<span class="sd">    0.839883776803</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">regularization</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
