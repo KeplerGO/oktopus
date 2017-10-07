@@ -14,7 +14,7 @@ class Prior(LossFunction):
 
     @property
     def name(self):
-        """A name associated with the prior."""
+        """A name associated with the prior"""
         return self._name
 
     @name.setter
@@ -23,7 +23,7 @@ class Prior(LossFunction):
 
     @abstractmethod
     def evaluate(self, params):
-        """Evaluates the negative of the log of the PDF at params.
+        """Evaluates the negative of the log of the PDF at ``params``
 
         Parameters
         ----------

@@ -81,14 +81,14 @@ class L1Norm(LossFunction):
     >>> from oktopus import L1Norm
     >>> import numpy as np
     >>> np.random.seed(0)
-    >>> y = np.random.exponential(size=50)
+    >>> data = np.random.exponential(size=50)
     >>> def constant_model(a):
     ...     return a
-    >>> l1norm = L1Norm(data=y, model=constant_model)
-    >>> result = l1norm.fit(x0=np.mean(y))
+    >>> l1norm = L1Norm(data=data, model=constant_model)
+    >>> result = l1norm.fit(x0=np.mean(data))
     >>> result.x
     array([ 0.8401012])
-    >>> print(np.median(y)) # the analytical solution
+    >>> print(np.median(data)) # the analytical solution
     0.839883776803
     """
 
@@ -116,8 +116,8 @@ class L1Norm(LossFunction):
         return  np.nansum(np.absolute(self.data - self.model(*params)))
 
     def _evaluate_w_regularization(self, *params):
-        return  np.nansum(np.absolute(self.data - self.model(params[:-1]))
-                          + params[-1] * self.regularization(params[:-1]))
+        return  np.nansum(np.absolute(self.data - self.model(*params[:-1]))
+                          + params[-1] * self.regularization(*params[:-1]))
 
     def evaluate(self, params):
         return self._evaluate(*params)
