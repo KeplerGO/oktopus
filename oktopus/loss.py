@@ -65,7 +65,7 @@ class L1Norm(LossFunction):
 
     .. math::
 
-        \arg \min_{\theta \in \Theta} \sum_k |y_k - f_\theta (x_k)|
+        \arg \min_{\theta \in \Theta} \sum_k |y_k - f(x_k, \theta)|
 
     Attributes
     ----------
