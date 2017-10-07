@@ -9,7 +9,7 @@ from ..likelihood import MultinomialLikelihood, PoissonLikelihood
                          ([np.array([20, 30]), 0.5, 0.4],
                           [np.array([30, 30]), 0.5, 0.5],
                           [np.array([30, 20]), 0.9, 0.6],
-                          [np.array([99, 1]),  0.7, 0.99]))
+                          [np.array([80, 20]), 0.7, 0.8]))
 def test_multinomial_likelihood(counts, p0, ans):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
