@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 from setuptools import setup
 # To use a consistent encoding
@@ -20,7 +21,8 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='oktopus',
-    version='0.1.dev4',
+    packages=['oktopus'],
+    version='0.1.dev5',
     description='soft-bodied, eight-armed package for beautiful inference',
     long_description=long_description,
     url='https://github.com/mirca/oktopus',
