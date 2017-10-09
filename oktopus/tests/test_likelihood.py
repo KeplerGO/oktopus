@@ -2,7 +2,9 @@ import pytest
 import autograd.numpy as npa
 from math import sqrt
 import numpy as np
-from ..likelihood import MultinomialLikelihood, PoissonLikelihood
+from ..likelihood import (MultinomialLikelihood, PoissonLikelihood,
+                          GaussianLikelihood, MultivariateGaussianLikelihood)
+from ..models import WhiteNoiseKernel
 
 
 @pytest.mark.parametrize("counts, p0, ans",
@@ -27,3 +29,27 @@ def test_poisson_likelihood(toy_data):
     mean_hat = logL.fit(x0=np.median(toy_data))
     np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=4)
     np.testing.assert_almost_equal(logL.uncertainties(), sqrt(np.mean(toy_data)), decimal=4)
+
+def test_gaussian_likelihood():
+    x = npa.linspace(-5, 5, 20)
+    np.random.seed(0)
+    fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
+    def line(alpha, beta):
+        return alpha * x + beta
+    logL = GaussianLikelihood(fake_data, line, 4)
+    p0 = (1, 1) # dumb initial_guess for alpha and beta
+    p_hat = logL.fit(x0=p0)
+    # lsq solution from linear algebra
+    M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
+    p_hat_linalg = np.dot(np.linalg.inv(M),
+                          np.array([np.sum(fake_data * x), np.sum(fake_data)]))
+    np.testing.assert_almost_equal(p_hat.x, p_hat_linalg, decimal=4)
+
+    # test that MultivariateGaussianLikelihood returns the previous result for
+    # a WhiteNoiseKernel
+    logL = MultivariateGaussianLikelihood(data=fake_data, mean=line,
+                                          cov=WhiteNoiseKernel(n=len(fake_data)),
+                                          dim=2)
+    p0 = (1, 1, 2)
+    p_hat = logL.fit(x0=p0)
+    np.testing.assert_almost_equal(p_hat.x[:2], p_hat_linalg, decimal=4)

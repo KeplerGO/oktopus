@@ -71,38 +71,8 @@ class WhiteNoiseKernel(Kernel):
     def __init__(self, n):
         self.n = n
 
+    def __call__(self, s):
+        return self.evaluate(s)
+
     def evaluate(self, s):
         return np.diag(np.ones(self.n) * s ** 2)
-
-
-def get_initial_guesses(data, X, Y):
-    """
-    Compute the initial guess for PSF width using the sample moments of
-    the data.
-
-    Parameters
-    ----------
-    data : 2D array-like
-        Image data.
-
-    Return
-    ------
-    sigma : float
-        Initial guess for the width of the PSF.
-    """
-
-    total = np.nansum(data)
-    yy, xx = np.indices(data.shape)
-    yy = Y[0] + yy
-    xx = X[0] + xx
-    x = np.nansum(xx * data) / total
-    y = np.nansum(yy * data) / total
-
-    marg_x = data[:, int(np.round(x - X[0]))]
-    marg_y = data[int(np.round(y - Y[0])), :]
-
-    sigma_y = math.sqrt(np.abs((np.arange(marg_y.size) - y) ** 2 * marg_y).sum() / marg_y.sum())
-    sigma_x = math.sqrt(np.abs((np.arange(marg_x.size) - x) ** 2 * marg_x).sum() / marg_x.sum())
-    sigma = math.sqrt((sigma_x**2 + sigma_y**2)/2.0)
-
-    return total, x, y, sigma

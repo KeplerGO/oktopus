@@ -299,11 +299,6 @@ class MultivariateGaussianLikelihood(Likelihood):
         return (np.linalg.slogdet(self.cov(*alpha))[1]
                 + np.dot(residual.T, np.linalg.solve(self.cov(*alpha), residual)))
 
-    def sample(self, **kwargs):
-        return np.random.multivariate_normal(self.mean(*self.opt_result.x[:self.dim]),
-                                             self.cov(*self.opt_result.x[self.dim:]),
-                                             **kwargs)
-
     def fisher_information_matrix(self):
         raise NotImplementedError
 
