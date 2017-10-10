@@ -109,8 +109,10 @@ class L1Norm(LossFunction):
     def regularization(self, func):
         if func is not None:
             self._regularization = func
+            self._evaluate = self._evaluate_w_regularization
         else:
             self._regularization = None
+            self._evaluate = self._evaluate_wo_regularization
 
     def _evaluate_wo_regularization(self, *params):
         return  np.nansum(np.absolute(self.data - self.model(*params)))
