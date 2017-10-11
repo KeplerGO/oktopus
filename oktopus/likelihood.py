@@ -54,7 +54,7 @@ class Likelihood(LossFunction):
         """
         Computes the negative of the log of Jeffrey's prior and evaluates it at ``params``.
         """
-        return - np.linalg.slogdet(self.fisher_information_matrix(params))[1]
+        return - 0.5 * np.linalg.slogdet(self.fisher_information_matrix(params))[1]
 
     @abstractmethod
     def evaluate(self, params):

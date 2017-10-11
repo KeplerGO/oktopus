@@ -19,6 +19,8 @@ def test_multinomial_likelihood(counts, p0, ans):
     np.testing.assert_almost_equal(logL.uncertainties(p_hat.x),
                                    sqrt(p_hat.x[0] * (1 - p_hat.x[0]) / counts.sum()))
     np.testing.assert_almost_equal(p_hat.x, ans, decimal=4)
+    neg_log_jeff_prior = 0.5 * (np.log(p_hat.x) + np.log(1 - p_hat.x) - np.log(counts.sum()))
+    np.testing.assert_almost_equal(neg_log_jeff_prior, logL.jeffreys_prior(p_hat.x))
 
 
 @pytest.mark.parametrize("toy_data",

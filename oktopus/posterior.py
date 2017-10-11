@@ -32,7 +32,7 @@ class Posterior(LossFunction):
     >>> logP = Posterior(likelihood=logL, prior=logL.jeffreys_prior)
     >>> mean_hat = logP.fit(x0=10.5)
     >>> mean_hat.x
-    array([ 9.27997742])
+    array([ 9.2849762])
     >>> print(np.mean(toy_data)) # MLE estimate
     9.29
     """
