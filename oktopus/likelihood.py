@@ -22,7 +22,7 @@ class Likelihood(LossFunction):
         fisher : ndarray
             Fisher Information Matrix
         """
-        n_params = len(self.opt_result.x)
+        n_params = len(params)
         fisher = np.empty(shape=(n_params, n_params))
         grad_mean = []
 
@@ -49,6 +49,12 @@ class Likelihood(LossFunction):
         """
         inv_fisher = np.linalg.inv(self.fisher_information_matrix(params))
         return np.sqrt(np.diag(inv_fisher))
+
+    def jeffreys_prior(self, params):
+        """
+        Computes the negative of the log of Jeffrey's prior and evaluates it at ``params``.
+        """
+        return - np.linalg.slogdet(self.fisher_information_matrix(params))[1]
 
     @abstractmethod
     def evaluate(self, params):

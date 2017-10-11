@@ -17,6 +17,24 @@ class Posterior(LossFunction):
     prior : callable or instance of :class:oktopus.Prior
         If callable, must provide a method called `evaluate` which returns
         the negative of the log of the distribution.
+
+    Examples
+    --------
+    >>> import math
+    >>> from oktopus import PoissonPosterior, PoissonLikelihood
+    >>> import numpy as np
+    >>> import autograd.numpy as npa
+    >>> np.random.seed(0)
+    >>> toy_data = np.random.randint(1, 20, size=100)
+    >>> def mean(l):
+    ...     return npa.array([l])
+    >>> logL = PoissonLikelihood(data=toy_data, mean=mean)
+    >>> logP = Posterior(likelihood=logL, prior=logL.jeffreys_prior)
+    >>> mean_hat = logP.fit(x0=10.5)
+    >>> mean_hat.x
+    array([ 9.27997742])
+    >>> print(np.mean(toy_data)) # MLE estimate
+    9.29
     """
 
     def __init__(self, likelihood, prior):
@@ -36,7 +54,7 @@ class Posterior(LossFunction):
         value : scalar
             Value of the negative of the log of the posterior at params
         """
-        return self.loglikelihood.evaluate(params) + self.logprior.evaluate(params)
+        return self.loglikelihood(params) + self.logprior(params)
 
 
 class GaussianPosterior(Posterior):
