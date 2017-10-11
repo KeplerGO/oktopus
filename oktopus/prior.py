@@ -44,8 +44,8 @@ class JointPrior(Prior):
 
     Attributes
     ----------
-    *args : tuple of instances of :class:Prior
-        Instances of :class:Prior to be combined
+    *args : tuple of instances of :class:`Prior`
+        Instances of :class:`Prior` to be combined
 
     Examples
     --------
@@ -53,7 +53,7 @@ class JointPrior(Prior):
     >>> jp = JointPrior(UniformPrior(-0.5, 0.5), GaussianPrior(0, 1))
     >>> jp.evaluate((0, 0))
     0.0
-    >>> jp((0, 0)) # jp is also a callable to .evaluate
+    >>> jp((0, 0)) # jp is also a callable to evaluate()
     0.0
 
     Notes
