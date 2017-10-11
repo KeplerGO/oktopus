@@ -239,14 +239,14 @@
 <span class="sd">    &gt;&gt;&gt; from oktopus import L1Norm</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
-<span class="sd">    &gt;&gt;&gt; y = np.random.exponential(size=50)</span>
+<span class="sd">    &gt;&gt;&gt; data = np.random.exponential(size=50)</span>
 <span class="sd">    &gt;&gt;&gt; def constant_model(a):</span>
 <span class="sd">    ...     return a</span>
-<span class="sd">    &gt;&gt;&gt; l1norm = L1Norm(data=y, model=constant_model)</span>
-<span class="sd">    &gt;&gt;&gt; result = l1norm.fit(x0=np.mean(y))</span>
+<span class="sd">    &gt;&gt;&gt; l1norm = L1Norm(data=data, model=constant_model)</span>
+<span class="sd">    &gt;&gt;&gt; result = l1norm.fit(x0=np.mean(data))</span>
 <span class="sd">    &gt;&gt;&gt; result.x</span>
 <span class="sd">    array([ 0.8401012])</span>
-<span class="sd">    &gt;&gt;&gt; print(np.median(y)) # the analytical solution</span>
+<span class="sd">    &gt;&gt;&gt; print(np.median(data)) # the analytical solution</span>
 <span class="sd">    0.839883776803</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -267,15 +267,17 @@
     <span class="k">def</span> <span class="nf">regularization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_regularization</span> <span class="o">=</span> <span class="n">func</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_w_regularization</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_regularization</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_wo_regularization</span>
 
     <span class="k">def</span> <span class="nf">_evaluate_wo_regularization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
         <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">_evaluate_w_regularization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-                          <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularization</span><span class="p">(</span><span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                          <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularization</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
 <div class="viewcode-block" id="L1Norm.evaluate"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.L1Norm.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span></div></div>

@@ -172,7 +172,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A name associated with the prior.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;A name associated with the prior&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -181,7 +181,7 @@
 
 <div class="viewcode-block" id="Prior.evaluate"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.Prior.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Evaluates the negative of the log of the PDF at params.</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates the negative of the log of the PDF at ``params``</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -202,8 +202,8 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *args : tuple of instances of :class:Prior</span>
-<span class="sd">        Instances of :class:Prior to be combined</span>
+<span class="sd">    *args : tuple of instances of :class:`Prior`</span>
+<span class="sd">        Instances of :class:`Prior` to be combined</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -211,7 +211,7 @@
 <span class="sd">    &gt;&gt;&gt; jp = JointPrior(UniformPrior(-0.5, 0.5), GaussianPrior(0, 1))</span>
 <span class="sd">    &gt;&gt;&gt; jp.evaluate((0, 0))</span>
 <span class="sd">    0.0</span>
-<span class="sd">    &gt;&gt;&gt; jp((0, 0)) # jp is also a callable to .evaluate</span>
+<span class="sd">    &gt;&gt;&gt; jp((0, 0)) # jp is also a callable to evaluate()</span>
 <span class="sd">    0.0</span>
 
 <span class="sd">    Notes</span>

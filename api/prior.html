@@ -91,6 +91,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Prior Distributions</a><ul class="simple">
 </ul>
 </li>
@@ -213,7 +214,7 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#oktopus.prior.Prior.name" title="oktopus.prior.Prior.name"><code class="xref py py-obj docutils literal"><span class="pre">name</span></code></a></td>
-<td>A name associated with the prior.</td>
+<td>A name associated with the prior</td>
 </tr>
 </tbody>
 </table>
@@ -225,20 +226,20 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
-<td>Evaluates the negative of the log of the PDF at params.</td>
+<td>Evaluates the negative of the log of the PDF at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="oktopus.prior.Prior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#Prior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.Prior.evaluate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluates the negative of the log of the PDF at params.</p>
+<dd><p>Evaluates the negative of the log of the PDF at <code class="docutils literal"><span class="pre">params</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -262,7 +263,7 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 <dl class="attribute">
 <dt id="oktopus.prior.Prior.name">
 <code class="descname">name</code><a class="headerlink" href="#oktopus.prior.Prior.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>A name associated with the prior.</p>
+<dd><p>A name associated with the prior</p>
 </dd></dl>
 
 </dd></dl>
@@ -279,7 +280,7 @@ of their distributions.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">UniformPrior</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="o">.</span><span class="n">evaluate</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="go">0.0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># jp is also a callable to .evaluate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># jp is also a callable to evaluate()</span>
 <span class="go">0.0</span>
 </pre></div>
 </div>
@@ -291,7 +292,7 @@ of their distributions.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a href="#id3"><span class="problematic" id="id4">*</span></a>args</td>
-<td>(tuple of instances of :class:Prior) Instances of :class:Prior to be combined</td>
+<td>(tuple of instances of <a class="reference internal" href="#oktopus.prior.Prior" title="oktopus.prior.Prior"><code class="xref py py-class docutils literal"><span class="pre">Prior</span></code></a>) Instances of <a class="reference internal" href="#oktopus.prior.Prior" title="oktopus.prior.Prior"><code class="xref py py-class docutils literal"><span class="pre">Prior</span></code></a> to be combined</td>
 </tr>
 </tbody>
 </table>
@@ -303,13 +304,13 @@ of their distributions.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Computes the sum of the log of each distribution given in <em>args</em> evaluated at <em>params</em>.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -379,13 +380,13 @@ distribution.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -443,13 +444,13 @@ distribution.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
