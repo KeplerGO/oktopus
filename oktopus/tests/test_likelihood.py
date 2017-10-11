@@ -16,9 +16,10 @@ def test_multinomial_likelihood(counts, p0, ans):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
     p_hat = logL.fit(x0=p0)
-    np.testing.assert_almost_equal(logL.uncertainties(),
+    np.testing.assert_almost_equal(logL.uncertainties(p_hat.x),
                                    sqrt(p_hat.x[0] * (1 - p_hat.x[0]) / counts.sum()))
-    np.testing.assert_almost_equal(p_hat.x[0], ans, decimal=4)
+    np.testing.assert_almost_equal(p_hat.x, ans, decimal=4)
+
 
 @pytest.mark.parametrize("toy_data",
                          ([np.random.randint(1, 20, size=100)],
@@ -28,7 +29,8 @@ def test_poisson_likelihood(toy_data):
     logL = PoissonLikelihood(data=toy_data, mean=mean)
     mean_hat = logL.fit(x0=np.median(toy_data))
     np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=4)
-    np.testing.assert_almost_equal(logL.uncertainties(), sqrt(np.mean(toy_data)), decimal=4)
+    np.testing.assert_almost_equal(logL.uncertainties(mean_hat.x),
+                                   sqrt(np.mean(toy_data)), decimal=4)
 
 def test_gaussian_likelihood():
     x = npa.linspace(-5, 5, 20)

@@ -13,7 +13,7 @@ class Likelihood(LossFunction):
     Defines a Likelihood function.
     """
 
-    def fisher_information_matrix(self):
+    def fisher_information_matrix(self, params):
         """
         Computes the Fisher Information Matrix.
 
@@ -25,30 +25,29 @@ class Likelihood(LossFunction):
         n_params = len(self.opt_result.x)
         fisher = np.empty(shape=(n_params, n_params))
         grad_mean = []
-        opt_params = self.opt_result.x
 
         for i in range(n_params):
             grad_mean.append(jacobian(self.mean, argnum=i))
         for i in range(n_params):
             for j in range(i, n_params):
-                fisher[i, j] = ((grad_mean[i](*opt_params)
-                                 * grad_mean[j](*opt_params)
-                                 / self.mean(*opt_params)).sum())
+                fisher[i, j] = ((grad_mean[i](*params)
+                                 * grad_mean[j](*params)
+                                 / self.mean(*params)).sum())
                 fisher[j, i] = fisher[i, j]
         return fisher
 
-    def uncertainties(self):
+    def uncertainties(self, params):
         """
         Returns the uncertainties on the model parameters as the
         square root of the diagonal of the inverse of the Fisher
-        Information Matrix.
+        Information Matrix evaluated at ``params``.
 
         Returns
         -------
         inv_fisher : square root of the diagonal of the inverse of the Fisher
         Information Matrix
         """
-        inv_fisher = np.linalg.inv(self.fisher_information_matrix())
+        inv_fisher = np.linalg.inv(self.fisher_information_matrix(params))
         return np.sqrt(np.diag(inv_fisher))
 
     @abstractmethod
@@ -110,7 +109,7 @@ class MultinomialLikelihood(Likelihood):
     >>> p_hat = logL.fit(x0=p0)
     >>> p_hat.x
     array([ 0.4])
-    >>> p_hat_unc = logL.uncertainties()
+    >>> p_hat_unc = logL.uncertainties(p_hat.x)
     >>> p_hat_unc
     array([ 0.06928203])
     >>> 20 / (20 + 30) # theorectical MLE
@@ -133,9 +132,9 @@ class MultinomialLikelihood(Likelihood):
     def evaluate(self, params):
         return - (self.data * np.log(self.mean(*params))).sum()
 
-    def fisher_information_matrix(self):
+    def fisher_information_matrix(self, params):
         return self.n_counts * super(MultinomialLikelihood,
-                                     self).fisher_information_matrix()
+                                     self).fisher_information_matrix(params)
 
 
 class PoissonLikelihood(Likelihood):
@@ -183,7 +182,7 @@ class PoissonLikelihood(Likelihood):
     array([ 9.28997498])
     >>> print(np.mean(toy_data)) # theorectical MLE
     9.29
-    >>> mean_unc = logL.uncertainties()
+    >>> mean_unc = logL.uncertainties(mean_hat.x)
     >>> mean_unc
     array([ 3.04794603])
     >>> print(math.sqrt(np.mean(toy_data))) # theorectical Fisher information
@@ -236,7 +235,7 @@ class GaussianLikelihood(Likelihood):
     >>> p_hat = logL.fit(x0=p0)
     >>> p_hat.x # fitted parameters
     array([  2.96263393,  10.32860717])
-    >>> p_hat_unc = logL.uncertainties() # get uncertainties on fitted parameters
+    >>> p_hat_unc = logL.uncertainties(p_hat.x) # get uncertainties on fitted parameters
     >>> p_hat_unc
     array([ 0.11568693,  0.55871623])
     >>> plt.plot(x, fake_data, 'o') # doctest: +SKIP
