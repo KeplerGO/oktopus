@@ -91,6 +91,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Posterior Distributions</a><ul class="simple">
@@ -204,6 +205,24 @@
 <dt id="oktopus.posterior.Posterior">
 <em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">Posterior</code><span class="sig-paren">(</span><em>likelihood</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#Posterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.Posterior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a posterior distribution.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">PoissonPosterior</span><span class="p">,</span> <span class="n">PoissonLikelihood</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">npa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">toy_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">npa</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logL</span> <span class="o">=</span> <span class="n">PoissonLikelihood</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">Posterior</span><span class="p">(</span><span class="n">likelihood</span><span class="o">=</span><span class="n">logL</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">logL</span><span class="o">.</span><span class="n">jeffreys_prior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mf">10.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([ 9.2849762])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">toy_data</span><span class="p">))</span> <span class="c1"># MLE estimate</span>
+<span class="go">9.29</span>
+</pre></div>
+</div>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -227,13 +246,13 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a>.</td>
+<td>Calls <a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Evaluates the negative of the log of the posterior at params.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.posterior.Posterior.evaluate" title="oktopus.posterior.Posterior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -327,13 +346,13 @@ variances.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code>.</td>
+<td>Calls <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
 <td>Evaluates the negative of the log of the posterior at params.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -389,13 +408,13 @@ variances.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code>.</td>
+<td>Calls <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
 <td>Evaluates the negative of the log of the posterior at params.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -437,13 +456,13 @@ variances.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
-<td>Calls <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code>.</td>
+<td>Calls <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code>(params)</td>
 <td>Evaluates the negative of the log of the posterior at params.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>.</td>
+<td>Minimizes the <code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
 </tbody>
 </table>

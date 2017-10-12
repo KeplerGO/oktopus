@@ -218,14 +218,17 @@
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.evaluate" title="oktopus.likelihood.Likelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Evaluates the negative of the log likelihood function.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="oktopus.likelihood.Likelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="oktopus.likelihood.Likelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>(params)</td>
 <td>Computes the Fisher Information Matrix.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
 <td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.Likelihood.evaluate" title="oktopus.likelihood.Likelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.uncertainties" title="oktopus.likelihood.Likelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>()</td>
-<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.jeffreys_prior" title="oktopus.likelihood.Likelihood.jeffreys_prior"><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code></a>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.Likelihood.uncertainties" title="oktopus.likelihood.Likelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>(params)</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</td>
 </tr>
 </tbody>
 </table>
@@ -256,7 +259,7 @@
 
 <dl class="method">
 <dt id="oktopus.likelihood.Likelihood.fisher_information_matrix">
-<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the Fisher Information Matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -273,11 +276,17 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="oktopus.likelihood.Likelihood.jeffreys_prior">
+<code class="descname">jeffreys_prior</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.jeffreys_prior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.jeffreys_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="oktopus.likelihood.Likelihood.uncertainties">
-<code class="descname">uncertainties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.uncertainties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.uncertainties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">uncertainties</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#Likelihood.uncertainties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.Likelihood.uncertainties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the uncertainties on the model parameters as the
 square root of the diagonal of the inverse of the Fisher
-Information Matrix.</p>
+Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -321,7 +330,7 @@ estimate <span class="math">\(p\)</span>.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span>
 <span class="go">array([ 0.4])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">(</span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span>
 <span class="go">array([ 0.06928203])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="mi">20</span> <span class="o">/</span> <span class="p">(</span><span class="mi">20</span> <span class="o">+</span> <span class="mi">30</span><span class="p">)</span> <span class="c1"># theorectical MLE</span>
@@ -358,14 +367,17 @@ estimate <span class="math">\(p\)</span>.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="oktopus.likelihood.MultinomialLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix" title="oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix" title="oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>(params)</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
 <td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.MultinomialLikelihood.evaluate" title="oktopus.likelihood.MultinomialLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
-<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>(params)</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</td>
 </tr>
 </tbody>
 </table>
@@ -376,7 +388,7 @@ estimate <span class="math">\(p\)</span>.</p>
 
 <dl class="method">
 <dt id="oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix">
-<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultinomialLikelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultinomialLikelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -417,7 +429,7 @@ some data.</p>
 <span class="go">array([ 9.28997498])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">toy_data</span><span class="p">))</span> <span class="c1"># theorectical MLE</span>
 <span class="go">9.29</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">(</span><span class="n">mean_hat</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mean_unc</span>
 <span class="go">array([ 3.04794603])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">toy_data</span><span class="p">)))</span> <span class="c1"># theorectical Fisher information</span>
@@ -452,14 +464,17 @@ some data.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="oktopus.likelihood.PoissonLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>(params)</td>
 <td>Computes the Fisher Information Matrix.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
 <td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.PoissonLikelihood.evaluate" title="oktopus.likelihood.PoissonLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
-<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>(params)</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</td>
 </tr>
 </tbody>
 </table>
@@ -495,7 +510,7 @@ line to some data:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span> <span class="c1"># fitted parameters</span>
 <span class="go">array([  2.96263393,  10.32860717])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">()</span> <span class="c1"># get uncertainties on fitted parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span> <span class="o">=</span> <span class="n">logL</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">(</span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="c1"># get uncertainties on fitted parameters</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat_unc</span>
 <span class="go">array([ 0.11568693,  0.55871623])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fake_data</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span> 
@@ -540,14 +555,17 @@ line to some data:</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="oktopus.likelihood.GaussianLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>(params)</td>
 <td>Computes the Fisher Information Matrix.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
 <td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.GaussianLikelihood.evaluate" title="oktopus.likelihood.GaussianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>()</td>
-<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>(params)</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</td>
 </tr>
 </tbody>
 </table>
@@ -605,7 +623,10 @@ line to some data:</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
 <td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.evaluate" title="oktopus.likelihood.MultivariateGaussianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties" title="oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties" title="oktopus.likelihood.MultivariateGaussianLikelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>()</td>
 <td></td>
 </tr>
 </tbody>

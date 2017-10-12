@@ -175,6 +175,24 @@
 <span class="sd">    prior : callable or instance of :class:oktopus.Prior</span>
 <span class="sd">        If callable, must provide a method called `evaluate` which returns</span>
 <span class="sd">        the negative of the log of the distribution.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import math</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus import PoissonPosterior, PoissonLikelihood</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as npa</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; toy_data = np.random.randint(1, 20, size=100)</span>
+<span class="sd">    &gt;&gt;&gt; def mean(l):</span>
+<span class="sd">    ...     return npa.array([l])</span>
+<span class="sd">    &gt;&gt;&gt; logL = PoissonLikelihood(data=toy_data, mean=mean)</span>
+<span class="sd">    &gt;&gt;&gt; logP = Posterior(likelihood=logL, prior=logL.jeffreys_prior)</span>
+<span class="sd">    &gt;&gt;&gt; mean_hat = logP.fit(x0=10.5)</span>
+<span class="sd">    &gt;&gt;&gt; mean_hat.x</span>
+<span class="sd">    array([ 9.2849762])</span>
+<span class="sd">    &gt;&gt;&gt; print(np.mean(toy_data)) # MLE estimate</span>
+<span class="sd">    9.29</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
@@ -194,7 +212,7 @@
 <span class="sd">        value : scalar</span>
 <span class="sd">            Value of the negative of the log of the posterior at params</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="GaussianPosterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.GaussianPosterior">[docs]</a><span class="k">class</span> <span class="nc">GaussianPosterior</span><span class="p">(</span><span class="n">Posterior</span><span class="p">):</span>
