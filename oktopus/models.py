@@ -1,9 +1,8 @@
 import numpy as np
-from abc import ABC, abstractmethod
 from scipy.special import erf
 import math
 
-class Kernel(ABC):
+class Kernel(object):
     pass
 
 

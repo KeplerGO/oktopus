@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 import numpy as np
 from scipy.optimize import minimize
 
@@ -6,7 +6,7 @@ from scipy.optimize import minimize
 __all__ = ['LossFunction', 'L1Norm']
 
 
-class LossFunction(ABC):
+class LossFunction(object):
     """An abstract class for an arbitrary loss (cost) function.
     This type of function appears frequently in estimation problems where
     the best estimator (given a set of observed data) is the one which
