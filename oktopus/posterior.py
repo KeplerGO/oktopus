@@ -55,6 +55,21 @@ class Posterior(LossFunction):
         """
         return self.loglikelihood(params) + self.logprior(params)
 
+    def gradient(self, params):
+        """Evaluates the gradient of the negative of the log of the posterior at params.
+
+        Parameters
+        ----------
+        params : scalar or array-like
+            Value at which the posterior will be evaluated
+
+        Returns
+        -------
+        value : scalar
+            Value of the negative of the log of the posterior at params
+        """
+        return self.loglikelihood.gradient(params) + self.logprior.gradient(params)
+
 
 class GaussianPosterior(Posterior):
     """
