@@ -133,14 +133,23 @@ class MultinomialLikelihood(Likelihood):
         """
         Returns the sum of the number of counts over all bin.
         """
-        return self.data.sum()
+        return np.nansum(self.data)
 
     def evaluate(self, params):
-        return - (self.data * np.log(self.mean(*params))).sum()
+        return - np.nansum(self.data * np.log(self.mean(*params)))
 
     def fisher_information_matrix(self, params):
         return self.n_counts * super(MultinomialLikelihood,
                                      self).fisher_information_matrix(params)
+
+    def gradient(self, params):
+        n_params = len(params)
+        grad_likelihood = np.array([])
+        for i in range(n_params):
+            grad = jacobian(self.mean, argnum=i)(*params)
+            grad_likelihood = np.append(grad_likelihood,
+                                        - np.nansum(self.data * grad / self.mean(*params)))
+        return grad_likelihood
 
 
 class PoissonLikelihood(Likelihood):
@@ -202,6 +211,15 @@ class PoissonLikelihood(Likelihood):
     def evaluate(self, params):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
 
+    def gradient(self, params):
+        n_params = len(params)
+        grad_likelihood = np.array([])
+        for i in range(n_params):
+            grad = jacobian(self.mean, argnum=i)(*params)
+            grad_likelihood = np.append(grad_likelihood,
+                                        np.nansum(grad * (1 - self.data / self.mean(*params))))
+        return grad_likelihood
+
 
 class GaussianLikelihood(Likelihood):
     r"""
@@ -262,6 +280,14 @@ class GaussianLikelihood(Likelihood):
 
     def evaluate(self, params):
         return np.nansum((self.data - self.mean(*params)) ** 2 / (2 * self.var))
+
+    def gradient(self, params):
+        n_params = len(params)
+        grad_likelihood = np.array([])
+        for i in range(n_params):
+            grad_likelihood = np.append(grad_likelihood,
+                                        -np.nansum((self.data - self.mean(*params)) * jacobian(self.mean, argnum=i)(*params)) / self.var)
+        return grad_likelihood
 
 
 class MultivariateGaussianLikelihood(Likelihood):

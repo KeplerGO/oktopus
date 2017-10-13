@@ -1,5 +1,5 @@
 from abc import abstractmethod
-import numpy as np
+import autograd.numpy as np
 from .loss import LossFunction
 
 
