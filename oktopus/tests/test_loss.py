@@ -8,8 +8,7 @@ from ..prior import GaussianPrior
                                   [np.random.poisson(size=200)]))
 def test_L1Norm_median_estimate(data):
     l1norm = L1Norm(data=data, model=lambda t: t)
-    result = l1norm.fit(x0=(np.mean(data)), method='Powell')
-    print(abs(result.x - np.median(data)))
+    result = l1norm.fit(x0=(np.mean(data)), method='L-BFGS-B')
     assert abs(result.x - np.median(data)) < 1e-2
 
 @pytest.mark.parametrize("data", ([np.random.exponential(size=200)],
