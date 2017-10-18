@@ -85,6 +85,10 @@ class JointPrior(Prior):
             p += self.components[i].evaluate(params[i])
         return p
 
+    @property
+    def mean(self):
+        return np.array([self.components[i].mean for i in range(len(self.components))])
+
 
 class UniformPrior(Prior):
     """Computes the negative log pdf for a n-dimensional independent uniform
