@@ -87,7 +87,7 @@ class JointPrior(Prior):
 
     @property
     def mean(self):
-        return np.array([self.components[i].mean for i in range(len(self.components))])
+        return np.array([self.components[i].mean for i in range(len(self.components))]).flatten()
 
 
 class UniformPrior(Prior):
