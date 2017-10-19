@@ -34,6 +34,8 @@ def test_poisson_likelihood(toy_data):
     np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=4)
     np.testing.assert_almost_equal(logL.uncertainties(mean_hat.x),
                                    sqrt(np.mean(toy_data)), decimal=4)
+
+    # test gradients
     l = np.linspace(1, 10, len(toy_data))
     true_grad = np.sum((1 - toy_data / mean(l)))
     np.testing.assert_almost_equal(true_grad, logL.gradient(l))
@@ -41,7 +43,6 @@ def test_poisson_likelihood(toy_data):
 
 def test_gaussian_likelihood():
     x = npa.linspace(-5, 5, 20)
-    np.random.seed(0)
     fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
     def line(alpha, beta):
         return alpha * x + beta
@@ -54,6 +55,12 @@ def test_gaussian_likelihood():
                           np.array([np.sum(fake_data * x), np.sum(fake_data)]))
     np.testing.assert_almost_equal(p_hat.x, p_hat_linalg, decimal=4)
     np.testing.assert_almost_equal(logL.gradient(p_hat.x), 0., decimal=3)
+
+    # tests gradients
+    a = np.random.rand()
+    b = np.random.rand()
+    true_grad = - np.sum((fake_data - line(a, b)) * np.array([x, np.ones(len(x))]) / 4, axis=1)
+    np.testing.assert_almost_equal(true_grad, logL.gradient([a, b]))
 
     # test that MultivariateGaussianLikelihood returns the previous result for
     # a WhiteNoiseKernel

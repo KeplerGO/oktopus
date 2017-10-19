@@ -285,10 +285,10 @@ class GaussianLikelihood(Likelihood):
         n_params = len(params)
         grad_likelihood = np.array([])
         for i in range(n_params):
+            grad = jacobian(self.mean, argnum=i)(*params)
             grad_likelihood = np.append(grad_likelihood,
                                         -np.nansum((self.data - self.mean(*params))
-                                                   * jacobian(self.mean, argnum=i)(*params)
-                                                   / self.var)
+                                                   * grad / self.var)
                                        )
         return grad_likelihood
 
