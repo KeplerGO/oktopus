@@ -70,7 +70,7 @@ class LossFunction(object):
         elif optimizer == 'gp_minimize':
             self.opt_result = gp_minimize(self.evaluate, **kwargs)
         else:
-            raise ValueError("method {} is not available".format(method))
+            raise ValueError("optimizer {} is not available".format(optimizer))
 
         return self.opt_result
 

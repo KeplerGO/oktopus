@@ -7,18 +7,18 @@ from ..likelihood import (MultinomialLikelihood, PoissonLikelihood,
 from ..models import WhiteNoiseKernel
 
 
-@pytest.mark.parametrize("counts, p0, ans",
-                         ([np.array([20, 30]), 0.5, 0.4],
-                          [np.array([30, 30]), 0.5, 0.5],
-                          [np.array([30, 20]), 0.9, 0.6],
-                          [np.array([80, 20]), 0.7, 0.8]))
-def test_multinomial_likelihood(counts, p0, ans):
+@pytest.mark.parametrize("counts, ans, opt_kwargs",
+        ([np.array([30, 30]), 0.5, {'optimizer': 'minimize', 'x0': 0.3, 'method': 'Nelder-Mead'}],
+         [np.array([90, 10]), 0.9, {'optimizer': 'minimize', 'x0': 0.8, 'method': 'Nelder-Mead'}],
+         [np.array([30, 30]), 0.5, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)]}],
+         [np.array([90, 10]), 0.9, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)]}]))
+def test_multinomial_likelihood(counts, ans, opt_kwargs):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
-    p_hat = logL.fit(x0=p0, method='Nelder-Mead')
+    p_hat = logL.fit(**opt_kwargs)
     np.testing.assert_almost_equal(logL.uncertainties(p_hat.x),
                                    sqrt(p_hat.x[0] * (1 - p_hat.x[0]) / counts.sum()))
-    np.testing.assert_almost_equal(p_hat.x, ans, decimal=4)
+    assert abs(p_hat.x - ans) < 0.05
     neg_log_jeff_prior = 0.5 * (np.log(p_hat.x) + np.log(1 - p_hat.x) - np.log(counts.sum()))
     np.testing.assert_almost_equal(neg_log_jeff_prior, logL.jeffreys_prior(p_hat.x))
 
@@ -37,7 +37,7 @@ def test_poisson_likelihood(toy_data, optimizer):
                                    sqrt(np.mean(toy_data)), decimal=4)
 
 
-@pytest.mark.parametrize("optimizer", (["basinhopping"]))
+@pytest.mark.parametrize("optimizer", ("basinhopping", "minimize"))
 def test_gaussian_likelihood(optimizer):
     x = npa.linspace(-5, 5, 20)
     np.random.seed(0)
