@@ -15,7 +15,7 @@ from ..models import WhiteNoiseKernel
 def test_multinomial_likelihood(counts, p0, ans):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
-    p_hat = logL.fit(x0=p0)
+    p_hat = logL.fit(x0=p0, method='Nelder-Mead')
     np.testing.assert_almost_equal(logL.uncertainties(p_hat.x),
                                    sqrt(p_hat.x[0] * (1 - p_hat.x[0]) / counts.sum()))
     np.testing.assert_almost_equal(p_hat.x, ans, decimal=4)

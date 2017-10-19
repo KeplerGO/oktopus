@@ -1,6 +1,12 @@
 from abc import abstractmethod
 import numpy as np
-from scipy.optimize import minimize
+from scipy.optimize import minimize, differential_evolution, basinhopping
+
+
+try:
+    from skopt import gp_minimize
+except ImportError:
+    pass
 
 
 __all__ = ['LossFunction', 'L1Norm']
@@ -35,15 +41,15 @@ class LossFunction(object):
         """Calls :func:`evaluate`"""
         return self.evaluate(params)
 
-    def fit(self, x0, method='Nelder-Mead', **kwargs):
+    def fit(self, optimizer='minimize', **kwargs):
         """
-        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`
+        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`,
+        :func:`scipy.optimize.differential_evolution`,
+        :func:`scipy.optimize.basinhopping`, or :func:`skopt.gp.gp_minimize`.
 
         Parameters
         ----------
-        x0 : ndarray
-            Initial guesses on the parameter estimates
-        method : str
+        optimizer : str
             Optimization algorithm
         kwargs : dict
             Dictionary for additional arguments. See :func:`scipy.optimize.minimize`
@@ -54,8 +60,18 @@ class LossFunction(object):
             Object containing the results of the optimization process.
             Note: this is also stored in **self.opt_result**.
         """
-        self.opt_result = minimize(self.evaluate, x0=x0, method=method,
-                                   **kwargs)
+
+        if optimizer == 'minimize':
+            self.opt_result = minimize(self.evaluate, **kwargs)
+        elif optimizer == 'differential_evolution':
+            self.opt_result = differential_evolution(self.evaluate, **kwargs)
+        elif optimizer == 'basinhopping':
+            self.opt_result = basinhopping(self.evaluate, **kwargs)
+        elif optimizer == 'gp_minimize':
+            self.opt_result = gp_minimize(self.evaluate, **kwargs)
+        else:
+            raise ValueError("method {} is not available".format(method))
+
         return self.opt_result
 
 class L1Norm(LossFunction):
@@ -87,7 +103,7 @@ class L1Norm(LossFunction):
     >>> l1norm = L1Norm(data=data, model=constant_model)
     >>> result = l1norm.fit(x0=np.mean(data))
     >>> result.x
-    array([ 0.8401012])
+    array([ 0.83998338])
     >>> print(np.median(data)) # the analytical solution
     0.839883776803
     """
