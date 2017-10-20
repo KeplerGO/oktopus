@@ -1,6 +1,7 @@
-import numpy as np
+import autograd.numpy as np
 from scipy.special import erf
 import math
+
 
 class Kernel(object):
     pass
@@ -20,8 +21,8 @@ class Gaussian2D(object):
         self.x = x
         self.y = y
 
-    def __call__(self, A, xo, yo, a, b, c):
-        return self.evaluate(A, xo, yo, a, b, c)
+    def __call__(self, *params):
+        return self.evaluate(*params)
 
     def evaluate(self, A, xo, yo, a, b, c):
         return A * np.exp(-(a * (self.x - xo) ** 2
@@ -32,6 +33,9 @@ class Gaussian2D(object):
 class Gaussian2DPlusBkg(Gaussian2D):
     def __init__(self, x, y):
         super(Gaussian2DPlusBkg, self).__init__(x, y)
+
+    def __call__(self, *params):
+        return self.evaluate(*params)
 
     def evaluate(self, A, xo, yo, a, b, c, B):
         return super(Gaussian2DPlusBkg, self).evaluate(A, xo, yo, a, b, c) + B
