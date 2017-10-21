@@ -36,6 +36,7 @@ def test_poisson_likelihood(toy_data, optimizer):
     np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=4)
     np.testing.assert_almost_equal(logL.uncertainties(mean_hat.x),
                                    sqrt(np.mean(toy_data)), decimal=4)
+    np.testing.assert_almost_equal(logL.gradient(mean_hat.x), 0., decimal=2)
 
 
 @pytest.mark.parametrize("optimizer", ("basinhopping", "minimize"))
