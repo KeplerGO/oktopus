@@ -1,4 +1,4 @@
-import numpy as np
+import autograd.numpy as np
 from .loss import LossFunction
 from .likelihood import PoissonLikelihood, GaussianLikelihood, MultivariateGaussianLikelihood
 
@@ -22,12 +22,11 @@ class Posterior(LossFunction):
     --------
     >>> import math
     >>> from oktopus import PoissonPosterior, PoissonLikelihood
-    >>> import numpy as np
-    >>> import autograd.numpy as npa
+    >>> import autograd.numpy as np
     >>> np.random.seed(0)
     >>> toy_data = np.random.randint(1, 20, size=100)
     >>> def mean(l):
-    ...     return npa.array([l])
+    ...     return np.array([l])
     >>> logL = PoissonLikelihood(data=toy_data, mean=mean)
     >>> logP = Posterior(likelihood=logL, prior=logL.jeffreys_prior)
     >>> mean_hat = logP.fit(x0=10.5)
@@ -55,6 +54,21 @@ class Posterior(LossFunction):
             Value of the negative of the log of the posterior at params
         """
         return self.loglikelihood(params) + self.logprior(params)
+
+    def gradient(self, params):
+        """Evaluates the gradient of the negative of the log of the posterior at params.
+
+        Parameters
+        ----------
+        params : scalar or array-like
+            Value at which the posterior will be evaluated
+
+        Returns
+        -------
+        value : scalar
+            Value of the negative of the log of the posterior at params
+        """
+        return self.loglikelihood.gradient(params) + self.logprior.gradient(params)
 
 
 class GaussianPosterior(Posterior):
@@ -134,12 +148,11 @@ class PoissonPosterior(Posterior):
     --------
     >>> import math
     >>> from oktopus import PoissonPosterior, UniformPrior, GaussianPrior
-    >>> import numpy as np
-    >>> import autograd.numpy as npa
+    >>> import autograd.numpy as np
     >>> np.random.seed(0)
     >>> toy_data = np.random.randint(1, 20, size=100)
     >>> def mean(l):
-    ...     return npa.array([l])
+    ...     return np.array([l])
     >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(lb=1, ub=20))
     >>> mean_hat = logP.fit(x0=10.5)
     >>> mean_hat.x # MAP is the same of MLE for uniform prior

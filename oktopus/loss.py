@@ -1,5 +1,6 @@
 from abc import abstractmethod
-import numpy as np
+import autograd.numpy as np
+from autograd import jacobian
 from scipy.optimize import minimize, differential_evolution, basinhopping
 
 
@@ -83,6 +84,18 @@ class LossFunction(object):
 
         return self.opt_result
 
+    def gradient(self, params):
+        """
+        Returns the gradient of the loss function evaluated at ``params``
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the model
+        """
+        pass
+
+
 class L1Norm(LossFunction):
     r"""Defines the L1 Norm loss function. L1 norm is usually useful
     to optimize the "median" model, i.e., it is more robust to
@@ -104,7 +117,7 @@ class L1Norm(LossFunction):
     Examples
     --------
     >>> from oktopus import L1Norm
-    >>> import numpy as np
+    >>> import autograd.numpy as np
     >>> np.random.seed(0)
     >>> data = np.random.exponential(size=50)
     >>> def constant_model(a):
