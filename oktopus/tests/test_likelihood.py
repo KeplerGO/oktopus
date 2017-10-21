@@ -21,6 +21,7 @@ def test_multinomial_likelihood(counts, p0, ans):
     np.testing.assert_almost_equal(p_hat.x, ans, decimal=4)
     neg_log_jeff_prior = 0.5 * (np.log(p_hat.x) + np.log(1 - p_hat.x) - np.log(counts.sum()))
     np.testing.assert_almost_equal(neg_log_jeff_prior, logL.jeffreys_prior(p_hat.x))
+    np.testing.assert_almost_equal(logL.gradient(p_hat.x), 0., decimal=2)
 
 
 @pytest.mark.parametrize("toy_data",
@@ -34,9 +35,14 @@ def test_poisson_likelihood(toy_data):
     np.testing.assert_almost_equal(logL.uncertainties(mean_hat.x),
                                    sqrt(np.mean(toy_data)), decimal=4)
 
+    # test gradients
+    l = np.linspace(1, 10, len(toy_data))
+    true_grad = np.sum((1 - toy_data / mean(l)))
+    np.testing.assert_almost_equal(true_grad, logL.gradient(l))
+    np.testing.assert_almost_equal(logL.gradient(mean_hat.x), 0., decimal=3)
+
 def test_gaussian_likelihood():
     x = npa.linspace(-5, 5, 20)
-    np.random.seed(0)
     fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
     def line(alpha, beta):
         return alpha * x + beta
@@ -48,6 +54,13 @@ def test_gaussian_likelihood():
     p_hat_linalg = np.dot(np.linalg.inv(M),
                           np.array([np.sum(fake_data * x), np.sum(fake_data)]))
     np.testing.assert_almost_equal(p_hat.x, p_hat_linalg, decimal=4)
+    np.testing.assert_almost_equal(logL.gradient(p_hat.x), 0., decimal=3)
+
+    # tests gradients
+    a = np.random.rand()
+    b = np.random.rand()
+    true_grad = - np.sum((fake_data - line(a, b)) * np.array([x, np.ones(len(x))]) / 4, axis=1)
+    np.testing.assert_almost_equal(true_grad, logL.gradient([a, b]))
 
     # test that MultivariateGaussianLikelihood returns the previous result for
     # a WhiteNoiseKernel

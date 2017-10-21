@@ -1,5 +1,5 @@
 from abc import abstractmethod
-import numpy as np
+import autograd.numpy as np
 from .loss import LossFunction
 
 
@@ -133,6 +133,11 @@ class UniformPrior(Prior):
             return - np.log(1 / (self.ub - self.lb)).sum()
         return np.inf
 
+    def gradient(self, params):
+        if (self.lb <= params).all() and (params < self.ub).all():
+            return 0.0
+        return np.inf
+
 
 class GaussianPrior(Prior):
     """Computes the negative log pdf for a n-dimensional independent Gaussian
@@ -172,3 +177,6 @@ class GaussianPrior(Prior):
 
     def evaluate(self, params):
         return ((params - self.mean) ** 2 / (2 * self.var)).sum()
+
+    def gradient(self, params):
+        return ((params - self.mean) / self.var).sum()

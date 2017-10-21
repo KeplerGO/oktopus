@@ -19,4 +19,4 @@ def test_L1Norm_median_estimate_w_regularization(data):
                     regularization=GaussianPrior(mean=np.median(data),
                                                  var=np.std(data)**2))
     result = l1norm.fit(x0=(np.mean(data), 0.5), method='L-BFGS-B')
-    assert abs(result.x[0] - np.median(data)) < 1e-2
+    assert abs(result.x[0] - np.median(data)) < 1e-1
