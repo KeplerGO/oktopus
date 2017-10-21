@@ -10,8 +10,8 @@ from ..models import WhiteNoiseKernel
 @pytest.mark.parametrize("counts, ans, opt_kwargs",
         ([np.array([30, 30]), 0.5, {'optimizer': 'minimize', 'x0': 0.3, 'method': 'Nelder-Mead'}],
          [np.array([90, 10]), 0.9, {'optimizer': 'minimize', 'x0': 0.8, 'method': 'Nelder-Mead'}],
-         [np.array([30, 30]), 0.5, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)]}],
-         [np.array([90, 10]), 0.9, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)]}]))
+         [np.array([30, 30]), 0.5, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)], 'tol': 1e-6}],
+         [np.array([90, 10]), 0.9, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)], 'tol': 1e-6}]))
 def test_multinomial_likelihood(counts, ans, opt_kwargs):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
@@ -19,6 +19,7 @@ def test_multinomial_likelihood(counts, ans, opt_kwargs):
     np.testing.assert_almost_equal(logL.uncertainties(p_hat.x),
                                    sqrt(p_hat.x[0] * (1 - p_hat.x[0]) / counts.sum()))
     assert abs(p_hat.x - ans) < 0.05
+    # analytical jeffrey's prior
     neg_log_jeff_prior = 0.5 * (np.log(p_hat.x) + np.log(1 - p_hat.x) - np.log(counts.sum()))
     np.testing.assert_almost_equal(neg_log_jeff_prior, logL.jeffreys_prior(p_hat.x))
     np.testing.assert_almost_equal(logL.gradient(p_hat.x), 0., decimal=2)
@@ -39,7 +40,7 @@ def test_poisson_likelihood(toy_data, optimizer):
     # test gradients
     l = np.linspace(1, 10, len(toy_data))
     true_grad = np.sum((1 - toy_data / mean(l)))
-    np.testing.assert_almost_equal(true_grad, logL.gradient(l))
+    np.testing.assert_almost_equal(true_grad, logL.gradient([l]))
     np.testing.assert_almost_equal(logL.gradient(mean_hat.x), 0., decimal=3)
 
 
