@@ -100,7 +100,7 @@ class MultinomialLikelihood(Likelihood):
     :math:`P(class_1) = 1 - P(class_2) = p`. Suppose we have a sample with
     :math:`n_1` counts from :math:`class_1` and :math:`n_2` counts from
     :math:`class_2`. Assuming the distribution of the number of counts is a
-    binomial distribution, the MLE for :math`P(class_1)` is given as
+    binomial distribution, the MLE for :math:`P(class_1)` is given as
     :math:`P(class_1) = \dfrac{n_1}{n_1 + n_2}`. The Fisher Information Matrix
     is given by :math:`F(n, p) = \dfrac{n}{p * (1 - p)}`. Let's see how we can
     estimate :math:`p`.
