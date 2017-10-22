@@ -59,8 +59,9 @@ class LossFunction(object):
 
             `'minimize'` is usually robust enough and therefore recommended
             whenever a good initial guess can be provided. The remaining options
-            are global optimizers which might provide better results precisely cases
-            where a close engouh initial guess cannot be obtained trivially.
+            are global optimizers which might provide better results precisely
+            in cases where a close engouh initial guess cannot be obtained
+            trivially.
         kwargs : dict
             Dictionary for additional arguments.
 
