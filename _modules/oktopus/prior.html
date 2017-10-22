@@ -157,7 +157,7 @@
             
   <h1>Source code for oktopus.prior</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.loss</span> <span class="k">import</span> <span class="n">LossFunction</span>
 
 
@@ -241,7 +241,11 @@
         <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)):</span>
             <span class="n">p</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">p</span></div></div>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">))])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="UniformPrior"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.UniformPrior">[docs]</a><span class="k">class</span> <span class="nc">UniformPrior</span><span class="p">(</span><span class="n">Prior</span><span class="p">):</span>
@@ -285,6 +289,11 @@
 <div class="viewcode-block" id="UniformPrior.evaluate"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.UniformPrior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lb</span> <span class="o">&lt;=</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">params</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="k">return</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ub</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span></div>
+
+<div class="viewcode-block" id="UniformPrior.gradient"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.UniformPrior.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lb</span> <span class="o">&lt;=</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">params</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span></div></div>
 
 
@@ -325,7 +334,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span>
 
 <div class="viewcode-block" id="GaussianPrior.evaluate"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.GaussianPrior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">((</span><span class="n">params</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="p">((</span><span class="n">params</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GaussianPrior.gradient"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.GaussianPrior.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">params</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>

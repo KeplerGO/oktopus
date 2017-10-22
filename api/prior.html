@@ -231,8 +231,11 @@ is a PDF that depends solely on the parameters, not on the observed data.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Evaluates the negative of the log of the PDF at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.Prior.evaluate" title="oktopus.prior.Prior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -309,8 +312,11 @@ of their distributions.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Computes the sum of the log of each distribution given in <em>args</em> evaluated at <em>params</em>.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.JointPrior.evaluate" title="oktopus.prior.JointPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -340,6 +346,11 @@ to initialize the object</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.JointPrior.mean">
+<code class="descname">mean</code><a class="headerlink" href="#oktopus.prior.JointPrior.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -385,14 +396,22 @@ distribution.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.UniformPrior.evaluate" title="oktopus.prior.UniformPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.UniformPrior.gradient" title="oktopus.prior.UniformPrior.gradient"><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code></a>(params)</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="oktopus.prior.UniformPrior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#UniformPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.UniformPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.prior.UniformPrior.gradient">
+<code class="descname">gradient</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#UniformPrior.gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.UniformPrior.gradient" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -449,14 +468,22 @@ distribution.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.GaussianPrior.evaluate" title="oktopus.prior.GaussianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.GaussianPrior.gradient" title="oktopus.prior.GaussianPrior.gradient"><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code></a>(params)</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="oktopus.prior.GaussianPrior.evaluate">
 <code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#GaussianPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.GaussianPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.prior.GaussianPrior.gradient">
+<code class="descname">gradient</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#GaussianPrior.gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.GaussianPrior.gradient" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">

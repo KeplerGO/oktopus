@@ -270,7 +270,7 @@
 <span class="sd">    ...     return np.array([p, 1 - p])</span>
 <span class="sd">    &gt;&gt;&gt; logL = MultinomialLikelihood(data=counts, mean=ber_pmf)</span>
 <span class="sd">    &gt;&gt;&gt; p0 = 0.5 # our initial guess</span>
-<span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0)</span>
+<span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0, method=&#39;Nelder-Mead&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; p_hat.x</span>
 <span class="sd">    array([ 0.4])</span>
 <span class="sd">    &gt;&gt;&gt; p_hat_unc = logL.uncertainties(p_hat.x)</span>
@@ -291,14 +291,23 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the sum of the number of counts over all bin.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MultinomialLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="MultinomialLikelihood.fisher_information_matrix"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.fisher_information_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">fisher_information_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_counts</span> <span class="o">*</span> <span class="nb">super</span><span class="p">(</span><span class="n">MultinomialLikelihood</span><span class="p">,</span>
-                                     <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fisher_information_matrix</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
+                                     <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fisher_information_matrix</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultinomialLikelihood.gradient"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultinomialLikelihood.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">grad_likelihood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">argnum</span><span class="o">=</span><span class="n">i</span><span class="p">)(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">grad_likelihood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_likelihood</span><span class="p">,</span>
+                                        <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">grad</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">grad_likelihood</span></div></div>
 
 
 <div class="viewcode-block" id="PoissonLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.PoissonLikelihood">[docs]</a><span class="k">class</span> <span class="nc">PoissonLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
@@ -343,12 +352,12 @@
 <span class="sd">    &gt;&gt;&gt; logL = PoissonLikelihood(data=toy_data, mean=mean)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat = logL.fit(x0=10.5)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat.x</span>
-<span class="sd">    array([ 9.28997498])</span>
+<span class="sd">    array([ 9.29000013])</span>
 <span class="sd">    &gt;&gt;&gt; print(np.mean(toy_data)) # theorectical MLE</span>
 <span class="sd">    9.29</span>
 <span class="sd">    &gt;&gt;&gt; mean_unc = logL.uncertainties(mean_hat.x)</span>
 <span class="sd">    &gt;&gt;&gt; mean_unc</span>
-<span class="sd">    array([ 3.04794603])</span>
+<span class="sd">    array([ 3.04795015])</span>
 <span class="sd">    &gt;&gt;&gt; print(math.sqrt(np.mean(toy_data))) # theorectical Fisher information</span>
 <span class="sd">    3.047950130825634</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -358,7 +367,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
 
 <div class="viewcode-block" id="PoissonLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.PoissonLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span></div></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="PoissonLikelihood.gradient"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.PoissonLikelihood.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">grad_likelihood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">argnum</span><span class="o">=</span><span class="n">i</span><span class="p">)(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">grad_likelihood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_likelihood</span><span class="p">,</span>
+                                        <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">grad</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">grad_likelihood</span></div></div>
 
 
 <div class="viewcode-block" id="GaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">GaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
@@ -398,10 +416,10 @@
 <span class="sd">    &gt;&gt;&gt; p0 = (1, 1) # dumb initial_guess for alpha and beta</span>
 <span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0)</span>
 <span class="sd">    &gt;&gt;&gt; p_hat.x # fitted parameters</span>
-<span class="sd">    array([  2.96263393,  10.32860717])</span>
+<span class="sd">    array([  2.96264084,  10.32861679])</span>
 <span class="sd">    &gt;&gt;&gt; p_hat_unc = logL.uncertainties(p_hat.x) # get uncertainties on fitted parameters</span>
 <span class="sd">    &gt;&gt;&gt; p_hat_unc</span>
-<span class="sd">    array([ 0.11568693,  0.55871623])</span>
+<span class="sd">    array([ 0.11568702,  0.5587166 ])</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(x, fake_data, &#39;o&#39;) # doctest: +SKIP</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(x, line(*p_hat.x)) # doctest: +SKIP</span>
 <span class="sd">    &gt;&gt;&gt; # The exact values from linear algebra would be:</span>
@@ -419,7 +437,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
 <div class="viewcode-block" id="GaussianLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="GaussianLikelihood.gradient"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">grad_likelihood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">argnum</span><span class="o">=</span><span class="n">i</span><span class="p">)(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">grad_likelihood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_likelihood</span><span class="p">,</span>
+                                        <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span>
+                                                   <span class="o">*</span> <span class="n">grad</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+                                       <span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_likelihood</span></div></div>
 
 
 <div class="viewcode-block" id="MultivariateGaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">MultivariateGaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>

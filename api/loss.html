@@ -222,8 +222,11 @@ minimizes some sort of objective function.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td>Returns the loss function evaluated at params</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#oktopus.loss.LossFunction.fit" title="oktopus.loss.LossFunction.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.loss.LossFunction.fit" title="oktopus.loss.LossFunction.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.LossFunction.gradient" title="oktopus.loss.LossFunction.gradient"><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code></a>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -254,23 +257,30 @@ minimizes some sort of objective function.</p>
 
 <dl class="method">
 <dt id="oktopus.loss.LossFunction.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>x0</em>, <em>method='Nelder-Mead'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></p>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>optimizer='minimize'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimizes the <a class="reference internal" href="#oktopus.loss.LossFunction.evaluate" title="oktopus.loss.LossFunction.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x0</strong> : ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>optimizer</strong> : str</p>
 <blockquote>
-<div><p>Initial guesses on the parameter estimates</p>
-</div></blockquote>
-<p><strong>method</strong> : str</p>
-<blockquote>
-<div><p>Optimization algorithm</p>
+<div><p>Optimization algorithm. Options are:
+- <code class="docutils literal"><span class="pre">'minimize'</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>
+- <code class="docutils literal"><span class="pre">'differential_evolution'</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>
+- <code class="docutils literal"><span class="pre">'basinhopping'</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>
+- <code class="docutils literal"><span class="pre">'gp_minimize'</span></code> uses <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code></p>
+<p><cite>‘minimize’</cite> is usually robust enough and therefore recommended
+whenever a good initial guess can be provided. The remaining options
+are global optimizers which might provide better results precisely
+in cases where a close engouh initial guess cannot be obtained
+trivially.</p>
 </div></blockquote>
 <p><strong>kwargs</strong> : dict</p>
 <blockquote>
-<div><p>Dictionary for additional arguments. See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></p>
+<div><p>Dictionary for additional arguments.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -278,6 +288,24 @@ minimizes some sort of objective function.</p>
 <blockquote class="last">
 <div><p>Object containing the results of the optimization process.
 Note: this is also stored in <strong>self.opt_result</strong>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oktopus.loss.LossFunction.gradient">
+<code class="descname">gradient</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>parameter vector of the model</p>
 </div></blockquote>
 </td>
 </tr>
@@ -297,7 +325,7 @@ outliers than the quadratic loss function.</p>
 \[\arg \min_{\theta \in \Theta} \sum_k |y_k - f(x_k, \theta)|\]</div>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">L1Norm</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">constant_model</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
@@ -305,7 +333,7 @@ outliers than the quadratic loss function.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">l1norm</span> <span class="o">=</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">constant_model</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">l1norm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">x</span>
-<span class="go">array([ 0.8401012])</span>
+<span class="go">array([ 0.83998338])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="c1"># the analytical solution</span>
 <span class="go">0.839883776803</span>
 </pre></div>
@@ -341,8 +369,11 @@ outliers than the quadratic loss function.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(x0[,&nbsp;method])</td>
-<td>Minimizes the <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.loss.L1Norm.evaluate" title="oktopus.loss.L1Norm.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
 </tbody>
 </table>

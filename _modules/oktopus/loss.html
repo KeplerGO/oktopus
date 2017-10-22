@@ -157,8 +157,15 @@
             
   <h1>Source code for oktopus.loss</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
+<span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">autograd</span> <span class="k">import</span> <span class="n">jacobian</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">differential_evolution</span><span class="p">,</span> <span class="n">basinhopping</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">skopt</span> <span class="k">import</span> <span class="n">gp_minimize</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LossFunction&#39;</span><span class="p">,</span> <span class="s1">&#39;L1Norm&#39;</span><span class="p">]</span>
@@ -193,18 +200,28 @@
         <span class="sd">&quot;&quot;&quot;Calls :func:`evaluate`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LossFunction.fit"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.LossFunction.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Nelder-Mead&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="LossFunction.fit"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.LossFunction.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;minimize&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`</span>
+<span class="sd">        Minimizes the :func:`evaluate` function using :func:`scipy.optimize.minimize`,</span>
+<span class="sd">        :func:`scipy.optimize.differential_evolution`,</span>
+<span class="sd">        :func:`scipy.optimize.basinhopping`, or :func:`skopt.gp.gp_minimize`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        x0 : ndarray</span>
-<span class="sd">            Initial guesses on the parameter estimates</span>
-<span class="sd">        method : str</span>
-<span class="sd">            Optimization algorithm</span>
+<span class="sd">        optimizer : str</span>
+<span class="sd">            Optimization algorithm. Options are:</span>
+<span class="sd">            - ``&#39;minimize&#39;`` uses :func:`scipy.optimize.minimize`</span>
+<span class="sd">            - ``&#39;differential_evolution&#39;`` uses :func:`scipy.optimize.differential_evolution`</span>
+<span class="sd">            - ``&#39;basinhopping&#39;`` uses :func:`scipy.optimize.basinhopping`</span>
+<span class="sd">            - ``&#39;gp_minimize&#39;`` uses :func:`skopt.gp.gp_minimize`</span>
+
+<span class="sd">            `&#39;minimize&#39;` is usually robust enough and therefore recommended</span>
+<span class="sd">            whenever a good initial guess can be provided. The remaining options</span>
+<span class="sd">            are global optimizers which might provide better results precisely</span>
+<span class="sd">            in cases where a close engouh initial guess cannot be obtained</span>
+<span class="sd">            trivially.</span>
 <span class="sd">        kwargs : dict</span>
-<span class="sd">            Dictionary for additional arguments. See :func:`scipy.optimize.minimize`</span>
+<span class="sd">            Dictionary for additional arguments.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -212,9 +229,31 @@
 <span class="sd">            Object containing the results of the optimization process.</span>
 <span class="sd">            Note: this is also stored in **self.opt_result**.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-                                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span></div></div>
+
+        <span class="k">if</span> <span class="n">optimizer</span> <span class="o">==</span> <span class="s1">&#39;minimize&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">optimizer</span> <span class="o">==</span> <span class="s1">&#39;differential_evolution&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span> <span class="o">=</span> <span class="n">differential_evolution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">optimizer</span> <span class="o">==</span> <span class="s1">&#39;basinhopping&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span> <span class="o">=</span> <span class="n">basinhopping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">optimizer</span> <span class="o">==</span> <span class="s1">&#39;gp_minimize&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span> <span class="o">=</span> <span class="n">gp_minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;optimizer </span><span class="si">{}</span><span class="s2"> is not available&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">optimizer</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_result</span></div>
+
+<div class="viewcode-block" id="LossFunction.gradient"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.LossFunction.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the gradient of the loss function evaluated at ``params``</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            parameter vector of the model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
 
 <div class="viewcode-block" id="L1Norm"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.L1Norm">[docs]</a><span class="k">class</span> <span class="nc">L1Norm</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Defines the L1 Norm loss function. L1 norm is usually useful</span>
@@ -237,7 +276,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from oktopus import L1Norm</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
 <span class="sd">    &gt;&gt;&gt; data = np.random.exponential(size=50)</span>
 <span class="sd">    &gt;&gt;&gt; def constant_model(a):</span>
@@ -245,7 +284,7 @@
 <span class="sd">    &gt;&gt;&gt; l1norm = L1Norm(data=data, model=constant_model)</span>
 <span class="sd">    &gt;&gt;&gt; result = l1norm.fit(x0=np.mean(data))</span>
 <span class="sd">    &gt;&gt;&gt; result.x</span>
-<span class="sd">    array([ 0.8401012])</span>
+<span class="sd">    array([ 0.83998338])</span>
 <span class="sd">    &gt;&gt;&gt; print(np.median(data)) # the analytical solution</span>
 <span class="sd">    0.839883776803</span>
 <span class="sd">    &quot;&quot;&quot;</span>

@@ -156,7 +156,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for oktopus.posterior</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.loss</span> <span class="k">import</span> <span class="n">LossFunction</span>
 <span class="kn">from</span> <span class="nn">.likelihood</span> <span class="k">import</span> <span class="n">PoissonLikelihood</span><span class="p">,</span> <span class="n">GaussianLikelihood</span><span class="p">,</span> <span class="n">MultivariateGaussianLikelihood</span>
 
@@ -180,17 +180,16 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import math</span>
 <span class="sd">    &gt;&gt;&gt; from oktopus import PoissonPosterior, PoissonLikelihood</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import autograd.numpy as npa</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
 <span class="sd">    &gt;&gt;&gt; toy_data = np.random.randint(1, 20, size=100)</span>
 <span class="sd">    &gt;&gt;&gt; def mean(l):</span>
-<span class="sd">    ...     return npa.array([l])</span>
+<span class="sd">    ...     return np.array([l])</span>
 <span class="sd">    &gt;&gt;&gt; logL = PoissonLikelihood(data=toy_data, mean=mean)</span>
 <span class="sd">    &gt;&gt;&gt; logP = Posterior(likelihood=logL, prior=logL.jeffreys_prior)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat = logP.fit(x0=10.5)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat.x</span>
-<span class="sd">    array([ 9.2849762])</span>
+<span class="sd">    array([ 9.28500001])</span>
 <span class="sd">    &gt;&gt;&gt; print(np.mean(toy_data)) # MLE estimate</span>
 <span class="sd">    9.29</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -212,7 +211,22 @@
 <span class="sd">        value : scalar</span>
 <span class="sd">            Value of the negative of the log of the posterior at params</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Posterior.gradient"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.Posterior.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates the gradient of the negative of the log of the posterior at params.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : scalar or array-like</span>
+<span class="sd">            Value at which the posterior will be evaluated</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        value : scalar</span>
+<span class="sd">            Value of the negative of the log of the posterior at params</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="GaussianPosterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.GaussianPosterior">[docs]</a><span class="k">class</span> <span class="nc">GaussianPosterior</span><span class="p">(</span><span class="n">Posterior</span><span class="p">):</span>
@@ -251,7 +265,7 @@
 <span class="sd">    &gt;&gt;&gt; p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept</span>
 <span class="sd">    &gt;&gt;&gt; p_hat = logP.fit(x0=p0)</span>
 <span class="sd">    &gt;&gt;&gt; p_hat.x # fitted parameters</span>
-<span class="sd">    array([  2.9626486 ,  10.32858499])</span>
+<span class="sd">    array([  2.96264085,  10.32861675])</span>
 <span class="sd">    &gt;&gt;&gt; #plt.plot(x, fake_data, &#39;o&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; #plt.plot(x, line(*p_hat.x))</span>
 <span class="sd">    &gt;&gt;&gt; # The exact values from linear algebra are:</span>
@@ -292,20 +306,19 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import math</span>
 <span class="sd">    &gt;&gt;&gt; from oktopus import PoissonPosterior, UniformPrior, GaussianPrior</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import autograd.numpy as npa</span>
+<span class="sd">    &gt;&gt;&gt; import autograd.numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
 <span class="sd">    &gt;&gt;&gt; toy_data = np.random.randint(1, 20, size=100)</span>
 <span class="sd">    &gt;&gt;&gt; def mean(l):</span>
-<span class="sd">    ...     return npa.array([l])</span>
+<span class="sd">    ...     return np.array([l])</span>
 <span class="sd">    &gt;&gt;&gt; logP = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(lb=1, ub=20))</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat = logP.fit(x0=10.5)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat.x # MAP is the same of MLE for uniform prior</span>
-<span class="sd">    array([ 9.28997498])</span>
+<span class="sd">    array([ 9.29000013])</span>
 <span class="sd">    &gt;&gt;&gt; logP = PoissonPosterior(data=toy_data, mean=mean, prior=GaussianPrior(mean=10, var=4))</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat = logP.fit(x0=10.5)</span>
 <span class="sd">    &gt;&gt;&gt; mean_hat.x</span>
-<span class="sd">    array([ 9.30612488])</span>
+<span class="sd">    array([ 9.30614261])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
