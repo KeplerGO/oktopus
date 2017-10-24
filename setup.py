@@ -22,7 +22,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
     name='oktopus',
     packages=['oktopus'],
-    version='0.1.dev7',
+    version='0.1.dev8',
     description='soft-bodied, eight-armed package for beautiful inference',
     long_description=long_description,
     url='https://github.com/mirca/oktopus',
