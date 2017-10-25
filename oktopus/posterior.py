@@ -105,9 +105,9 @@ class GaussianPosterior(Posterior):
     >>> joint_prior = JointPrior(slope_prior, intercept_prior)
     >>> logP = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
     >>> p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept
-    >>> p_hat = logP.fit(x0=p0)
+    >>> p_hat = logP.fit(x0=p0, method='Nelder-Mead')
     >>> p_hat.x # fitted parameters
-    array([  2.96264085,  10.32861675])
+    array([  2.9626486 ,  10.32858499])
     >>> #plt.plot(x, fake_data, 'o')
     >>> #plt.plot(x, line(*p_hat.x))
     >>> # The exact values from linear algebra are:
