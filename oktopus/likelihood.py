@@ -5,7 +5,8 @@ from .loss import LossFunction
 
 
 __all__ = ['Likelihood', 'MultinomialLikelihood', 'PoissonLikelihood',
-           'GaussianLikelihood', 'MultivariateGaussianLikelihood']
+           'GaussianLikelihood', 'LaplacianLikelihood',
+           'MultivariateGaussianLikelihood']
 
 
 class Likelihood(LossFunction):
