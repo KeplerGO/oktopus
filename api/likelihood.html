@@ -604,6 +604,69 @@ line to some data:</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="oktopus.likelihood.LaplacianLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">LaplacianLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#LaplacianLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.LaplacianLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the likelihood function for independent
+(possibly non-identically) distributed Laplacian measurements
+with known error bars.</p>
+<div class="math">
+\[\arg \min_{\theta \in \Theta} \sum_k \dfrac{|y_k - \mu_k(\theta)|}{\sigma_k}\]</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>(ndarray) Observed data</td>
+</tr>
+<tr class="row-even"><td>mean</td>
+<td>(callable) Mean model</td>
+</tr>
+<tr class="row-odd"><td>var</td>
+<td>(float or array-like) Uncertainties on the observed data</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.LaplacianLikelihood.evaluate" title="oktopus.likelihood.LaplacianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.LaplacianLikelihood.evaluate" title="oktopus.likelihood.LaplacianLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>(params)</td>
+<td>Computes the Fisher Information Matrix.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.LaplacianLikelihood.evaluate" title="oktopus.likelihood.LaplacianLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>(params)</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.likelihood.LaplacianLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#LaplacianLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.LaplacianLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="oktopus.likelihood.MultivariateGaussianLikelihood">
 <em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">MultivariateGaussianLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>cov</em>, <em>dim</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#MultivariateGaussianLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.MultivariateGaussianLikelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the likelihood function of a multivariate gaussian distribution.</p>
