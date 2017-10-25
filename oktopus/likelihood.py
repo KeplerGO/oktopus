@@ -257,12 +257,12 @@ class GaussianLikelihood(Likelihood):
     >>> my_line = lambda a, b: line(x, a, b)
     >>> logL = GaussianLikelihood(fake_data, my_line, 4)
     >>> p0 = (1, 1) # dumb initial_guess for alpha and beta
-    >>> p_hat = logL.fit(x0=p0)
+    >>> p_hat = logL.fit(x0=p0, method='Nelder-Mead')
     >>> p_hat.x # fitted parameters
-    array([  2.96264084,  10.32861679])
+    array([  2.96263393,  10.32860717])
     >>> p_hat_unc = logL.uncertainties(p_hat.x) # get uncertainties on fitted parameters
     >>> p_hat_unc
-    array([ 0.11568702,  0.5587166 ])
+    array([ 0.11568693,  0.55871623])
     >>> plt.plot(x, fake_data, 'o') # doctest: +SKIP
     >>> plt.plot(x, line(*p_hat.x)) # doctest: +SKIP
     >>> # The exact values from linear algebra would be:
