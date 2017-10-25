@@ -82,5 +82,5 @@ def test_gaussian_likelihood(optimizer):
                                   [np.random.poisson(size=200)]))
 def test_laplacian_likelihood(data):
     l1norm = LaplacianLikelihood(data=data, mean=lambda t: t, var=1)
-    result = l1norm.fit(x0=(np.mean(data)), method='L-BFGS-B')
+    result = l1norm.fit(x0=(np.mean(data)), method='Nelder-Mead')
     assert abs(result.x - np.median(data)) / np.median(data) < 1e-1
