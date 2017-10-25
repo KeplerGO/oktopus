@@ -11,8 +11,8 @@ from ..models import WhiteNoiseKernel
 @pytest.mark.parametrize("counts, ans, opt_kwargs",
         ([np.array([30, 30]), 0.5, {'optimizer': 'minimize', 'x0': 0.3, 'method': 'Nelder-Mead'}],
          [np.array([90, 10]), 0.9, {'optimizer': 'minimize', 'x0': 0.8, 'method': 'Nelder-Mead'}],
-         [np.array([30, 30]), 0.5, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)], 'tol': 1e-6}],
-         [np.array([90, 10]), 0.9, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)], 'tol': 1e-6}]))
+         [np.array([30, 30]), 0.5, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)], 'tol': 1e-8}],
+         [np.array([90, 10]), 0.9, {'optimizer': 'differential_evolution', 'bounds': [(0, 1)], 'tol': 1e-8}]))
 def test_multinomial_likelihood(counts, ans, opt_kwargs):
     ber_pmf = lambda p: npa.array([p, 1 - p])
     logL = MultinomialLikelihood(data=counts, mean=ber_pmf)
@@ -81,6 +81,6 @@ def test_gaussian_likelihood(optimizer):
                                   [np.random.normal(size=200)],
                                   [np.random.poisson(size=200)]))
 def test_laplacian_likelihood(data):
-    l1norm = LaplacianLikelihood(data=data, model=lambda t: t, var=1)
+    l1norm = LaplacianLikelihood(data=data, mean=lambda t: t, var=1)
     result = l1norm.fit(x0=(np.mean(data)), method='L-BFGS-B')
     assert abs(result.x - np.median(data)) / np.median(data) < 1e-1
