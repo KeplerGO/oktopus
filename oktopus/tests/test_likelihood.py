@@ -3,7 +3,8 @@ import autograd.numpy as npa
 from math import sqrt
 import numpy as np
 from ..likelihood import (MultinomialLikelihood, PoissonLikelihood,
-                          GaussianLikelihood, MultivariateGaussianLikelihood)
+                          GaussianLikelihood, MultivariateGaussianLikelihood,
+                          LaplacianLikelihood)
 from ..models import WhiteNoiseKernel
 
 
@@ -74,3 +75,12 @@ def test_gaussian_likelihood(optimizer):
     p0 = (1, 1, 2)
     p_hat = logL.fit(x0=p0)
     np.testing.assert_almost_equal(p_hat.x[:2], p_hat_linalg, decimal=4)
+
+
+@pytest.mark.parametrize("data", ([np.random.exponential(size=200)],
+                                  [np.random.normal(size=200)],
+                                  [np.random.poisson(size=200)]))
+def test_laplacian_likelihood(data):
+    l1norm = LaplacianLikelihood(data=data, model=lambda t: t, var=1)
+    result = l1norm.fit(x0=(np.mean(data)), method='L-BFGS-B')
+    assert abs(result.x - np.median(data)) / np.median(data) < 1e-1
