@@ -1,4 +1,4 @@
-🐙 Oktopus
+🐙 oktopus
 ==========
 |ci-badge| |cov-badge|
 
