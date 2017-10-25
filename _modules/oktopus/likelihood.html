@@ -258,7 +258,7 @@
 <span class="sd">    :math:`P(class_1) = 1 - P(class_2) = p`. Suppose we have a sample with</span>
 <span class="sd">    :math:`n_1` counts from :math:`class_1` and :math:`n_2` counts from</span>
 <span class="sd">    :math:`class_2`. Assuming the distribution of the number of counts is a</span>
-<span class="sd">    binomial distribution, the MLE for :math`P(class_1)` is given as</span>
+<span class="sd">    binomial distribution, the MLE for :math:`P(class_1)` is given as</span>
 <span class="sd">    :math:`P(class_1) = \dfrac{n_1}{n_1 + n_2}`. The Fisher Information Matrix</span>
 <span class="sd">    is given by :math:`F(n, p) = \dfrac{n}{p * (1 - p)}`. Let&#39;s see how we can</span>
 <span class="sd">    estimate :math:`p`.</span>
@@ -437,7 +437,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
 <div class="viewcode-block" id="GaussianLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GaussianLikelihood.gradient"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.GaussianLikelihood.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -449,6 +449,35 @@
                                                    <span class="o">*</span> <span class="n">grad</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
                                        <span class="p">)</span>
         <span class="k">return</span> <span class="n">grad_likelihood</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">LaplacianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the likelihood function for independent</span>
+<span class="sd">    (possibly non-identically) distributed Laplacian measurements</span>
+<span class="sd">    with known error bars.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">         \arg \min_{\theta \in \Theta} \sum_k \dfrac{|y_k - \mu_k(\theta)|}{\sigma_k}</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ndarray</span>
+<span class="sd">        Observed data</span>
+<span class="sd">    mean : callable</span>
+<span class="sd">        Mean model</span>
+<span class="sd">    var : float or array-like</span>
+<span class="sd">        Uncertainties on the observed data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
+
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="MultivariateGaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">MultivariateGaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>

@@ -267,11 +267,16 @@ minimizes some sort of objective function.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>optimizer</strong> : str</p>
 <blockquote>
-<div><p>Optimization algorithm. Options are:
-- <code class="docutils literal"><span class="pre">'minimize'</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>
-- <code class="docutils literal"><span class="pre">'differential_evolution'</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>
-- <code class="docutils literal"><span class="pre">'basinhopping'</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>
-- <code class="docutils literal"><span class="pre">'gp_minimize'</span></code> uses <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code></p>
+<div><p>Optimization algorithm. Options are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>- ``&#39;minimize&#39;`` uses :func:`scipy.optimize.minimize`
+
+- ``&#39;differential_evolution&#39;`` uses :func:`scipy.optimize.differential_evolution`
+
+- ``&#39;basinhopping&#39;`` uses :func:`scipy.optimize.basinhopping`
+
+- ``&#39;gp_minimize&#39;`` uses :func:`skopt.gp.gp_minimize`
+</pre></div>
+</div>
 <p><cite>‘minimize’</cite> is usually robust enough and therefore recommended
 whenever a good initial guess can be provided. The remaining options
 are global optimizers which might provide better results precisely
