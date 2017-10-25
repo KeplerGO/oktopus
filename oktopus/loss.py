@@ -51,11 +51,15 @@ class LossFunction(object):
         Parameters
         ----------
         optimizer : str
-            Optimization algorithm. Options are:
-            - ``'minimize'`` uses :func:`scipy.optimize.minimize`
-            - ``'differential_evolution'`` uses :func:`scipy.optimize.differential_evolution`
-            - ``'basinhopping'`` uses :func:`scipy.optimize.basinhopping`
-            - ``'gp_minimize'`` uses :func:`skopt.gp.gp_minimize`
+            Optimization algorithm. Options are::
+
+                - ``'minimize'`` uses :func:`scipy.optimize.minimize`
+
+                - ``'differential_evolution'`` uses :func:`scipy.optimize.differential_evolution`
+
+                - ``'basinhopping'`` uses :func:`scipy.optimize.basinhopping`
+
+                - ``'gp_minimize'`` uses :func:`skopt.gp.gp_minimize`
 
             `'minimize'` is usually robust enough and therefore recommended
             whenever a good initial guess can be provided. The remaining options
