@@ -1,13 +1,19 @@
+from abc import abstractmethod
 import autograd.numpy as np
 from scipy.special import erf
 import math
 
 
-class Kernel(object):
-    pass
+class Model(object):
+    def __call__(self, *params):
+        return self.evaluate(*params)
+
+    @abstractmethod
+    def evaluate(self, *params):
+        pass
 
 
-class SymmetricGaussian2D(object):
+class SymmetricGaussian2D(Model):
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -16,13 +22,10 @@ class SymmetricGaussian2D(object):
         return A * np.exp(-0.5 * (((self.x - xo) ** 2 + (self.y - yo) ** 2)) / s ** 2)
 
 
-class Gaussian2D(object):
+class Gaussian2D(Model):
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
-    def __call__(self, *params):
-        return self.evaluate(*params)
 
     def evaluate(self, A, xo, yo, a, b, c):
         return A * np.exp(-(a * (self.x - xo) ** 2
@@ -34,14 +37,11 @@ class Gaussian2DPlusBkg(Gaussian2D):
     def __init__(self, x, y):
         super(Gaussian2DPlusBkg, self).__init__(x, y)
 
-    def __call__(self, *params):
-        return self.evaluate(*params)
-
     def evaluate(self, A, xo, yo, a, b, c, B):
         return super(Gaussian2DPlusBkg, self).evaluate(A, xo, yo, a, b, c) + B
 
 
-class IntegratedSymmetricGaussian2D(object):
+class IntegratedSymmetricGaussian2D(Model):
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -54,7 +54,7 @@ class IntegratedSymmetricGaussian2D(object):
                   erf((self.y - yo - 0.5) / (np.sqrt(2) * s)))))
 
 
-class ExpSquaredKernel(Kernel):
+class ExpSquaredKernel(Model):
     def __init__(self, t):
         self.t = t
 
@@ -62,20 +62,9 @@ class ExpSquaredKernel(Kernel):
         return k * np.exp(- l ** 2 * (self.t[:, None] - self.t[None, :]) ** 2)
 
 
-class ExpSquaredKernel2D(Kernel):
-    def __init__(self, t):
-        self.t = t
-
-    def evaluate(self, k, l):
-        return k * np.exp(- l ** 2 * np.sum((self.t[:, None] - self.t[None, :]) ** 2, axis=-1))
-
-
-class WhiteNoiseKernel(Kernel):
+class WhiteNoiseKernel(Model):
     def __init__(self, n):
         self.n = n
-
-    def __call__(self, s):
-        return self.evaluate(s)
 
     def evaluate(self, s):
         return np.diag(np.ones(self.n) * s ** 2)

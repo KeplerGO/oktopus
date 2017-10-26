@@ -77,7 +77,7 @@ def test_gaussian_likelihood(optimizer):
     np.testing.assert_almost_equal(p_hat.x[:2], p_hat_linalg, decimal=4)
 
 
-@pytest.mark.parametrize("data", ([np.random.exponential(size=200)],
+@pytest.mark.parametrize("data", ([np.random.exponential(0.1, size=200)],
                                   [np.random.normal(size=200)],
                                   [np.random.poisson(size=200)]))
 def test_laplacian_likelihood(data):
