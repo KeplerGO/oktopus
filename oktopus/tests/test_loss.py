@@ -4,7 +4,7 @@ from ..loss import L1Norm
 from ..prior import GaussianPrior
 
 
-@pytest.mark.parametrize("data", ([np.random.exponential(size=200)],
+@pytest.mark.parametrize("data", ([np.random.exponential(scale=0.1, size=200)],
                                   [np.random.normal(size=200)],
                                   [np.random.poisson(size=200)]))
 def test_L1Norm_median_estimate(data):
@@ -12,7 +12,7 @@ def test_L1Norm_median_estimate(data):
     result = l1norm.fit(x0=(np.mean(data)), method='L-BFGS-B')
     assert abs(result.x - np.median(data)) / np.median(data) < 1e-1
 
-@pytest.mark.parametrize("data", ([np.random.exponential(size=200)],
+@pytest.mark.parametrize("data", ([np.random.exponential(scale=0.1, size=200)],
                                   [np.random.normal(size=200)],
                                   [np.random.poisson(size=200)]))
 def test_L1Norm_median_estimate_w_regularization(data):
