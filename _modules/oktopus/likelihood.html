@@ -415,12 +415,12 @@
 <span class="sd">    &gt;&gt;&gt; my_line = lambda a, b: line(x, a, b)</span>
 <span class="sd">    &gt;&gt;&gt; logL = GaussianLikelihood(fake_data, my_line, 4)</span>
 <span class="sd">    &gt;&gt;&gt; p0 = (1, 1) # dumb initial_guess for alpha and beta</span>
-<span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0)</span>
+<span class="sd">    &gt;&gt;&gt; p_hat = logL.fit(x0=p0, method=&#39;Nelder-Mead&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; p_hat.x # fitted parameters</span>
-<span class="sd">    array([  2.96264084,  10.32861679])</span>
+<span class="sd">    array([  2.96263393,  10.32860717])</span>
 <span class="sd">    &gt;&gt;&gt; p_hat_unc = logL.uncertainties(p_hat.x) # get uncertainties on fitted parameters</span>
 <span class="sd">    &gt;&gt;&gt; p_hat_unc</span>
-<span class="sd">    array([ 0.11568702,  0.5587166 ])</span>
+<span class="sd">    array([ 0.11568693,  0.55871623])</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(x, fake_data, &#39;o&#39;) # doctest: +SKIP</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(x, line(*p_hat.x)) # doctest: +SKIP</span>
 <span class="sd">    &gt;&gt;&gt; # The exact values from linear algebra would be:</span>
@@ -478,7 +478,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
 <div class="viewcode-block" id="LaplacianLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.LaplacianLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="MultivariateGaussianLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.MultivariateGaussianLikelihood">[docs]</a><span class="k">class</span> <span class="nc">MultivariateGaussianLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>

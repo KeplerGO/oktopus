@@ -161,7 +161,7 @@
 <span class="kn">from</span> <span class="nn">.loss</span> <span class="k">import</span> <span class="n">LossFunction</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Prior&#39;</span><span class="p">,</span> <span class="s1">&#39;JointPrior&#39;</span><span class="p">,</span> <span class="s1">&#39;UniformPrior&#39;</span><span class="p">,</span> <span class="s1">&#39;GaussianPrior&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Prior&#39;</span><span class="p">,</span> <span class="s1">&#39;JointPrior&#39;</span><span class="p">,</span> <span class="s1">&#39;UniformPrior&#39;</span><span class="p">,</span> <span class="s1">&#39;GaussianPrior&#39;</span><span class="p">,</span> <span class="s1">&#39;LaplacianPrior&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="Prior"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.Prior">[docs]</a><span class="k">class</span> <span class="nc">Prior</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>
@@ -311,8 +311,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from oktopus import GaussianPrior</span>
-<span class="sd">    &gt;&gt;&gt; gauss = GaussianPrior(0, 1)</span>
-<span class="sd">    &gt;&gt;&gt; gauss(2)</span>
+<span class="sd">    &gt;&gt;&gt; prior = GaussianPrior(0, 1)</span>
+<span class="sd">    &gt;&gt;&gt; prior(2)</span>
 <span class="sd">    2.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -338,6 +338,45 @@
 
 <div class="viewcode-block" id="GaussianPrior.gradient"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.GaussianPrior.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">((</span><span class="n">params</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="LaplacianPrior"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.LaplacianPrior">[docs]</a><span class="k">class</span> <span class="nc">LaplacianPrior</span><span class="p">(</span><span class="n">Prior</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Computes the negative log pdf for a n-dimensional independent Laplacian</span>
+<span class="sd">    random variable.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean : scalar or array-like</span>
+<span class="sd">        Mean</span>
+<span class="sd">    var : scalar or array-like</span>
+<span class="sd">        Variance</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus import LaplacianPrior</span>
+<span class="sd">    &gt;&gt;&gt; prior = LaplacianPrior(0, 2)</span>
+<span class="sd">    &gt;&gt;&gt; prior(1)</span>
+<span class="sd">    1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">mean</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">var</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span>
+
+    <span class="nd">@mean</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span>
+
+<div class="viewcode-block" id="LaplacianPrior.evaluate"><a class="viewcode-back" href="../../api/prior.html#oktopus.prior.LaplacianPrior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">params</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>

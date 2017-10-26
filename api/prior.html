@@ -435,8 +435,8 @@ distribution.</p>
 distribution.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianPrior</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gauss</span> <span class="o">=</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gauss</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">2.0</span>
 </pre></div>
 </div>
@@ -494,6 +494,71 @@ distribution.</p>
 <dl class="attribute">
 <dt id="oktopus.prior.GaussianPrior.variance">
 <code class="descname">variance</code><a class="headerlink" href="#oktopus.prior.GaussianPrior.variance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.prior.LaplacianPrior">
+<em class="property">class </em><code class="descclassname">oktopus.prior.</code><code class="descname">LaplacianPrior</code><span class="sig-paren">(</span><em>mean</em>, <em>var</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#LaplacianPrior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.LaplacianPrior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the negative log pdf for a n-dimensional independent Laplacian
+random variable.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">LaplacianPrior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">LaplacianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>mean</td>
+<td>(scalar or array-like) Mean</td>
+</tr>
+<tr class="row-even"><td>var</td>
+<td>(scalar or array-like) Variance</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td>Calls <a class="reference internal" href="#oktopus.prior.LaplacianPrior.evaluate" title="oktopus.prior.LaplacianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.prior.LaplacianPrior.evaluate" title="oktopus.prior.LaplacianPrior.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(params)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.prior.LaplacianPrior.evaluate" title="oktopus.prior.LaplacianPrior.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v0.19.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.prior.LaplacianPrior.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/prior.html#LaplacianPrior.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.prior.LaplacianPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.LaplacianPrior.mean">
+<code class="descname">mean</code><a class="headerlink" href="#oktopus.prior.LaplacianPrior.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="oktopus.prior.LaplacianPrior.variance">
+<code class="descname">variance</code><a class="headerlink" href="#oktopus.prior.LaplacianPrior.variance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

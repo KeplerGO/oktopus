@@ -263,9 +263,9 @@
 <span class="sd">    &gt;&gt;&gt; joint_prior = JointPrior(slope_prior, intercept_prior)</span>
 <span class="sd">    &gt;&gt;&gt; logP = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)</span>
 <span class="sd">    &gt;&gt;&gt; p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept</span>
-<span class="sd">    &gt;&gt;&gt; p_hat = logP.fit(x0=p0)</span>
+<span class="sd">    &gt;&gt;&gt; p_hat = logP.fit(x0=p0, method=&#39;Nelder-Mead&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; p_hat.x # fitted parameters</span>
-<span class="sd">    array([  2.96264085,  10.32861675])</span>
+<span class="sd">    array([  2.9626486 ,  10.32858499])</span>
 <span class="sd">    &gt;&gt;&gt; #plt.plot(x, fake_data, &#39;o&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; #plt.plot(x, line(*p_hat.x))</span>
 <span class="sd">    &gt;&gt;&gt; # The exact values from linear algebra are:</span>
