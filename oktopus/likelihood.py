@@ -320,7 +320,7 @@ class LaplacianLikelihood(Likelihood):
         self.var = var
 
     def evaluate(self, params):
-        return np.nansum(np.abs(self.data - self.mean(*params)) / self.var)
+        return np.nansum(np.abs(self.data - self.mean(*params)) / np.sqrt(.5 * self.var))
 
 
 class MultivariateGaussianLikelihood(Likelihood):
