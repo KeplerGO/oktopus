@@ -159,8 +159,8 @@ class GaussianPrior(Prior):
     """
 
     def __init__(self, mean, var, name=None):
-        self.mean = np.asarray([mean])
-        self.var = np.asarray([var])
+        self.mean = np.asarray([mean]).reshape(-1)
+        self.var = np.asarray([var]).reshape(-1)
         self.name = name
 
     @property
@@ -201,8 +201,8 @@ class LaplacianPrior(Prior):
     """
 
     def __init__(self, mean, var, name=None):
-        self.mean = np.asarray([mean])
-        self.var = np.asarray([var])
+        self.mean = np.asarray([mean]).reshape(-1)
+        self.var = np.asarray([var]).reshape(-1)
         self.name = name
 
     @property
