@@ -112,8 +112,8 @@ class UniformPrior(Prior):
     """
 
     def __init__(self, lb, ub, name=None):
-        self.lb = np.asarray([lb])
-        self.ub = np.asarray([ub])
+        self.lb = np.asarray([lb]).reshape(-1)
+        self.ub = np.asarray([ub]).reshape(-1)
         self.name = name
 
     @property
