@@ -2,6 +2,7 @@ import pytest
 import autograd.numpy as npa
 from math import sqrt
 import numpy as np
+from .helpers import ConstantModel, LineModel
 from ..likelihood import (MultinomialLikelihood, PoissonLikelihood,
                           GaussianLikelihood, MultivariateGaussianLikelihood,
                           LaplacianLikelihood)
@@ -26,21 +27,20 @@ def test_multinomial_likelihood(counts, ans, opt_kwargs):
     np.testing.assert_almost_equal(logL.gradient(p_hat.x), 0., decimal=2)
 
 
-@pytest.mark.parametrize("toy_data, optimizer",
-                         ([np.random.randint(1, 20, size=100), 'basinhopping'],
-                          [np.random.randint(1, 20, size=100), 'minimize'],
-                          [np.random.randint(1, 10, size=50), 'basinhopping'],
-                          [np.random.randint(1, 10, size=50), 'minimize']))
-def test_poisson_likelihood(toy_data, optimizer):
-    mean = lambda l: npa.array([l])
-    logL = PoissonLikelihood(data=toy_data, mean=mean)
+@pytest.mark.parametrize("toy_data, optimizer, model",
+                         ([np.random.randint(1, 20, size=100), 'basinhopping', ConstantModel()],
+                          [np.random.randint(1, 20, size=100), 'minimize', ConstantModel().evaluate],
+                          [np.random.randint(1, 10, size=50), 'basinhopping', ConstantModel().evaluate],
+                          [np.random.randint(1, 10, size=50), 'minimize', ConstantModel()]))
+def test_poisson_likelihood(toy_data, optimizer, model):
+    logL = PoissonLikelihood(data=toy_data, mean=model)
     mean_hat = logL.fit(optimizer=optimizer, x0=np.median(toy_data))
     np.testing.assert_almost_equal(mean_hat.x, np.mean(toy_data), decimal=4)
     np.testing.assert_almost_equal(logL.uncertainties(mean_hat.x),
                                    sqrt(np.mean(toy_data)), decimal=4)
     # test gradients
     l = np.linspace(1, 10, len(toy_data))
-    true_grad = np.sum((1 - toy_data / mean(l)))
+    true_grad = np.sum((1 - toy_data / model(l)))
     np.testing.assert_almost_equal(true_grad, logL.gradient([l]))
     np.testing.assert_almost_equal(logL.gradient(mean_hat.x), 0., decimal=3)
 
@@ -49,10 +49,9 @@ def test_poisson_likelihood(toy_data, optimizer):
 def test_gaussian_likelihood(optimizer):
     x = npa.linspace(-5, 5, 20)
     fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
-    def line(alpha, beta):
-        return alpha * x + beta
+    line = LineModel(x)
     logL = GaussianLikelihood(fake_data, line, 4)
-    p0 = (1, 1) # dumb initial_guess for alpha and beta
+    p0 = (1, 1) # dumb initial_guess for slope and intercept
     p_hat = logL.fit(optimizer=optimizer, x0=p0)
     # lsq solution from linear algebra
     M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])

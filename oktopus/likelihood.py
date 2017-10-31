@@ -144,10 +144,16 @@ class MultinomialLikelihood(Likelihood):
                                      self).fisher_information_matrix(params)
 
     def gradient(self, params):
+        # use the gradient if the model provides it.
+        # if not, compute it using autograd.
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
         n_params = len(params)
         grad_likelihood = np.array([])
         for i in range(n_params):
-            grad = jacobian(self.mean, argnum=i)(*params)
+            grad = _grad(self.mean, i, params)
             grad_likelihood = np.append(grad_likelihood,
                                         - np.nansum(self.data * grad / self.mean(*params)))
         return grad_likelihood
@@ -213,10 +219,16 @@ class PoissonLikelihood(Likelihood):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
 
     def gradient(self, params):
+        # use the gradient if the model provides it.
+        # if not, compute it using autograd.
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
         n_params = len(params)
         grad_likelihood = np.array([])
         for i in range(n_params):
-            grad = jacobian(self.mean, argnum=i)(*params)
+            grad = _grad(self.mean, i, params)
             grad_likelihood = np.append(grad_likelihood,
                                         np.nansum(grad * (1 - self.data / self.mean(*params))))
         return grad_likelihood
@@ -283,10 +295,16 @@ class GaussianLikelihood(Likelihood):
         return 0.5 * np.nansum((self.data - self.mean(*params)) ** 2 / self.var)
 
     def gradient(self, params):
+        # use the gradient if the model provides it.
+        # if not, compute it using autograd.
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
         n_params = len(params)
         grad_likelihood = np.array([])
         for i in range(n_params):
-            grad = jacobian(self.mean, argnum=i)(*params)
+            grad = _grad(self.mean, i, params)
             grad_likelihood = np.append(grad_likelihood,
                                         -np.nansum((self.data - self.mean(*params))
                                                    * grad / self.var)
