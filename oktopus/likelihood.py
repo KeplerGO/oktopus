@@ -27,18 +27,16 @@ class Likelihood(LossFunction):
         fisher = np.empty(shape=(n_params, n_params))
 
         if not hasattr(self.mean, 'gradient'):
-            _grad = lambda mean, argnum, params: jacobian(mean, argnum)(params)
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
         else:
-            _grad = lambda mean, argnum, params: mean.gradient(params)[argnum]
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
 
-        grad_mean = []
-        for i in range(n_params):
-            grad_mean.append(lambda params: _grad(self.mean, i, params))
+        grad_mean = [_grad(self.mean, i, params) for i in range(n_params)]
+        mean = self.mean(*params)
+
         for i in range(n_params):
             for j in range(i, n_params):
-                fisher[i, j] = ((grad_mean[i](*params)
-                                 * grad_mean[j](*params)
-                                 / self.mean(*params)).sum())
+                fisher[i, j] = ((grad_mean[i] * grad_mean[j] / mean).sum())
                 fisher[j, i] = fisher[i, j]
         return fisher
 
