@@ -36,7 +36,7 @@ class Likelihood(LossFunction):
 
         for i in range(n_params):
             for j in range(i, n_params):
-                fisher[i, j] = ((grad_mean[i] * grad_mean[j] / mean).sum())
+                fisher[i, j] = (grad_mean[i] * grad_mean[j] / mean).sum()
                 fisher[j, i] = fisher[i, j]
         return fisher
 
