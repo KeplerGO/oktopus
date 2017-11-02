@@ -85,6 +85,28 @@ class JointPrior(Prior):
             p += self.components[i].evaluate(params[i])
         return p
 
+    def gradient(self, params):
+        """Computes the gradient of the sum of the log of each distribution
+        given in *args* evaluated at *params*.
+
+        Parameters
+        ----------
+        params : tuple
+            Value at which the JointPrior instance will be evaluated.
+            This must have the same dimension as the number of priors used
+            to initialize the object
+
+        Returns
+        -------
+        value : scalar
+            Gradient of the sum of the negative of the log of each distribution
+            given in **args**
+        """
+        grad = 0
+        for i in range(len(params)):
+            grad += self.components[i].gradient(params[i])
+        return grad
+
     @property
     def mean(self):
         return np.array([self.components[i].mean for i in range(len(self.components))]).flatten()
