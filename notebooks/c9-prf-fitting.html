@@ -440,7 +440,7 @@ scientific Python stack:</p>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">rc</span>
 <span class="n">rc</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span> <span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;size&#39;</span>   <span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+        <span class="s1">&#39;size&#39;</span>   <span class="p">:</span> <span class="mi">22</span><span class="p">,</span>
         <span class="s1">&#39;serif&#39;</span>  <span class="p">:</span> <span class="s1">&#39;New Century Schoolbook&#39;</span><span class="p">}</span>
 <span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">font</span><span class="p">)</span>
 </pre></div>
@@ -496,6 +496,7 @@ for the scene. We can import those from <code class="docutils literal"><span cla
 </div>
 <p>Let’s start by instantiating a <code class="docutils literal"><span class="pre">KeplerTargetPixelFile</span></code> object (you may
 either give a url or a local path to the file):</p>
+<p><strong>2. Actual PRF Photometry</strong></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [10]:
@@ -529,7 +530,7 @@ quality flag will be ignored.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_22_0.png" src="../_images/notebooks_c9-prf-fitting_22_0.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_23_0.png" src="../_images/notebooks_c9-prf-fitting_23_0.png" />
 </div>
 </div>
 <p>Now, let’s create circular apertures around the targets using
@@ -550,7 +551,7 @@ quality flag will be ignored.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_24_0.png" src="../_images/notebooks_c9-prf-fitting_24_0.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_25_0.png" src="../_images/notebooks_c9-prf-fitting_25_0.png" />
 </div>
 </div>
 <p>We can also use <code class="docutils literal"><span class="pre">photutils</span></code> to create aperture photometry light curves
@@ -576,7 +577,7 @@ from the drawn apertures:</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">lc1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">lc1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
 </pre></div>
@@ -588,7 +589,7 @@ from the drawn apertures:</p>
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x119ee3128&gt;
+<span></span>&lt;matplotlib.text.Text at 0x11818d470&gt;
 </pre></div>
 </div>
 </div>
@@ -596,7 +597,7 @@ from the drawn apertures:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_28_1.png" src="../_images/notebooks_c9-prf-fitting_28_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_29_1.png" src="../_images/notebooks_c9-prf-fitting_29_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -606,7 +607,7 @@ from the drawn apertures:</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">lc2</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">lc2</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
 </pre></div>
@@ -618,7 +619,7 @@ from the drawn apertures:</p>
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11a11fb70&gt;
+<span></span>&lt;matplotlib.text.Text at 0x1183e8358&gt;
 </pre></div>
 </div>
 </div>
@@ -626,7 +627,7 @@ from the drawn apertures:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_29_1.png" src="../_images/notebooks_c9-prf-fitting_29_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_30_1.png" src="../_images/notebooks_c9-prf-fitting_30_1.png" />
 </div>
 </div>
 <p>Looking at the data before performing PRF photometry is important
@@ -660,7 +661,7 @@ class.</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg</span><span class="p">,</span> <span class="s1">&#39;ko&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
 </pre></div>
@@ -672,7 +673,7 @@ class.</p>
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11a1931d0&gt;
+<span></span>&lt;matplotlib.text.Text at 0x11843e908&gt;
 </pre></div>
 </div>
 </div>
@@ -680,7 +681,7 @@ class.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_34_1.png" src="../_images/notebooks_c9-prf-fitting_34_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_35_1.png" src="../_images/notebooks_c9-prf-fitting_35_1.png" />
 </div>
 </div>
 <p>Ooops! Looks like there is something funny happening on that frame
@@ -710,7 +711,7 @@ data to see what’s going on:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_37_0.png" src="../_images/notebooks_c9-prf-fitting_37_0.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_38_0.png" src="../_images/notebooks_c9-prf-fitting_38_0.png" />
 </div>
 </div>
 <p>Ok, we see that there is something unusual here. Let’s just ignore this
@@ -723,7 +724,7 @@ cadence for now and move on to our PRF photometry.</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg</span><span class="p">,</span> <span class="s1">&#39;ko&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">2150</span><span class="p">,</span> <span class="mi">2400</span><span class="p">)</span>
@@ -744,7 +745,7 @@ cadence for now and move on to our PRF photometry.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_40_1.png" src="../_images/notebooks_c9-prf-fitting_40_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_41_1.png" src="../_images/notebooks_c9-prf-fitting_41_1.png" />
 </div>
 </div>
 <p>Now, let’s create our PRF model using the <code class="docutils literal"><span class="pre">SimpleKeplerPRF</span></code> class:</p>
@@ -816,7 +817,7 @@ prior probablity:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_52_0.png" src="../_images/notebooks_c9-prf-fitting_52_0.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_53_0.png" src="../_images/notebooks_c9-prf-fitting_53_0.png" />
 </div>
 </div>
 <p>Now, we can feed both the <code class="docutils literal"><span class="pre">SceneModel</span></code> and the <code class="docutils literal"><span class="pre">UniformPrior</span></code>
@@ -852,11 +853,11 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
   result_value = self.fun(*argvals, **kwargs)
 /Users/jvmirca/anaconda3/lib/python3.6/site-packages/scipy/optimize/optimize.py:1850: RuntimeWarning: invalid value encountered in double_scalars
   tmp2 = (x - v) * (fx - fw)
- 28%|██▊       | 342/1213 [00:15&lt;00:37, 23.25it/s]/Users/jvmirca/anaconda3/lib/python3.6/site-packages/scipy/optimize/optimize.py:1851: RuntimeWarning: invalid value encountered in double_scalars
+ 28%|██▊       | 341/1213 [00:17&lt;00:39, 21.80it/s]/Users/jvmirca/anaconda3/lib/python3.6/site-packages/scipy/optimize/optimize.py:1851: RuntimeWarning: invalid value encountered in double_scalars
   p = (x - v) * tmp2 - (x - w) * tmp1
 /Users/jvmirca/anaconda3/lib/python3.6/site-packages/scipy/optimize/optimize.py:1852: RuntimeWarning: invalid value encountered in double_scalars
   tmp2 = 2.0 * (tmp2 - tmp1)
-100%|██████████| 1213/1213 [00:56&lt;00:00, 21.60it/s]
+100%|██████████| 1213/1213 [00:57&lt;00:00, 20.95it/s]
 </pre></div></div>
 </div>
 <p>Note that our Poisson likelihood assumption is embedded in the
@@ -888,7 +889,9 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">flux_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">flux_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -898,7 +901,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11a0117f0&gt;]
+<span></span>&lt;matplotlib.text.Text at 0x117f03470&gt;
 </pre></div>
 </div>
 </div>
@@ -906,7 +909,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_61_1.png" src="../_images/notebooks_c9-prf-fitting_61_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_62_1.png" src="../_images/notebooks_c9-prf-fitting_62_1.png" />
 </div>
 </div>
 <p>Oops! That outlier is probably the funny cadence we identified before:</p>
@@ -947,7 +950,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">flux_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">flux_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">20500</span><span class="p">,</span> <span class="mi">22000</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
@@ -960,37 +963,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x119f58278&gt;
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_65_1.png" src="../_images/notebooks_c9-prf-fitting_65_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [32]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">xcenter_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Column position&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[32]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11a7a6588&gt;
+<span></span>&lt;matplotlib.text.Text at 0x117f67cc0&gt;
 </pre></div>
 </div>
 </div>
@@ -1003,24 +976,24 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">ycenter_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Row position&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">xcenter_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Column position&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[33]:
+<span></span>Out[32]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11a76b5c0&gt;
+<span></span>&lt;matplotlib.text.Text at 0x11804b6d8&gt;
 </pre></div>
 </div>
 </div>
@@ -1033,25 +1006,24 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [34]:
+<span></span>In [33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">flux_2</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">17000</span><span class="p">,</span> <span class="mi">19000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">ycenter_1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Row position&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[34]:
+<span></span>Out[33]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11a1d87b8&gt;
+<span></span>&lt;matplotlib.text.Text at 0x11898ff60&gt;
 </pre></div>
 </div>
 </div>
@@ -1064,24 +1036,25 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [35]:
+<span></span>In [34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">xcenter_2</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Column position&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">flux_2</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">17000</span><span class="p">,</span> <span class="mi">19000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flux&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[35]:
+<span></span>Out[34]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11a1e56a0&gt;
+<span></span>&lt;matplotlib.text.Text at 0x118998588&gt;
 </pre></div>
 </div>
 </div>
@@ -1094,24 +1067,24 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [36]:
+<span></span>In [35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">ycenter_2</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Row position&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">xcenter_2</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Column position&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[36]:
+<span></span>Out[35]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.text.Text at 0x11b5b3eb8&gt;
+<span></span>&lt;matplotlib.text.Text at 0x117c55390&gt;
 </pre></div>
 </div>
 </div>
@@ -1124,12 +1097,42 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">ycenter_2</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Row position&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[36]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.text.Text at 0x117c37278&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_c9-prf-fitting_71_1.png" src="../_images/notebooks_c9-prf-fitting_71_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg_hat</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tpf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">bkg_hat</span><span class="p">,</span> <span class="s1">&#39;ko&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Background Flux&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">2350</span><span class="p">,</span> <span class="mi">2650</span><span class="p">)</span>
@@ -1150,7 +1153,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_71_1.png" src="../_images/notebooks_c9-prf-fitting_71_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_72_1.png" src="../_images/notebooks_c9-prf-fitting_72_1.png" />
 </div>
 </div>
 <p>We can retrieve the residuals using the <code class="docutils literal"><span class="pre">get_residuals</span></code> method:</p>
@@ -1166,7 +1169,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [45]:
+<span></span>In [39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1177,11 +1180,11 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[45]:
+<span></span>Out[39]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11bd775f8&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x113270da0&gt;
 </pre></div>
 </div>
 </div>
@@ -1189,7 +1192,7 @@ data <code class="docutils literal"><span class="pre">tpf.flux</span></code>.</p
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_74_1.png" src="../_images/notebooks_c9-prf-fitting_74_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_75_1.png" src="../_images/notebooks_c9-prf-fitting_75_1.png" />
 </div>
 </div>
 <p>We can also get the pixels time series for every single model as shown
@@ -1220,7 +1223,7 @@ below:</p>
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
-100%|██████████| 1213/1213 [00:00&lt;00:00, 35450.34it/s]
+100%|██████████| 1213/1213 [00:00&lt;00:00, 23099.93it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1239,7 +1242,7 @@ below:</p>
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
-100%|██████████| 1213/1213 [00:00&lt;00:00, 35241.13it/s]
+100%|██████████| 1213/1213 [00:00&lt;00:00, 25314.04it/s]
 </pre></div></div>
 </div>
 <p>Let’s then visualize the single models:</p>
@@ -1260,7 +1263,7 @@ below:</p>
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11bac6668&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x117f51828&gt;
 </pre></div>
 </div>
 </div>
@@ -1268,7 +1271,7 @@ below:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_80_1.png" src="../_images/notebooks_c9-prf-fitting_80_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_81_1.png" src="../_images/notebooks_c9-prf-fitting_81_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1288,7 +1291,7 @@ below:</p>
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.colorbar.Colorbar at 0x11baf55f8&gt;
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x118a85470&gt;
 </pre></div>
 </div>
 </div>
@@ -1296,7 +1299,7 @@ below:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_c9-prf-fitting_81_1.png" src="../_images/notebooks_c9-prf-fitting_81_1.png" />
+<img alt="../_images/notebooks_c9-prf-fitting_82_1.png" src="../_images/notebooks_c9-prf-fitting_82_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
