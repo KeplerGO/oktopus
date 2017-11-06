@@ -6,6 +6,9 @@ from codecs import open
 import os
 from os import path
 
+# Load the version variable
+exec(open('oktopus/version.py').read())
+
 # Prepare and send a new release to PyPI
 if "release" in sys.argv[-1]:
     os.system("python setup.py sdist")
