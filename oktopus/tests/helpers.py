@@ -2,12 +2,10 @@
 import autograd.numpy as npa
 
 
-class Model(object):
-    def __call__(self, *params):
-        return self.evaluate(*params)
+class ConstantModel(object):
+    def __call__(self, c):
+        return self.evaluate(c)
 
-
-class ConstantModel(Model):
     def evaluate(self, c):
         return npa.array([c])
 
@@ -15,9 +13,12 @@ class ConstantModel(Model):
         return [1.]
 
 
-class LineModel(Model):
+class LineModel(object):
     def __init__(self, x):
         self.x = x
+
+    def __call__(self, m, b):
+        return self.evaluate(m, b)
 
     def evaluate(self, m, b):
         return m * self.x + b

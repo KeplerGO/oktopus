@@ -144,6 +144,10 @@ class L1Norm(LossFunction):
         else:
             self._evaluate = self._evaluate_w_regularization
 
+    def __repr__(self):
+        return "<L1Norm(data={}, model={}, regularization={})>".format(self.data,
+                self.model, self.regularization)
+
     @property
     def regularization(self):
         return self._regularization

@@ -40,6 +40,10 @@ class Posterior(LossFunction):
         self.loglikelihood = likelihood
         self.logprior = prior
 
+    def __repr__(self):
+        return "<Posterior(likelihood={}, prior={})>".format(self.loglikelihood,
+                self.prior)
+
     def evaluate(self, params):
         """Evaluates the negative of the log of the posterior at params.
 
@@ -125,6 +129,10 @@ class GaussianPosterior(Posterior):
         self.logprior = prior
         self.loglikelihood = GaussianLikelihood(data, mean, var)
 
+    def __repr__(self):
+        return "<GaussianPosterior(data={}, mean={}, var={}, prior={})>".format(self.data,
+                self.mean, self.var, self.prior)
+
 
 class PoissonPosterior(Posterior):
     """
@@ -169,6 +177,10 @@ class PoissonPosterior(Posterior):
         self.logprior = prior
         self.loglikelihood = PoissonLikelihood(data, mean)
 
+    def __repr__(self):
+        return "<PoissonPosterior(data={}, mean={}, prior={})>".format(self.data,
+                self.mean, self.prior)
+
 
 class MultivariateGaussianPosterior(Posterior):
     """
@@ -182,17 +194,18 @@ class MultivariateGaussianPosterior(Posterior):
         Mean model
     cov : callable
         Kernel for the covariance matrix
-    dim : int
-        Dimension (number of parameters) of the mean model
     prior : callable
         Negative log prior as a function of the parameters.
         See :class:UniformPrior
     """
 
-    def __init__(self, data, mean, cov, dim, prior):
+    def __init__(self, data, mean, cov, prior):
         self.data = data
         self.mean = mean
         self.cov = cov
-        self.dim = dim
         self.logprior = prior
-        self.loglikelihood = MultivariateGaussianLikelihood(data, mean, cov, dim)
+        self.loglikelihood = MultivariateGaussianLikelihood(data, mean, cov)
+
+    def __repr__(self):
+        return ("<MultivariateGaussianPosterior(data={}, mean={}, cov={},"
+                " prior={})>".format(self.data, self.mean, self.cov, self.prior))

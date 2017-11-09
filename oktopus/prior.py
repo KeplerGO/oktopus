@@ -64,6 +64,9 @@ class JointPrior(Prior):
     def __init__(self, *args):
         self.components = args
 
+    def __repr__(self):
+        return "<JointPrior({})>".format([c.__repr__() for c in self.components])
+
     def evaluate(self, params):
         """Computes the sum of the log of each distribution given in *args*
         evaluated at *params*.
@@ -138,6 +141,9 @@ class UniformPrior(Prior):
         self.ub = np.asarray([ub]).reshape(-1)
         self.name = name
 
+    def __repr__(self):
+        return "<UniformPrior(lb={}, ub={})>".format(self.lb, self.ub)
+
     @property
     def mean(self):
         """Returns the mean of the uniform distributions
@@ -185,6 +191,9 @@ class GaussianPrior(Prior):
         self.var = np.asarray([var]).reshape(-1)
         self.name = name
 
+    def __repr__(self):
+        return "<GaussianPrior(mean={}, var={})>".format(self.mean, self.var)
+
     @property
     def mean(self):
         return self._mean
@@ -226,6 +235,9 @@ class LaplacianPrior(Prior):
         self.mean = np.asarray([mean]).reshape(-1)
         self.var = np.asarray([var]).reshape(-1)
         self.name = name
+
+    def __repr__(self):
+        return "<LaplacianPrior(mean={}, var={})>".format(self.mean, self.var)
 
     @property
     def mean(self):

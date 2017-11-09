@@ -69,8 +69,7 @@ def test_gaussian_likelihood(optimizer):
     # test that MultivariateGaussianLikelihood returns the previous result for
     # a WhiteNoiseKernel
     logL = MultivariateGaussianLikelihood(data=fake_data, mean=line,
-                                          cov=WhiteNoiseKernel(n=len(fake_data)),
-                                          dim=2)
+                                          cov=WhiteNoiseKernel(n=len(fake_data)))
     p0 = (1, 1, 2)
     p_hat = logL.fit(x0=p0)
     np.testing.assert_almost_equal(p_hat.x[:2], p_hat_linalg, decimal=4)

@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from inspect import signature
 import autograd.numpy as np
 from autograd import jacobian
 from .loss import LossFunction
@@ -132,6 +133,10 @@ class MultinomialLikelihood(Likelihood):
         self.data = data
         self.mean = mean
 
+    def __repr__(self):
+        return "<MultinomialLikelihood(data={}, mean={})>".format(self.data,
+                self.mean)
+
     @property
     def n_counts(self):
         """
@@ -218,6 +223,10 @@ class PoissonLikelihood(Likelihood):
         self.data = data
         self.mean = mean
 
+    def __repr__(self):
+        return "<PoissonLikelihood(data={}, mean={})>".format(self.data,
+                self.mean)
+
     def evaluate(self, params):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
 
@@ -294,6 +303,10 @@ class GaussianLikelihood(Likelihood):
         self.mean = mean
         self.var = var
 
+    def __repr__(self):
+        return "<GaussianLikelihood(data={}, mean={}, var={})>".format(self.data,
+                self.mean, self.var)
+
     def evaluate(self, params):
         return 0.5 * np.nansum((self.data - self.mean(*params)) ** 2 / self.var)
 
@@ -340,6 +353,10 @@ class LaplacianLikelihood(Likelihood):
         self.mean = mean
         self.var = var
 
+    def __repr__(self):
+        return "<LaplacianLikelihood(data={}, mean={}, var={})>".format(self.data,
+                self.mean, self.var)
+
     def evaluate(self, params):
         return np.nansum(np.abs(self.data - self.mean(*params)) / np.sqrt(.5 * self.var))
 
@@ -356,15 +373,16 @@ class MultivariateGaussianLikelihood(Likelihood):
         Mean model.
     cov : callable
         Kernel for the covariance matrix.
-    dim : int
-        Dimension (number of parameters) of the mean model.
     """
 
-    def __init__(self, data, mean, cov, dim):
+    def __init__(self, data, mean, cov):
         self.data = data
         self.mean = mean
         self.cov = cov
-        self.dim = dim
+
+    def __repr__(self):
+        return "<MultivariateGaussianLikelihood(data={}, mean={}, cov={})>".format(self.data,
+                self.mean, self.cov)
 
     def evaluate(self, params):
         """
@@ -375,9 +393,9 @@ class MultivariateGaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the mean model and covariance matrix
         """
-
-        theta = params[:self.dim] # mean model parameters
-        alpha = params[self.dim:] # kernel parameters (hyperparameters)
+        dim = len(signature(self.mean).parameters)
+        theta = params[:dim] # mean model parameters
+        alpha = params[dim:] # kernel parameters (hyperparameters)
 
         residual = self.data - self.mean(*theta)
 
