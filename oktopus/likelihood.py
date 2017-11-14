@@ -1,8 +1,18 @@
+import sys
 from abc import abstractmethod
-from inspect import signature
 import autograd.numpy as np
 from autograd import jacobian
 from .loss import LossFunction
+
+if sys.version_info[0] == 2:
+    from inspect import getargspec
+    def _get_number_of_arguments(func):
+        return len(getargspec(func).args)
+
+else:
+    from inspect import signature
+    def _get_number_of_arguments(func):
+        return len(signature(func).parameters)
 
 
 __all__ = ['Likelihood', 'MultinomialLikelihood', 'PoissonLikelihood',
@@ -393,7 +403,7 @@ class MultivariateGaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the mean model and covariance matrix
         """
-        dim = len(signature(self.mean).parameters)
+        dim = _get_number_of_arguments(self.mean)
         theta = params[:dim] # mean model parameters
         alpha = params[dim:] # kernel parameters (hyperparameters)
 
