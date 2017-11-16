@@ -13,6 +13,25 @@ class Model(object):
         pass
 
 
+class ConstantModel(Model):
+    def evaluate(self, c):
+        return np.array([c])
+
+    def gradient(self, c):
+        return [1.]
+
+
+class LineModel(Model):
+    def __init__(self, x):
+        self.x = x
+
+    def evaluate(self, m, b):
+        return m * self.x + b
+
+    def gradient(self, m, b):
+        return [self.x, np.ones(len(self.x))]
+
+
 class SymmetricGaussian2D(Model):
     def __init__(self, x, y):
         self.x = x

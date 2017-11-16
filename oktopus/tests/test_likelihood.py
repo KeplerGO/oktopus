@@ -2,7 +2,7 @@ import pytest
 import autograd.numpy as npa
 from math import sqrt
 import numpy as np
-from .helpers import ConstantModel, LineModel
+from ..models import ConstantModel, LineModel
 from ..likelihood import (MultinomialLikelihood, PoissonLikelihood,
                           GaussianLikelihood, MultivariateGaussianLikelihood,
                           LaplacianLikelihood)
@@ -49,7 +49,7 @@ def test_poisson_likelihood(toy_data, optimizer, model):
 def test_gaussian_likelihood(optimizer):
     x = npa.linspace(-5, 5, 20)
     fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
-    line = LineModel(x)
+    line = LineModel(x).evaluate
     logL = GaussianLikelihood(fake_data, line, 4)
     p0 = (1, 1) # dumb initial_guess for slope and intercept
     p_hat = logL.fit(optimizer=optimizer, x0=p0)
