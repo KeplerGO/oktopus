@@ -23,7 +23,7 @@ class ConstantModel(Model):
 
 class LineModel(Model):
     def __init__(self, x):
-        self.x = x
+        self.x = np.asarray(x)
 
     def evaluate(self, m, b):
         return m * self.x + b
