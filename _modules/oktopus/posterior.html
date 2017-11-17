@@ -198,6 +198,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">likelihood</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span> <span class="o">=</span> <span class="n">prior</span>
 
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Posterior(likelihood=</span><span class="si">{}</span><span class="s2">, prior=</span><span class="si">{}</span><span class="s2">)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prior</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Posterior.evaluate"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.Posterior.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the negative of the log of the posterior at params.</span>
 
@@ -281,7 +285,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span> <span class="o">=</span> <span class="n">prior</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">GaussianLikelihood</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">GaussianLikelihood</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;GaussianPosterior(data=</span><span class="si">{}</span><span class="s2">, mean=</span><span class="si">{}</span><span class="s2">, var=</span><span class="si">{}</span><span class="s2">, prior=</span><span class="si">{}</span><span class="s2">)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PoissonPosterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.PoissonPosterior">[docs]</a><span class="k">class</span> <span class="nc">PoissonPosterior</span><span class="p">(</span><span class="n">Posterior</span><span class="p">):</span>
@@ -325,7 +333,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span> <span class="o">=</span> <span class="n">prior</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">PoissonLikelihood</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">PoissonLikelihood</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;PoissonPosterior(data=</span><span class="si">{}</span><span class="s2">, mean=</span><span class="si">{}</span><span class="s2">, prior=</span><span class="si">{}</span><span class="s2">)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MultivariateGaussianPosterior"><a class="viewcode-back" href="../../api/posterior.html#oktopus.posterior.MultivariateGaussianPosterior">[docs]</a><span class="k">class</span> <span class="nc">MultivariateGaussianPosterior</span><span class="p">(</span><span class="n">Posterior</span><span class="p">):</span>
@@ -340,20 +352,21 @@
 <span class="sd">        Mean model</span>
 <span class="sd">    cov : callable</span>
 <span class="sd">        Kernel for the covariance matrix</span>
-<span class="sd">    dim : int</span>
-<span class="sd">        Dimension (number of parameters) of the mean model</span>
 <span class="sd">    prior : callable</span>
 <span class="sd">        Negative log prior as a function of the parameters.</span>
 <span class="sd">        See :class:UniformPrior</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logprior</span> <span class="o">=</span> <span class="n">prior</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">MultivariateGaussianLikelihood</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood</span> <span class="o">=</span> <span class="n">MultivariateGaussianLikelihood</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;&lt;MultivariateGaussianPosterior(data=</span><span class="si">{}</span><span class="s2">, mean=</span><span class="si">{}</span><span class="s2">, cov=</span><span class="si">{}</span><span class="s2">,&quot;</span>
+                <span class="s2">&quot; prior=</span><span class="si">{}</span><span class="s2">)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior</span><span class="p">))</span></div>
 </pre></div>
 
            </div>
