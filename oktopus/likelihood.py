@@ -4,11 +4,15 @@ import autograd.numpy as np
 from autograd import jacobian
 from .loss import LossFunction
 
+
 if sys.version_info[0] == 2:
     from inspect import getargspec
     def _get_number_of_arguments(func):
-        return len(getargspec(func).args)
-
+        list_of_args = getargspec(func).args
+        if 'self' in list_of_args:
+            return len(list_of_args) - 1
+        else:
+            return len(list_of_args)
 else:
     from inspect import signature
     def _get_number_of_arguments(func):
@@ -225,8 +229,8 @@ class PoissonLikelihood(Likelihood):
     >>> mean_unc = logL.uncertainties(mean_hat.x)
     >>> mean_unc
     array([ 3.04795015])
-    >>> print(math.sqrt(np.mean(toy_data))) # theorectical Fisher information
-    3.047950130825634
+    >>> print("{:.5f}".format(math.sqrt(np.mean(toy_data)))) # theorectical Fisher information
+    3.04795
     """
 
     def __init__(self, data, mean):

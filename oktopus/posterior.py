@@ -104,14 +104,14 @@ class GaussianPosterior(Posterior):
     >>> def line(x, slope, intercept):
     ...     return slope * x + intercept
     >>> my_line = lambda slope, intercept: line(x, slope, intercept)
-    >>> slope_prior = UniformPrior(lb=1, ub=10)
-    >>> intercept_prior = UniformPrior(lb=5, ub=20)
+    >>> slope_prior = UniformPrior(lb=1., ub=10.)
+    >>> intercept_prior = UniformPrior(lb=5., ub=20.)
     >>> joint_prior = JointPrior(slope_prior, intercept_prior)
     >>> logP = GaussianPosterior(data=fake_data, mean=my_line, var=4, prior=joint_prior)
     >>> p0 = (slope_prior.mean, intercept_prior.mean) # initial guesses for slope and intercept
-    >>> p_hat = logP.fit(x0=p0, method='Nelder-Mead')
+    >>> p_hat = logP.fit(x0=p0, method='powell')
     >>> p_hat.x # fitted parameters
-    array([  2.9626486 ,  10.32858499])
+    array([  2.96264088,  10.3286166 ])
     >>> #plt.plot(x, fake_data, 'o')
     >>> #plt.plot(x, line(*p_hat.x))
     >>> # The exact values from linear algebra are:
@@ -161,7 +161,7 @@ class PoissonPosterior(Posterior):
     >>> toy_data = np.random.randint(1, 20, size=100)
     >>> def mean(l):
     ...     return np.array([l])
-    >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(lb=1, ub=20))
+    >>> logP = PoissonPosterior(data=toy_data, mean=mean, prior=UniformPrior(lb=1., ub=20.))
     >>> mean_hat = logP.fit(x0=10.5)
     >>> mean_hat.x # MAP is the same of MLE for uniform prior
     array([ 9.29000013])

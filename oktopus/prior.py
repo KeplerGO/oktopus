@@ -50,10 +50,10 @@ class JointPrior(Prior):
     Examples
     --------
     >>> from oktopus import UniformPrior, GaussianPrior, JointPrior
-    >>> jp = JointPrior(UniformPrior(-0.5, 0.5), GaussianPrior(0, 1))
-    >>> jp.evaluate((0, 0))
+    >>> jp = JointPrior(UniformPrior(-0.5, 0.5), GaussianPrior(0., 1.))
+    >>> jp.evaluate((0., 0.))
     0.0
-    >>> jp((0, 0)) # jp is also a callable to evaluate()
+    >>> jp((0., 0.)) # jp is also a callable to evaluate()
     0.0
 
     Notes
@@ -129,7 +129,7 @@ class UniformPrior(Prior):
     Examples
     --------
     >>> from oktopus import UniformPrior
-    >>> unif = UniformPrior(0, 1)
+    >>> unif = UniformPrior(0., 1.)
     >>> unif(.5)
     -0.0
     >>> unif(1)
@@ -154,11 +154,11 @@ class UniformPrior(Prior):
     def variance(self):
         """Returns the variance of the uniform distributions
         """
-        return (self.ub - self.lb) ** 2 / 12
+        return (self.ub - self.lb) ** 2 / 12.
 
     def evaluate(self, params):
         if (self.lb <= params).all() and (params < self.ub).all():
-            return - np.log(1 / (self.ub - self.lb)).sum()
+            return - np.log(1. / (self.ub - self.lb)).sum()
         return np.inf
 
     def gradient(self, params):
@@ -182,7 +182,7 @@ class GaussianPrior(Prior):
     --------
     >>> from oktopus import GaussianPrior
     >>> prior = GaussianPrior(0, 1)
-    >>> prior(2)
+    >>> prior(2.)
     2.0
     """
 
@@ -227,7 +227,7 @@ class LaplacianPrior(Prior):
     --------
     >>> from oktopus import LaplacianPrior
     >>> prior = LaplacianPrior(0, 2)
-    >>> prior(1)
+    >>> prior(1.)
     1.0
     """
 
