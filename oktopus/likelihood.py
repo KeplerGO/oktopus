@@ -133,7 +133,7 @@ class MultinomialLikelihood(Likelihood):
     >>> p_hat_unc = logL.uncertainties(p_hat.x)
     >>> p_hat_unc
     array([ 0.06928203])
-    >>> 20 / (20 + 30) # theorectical MLE
+    >>> 20. / (20 + 30) # theorectical MLE
     0.4
     >>> print(np.sqrt(0.4 * 0.6 / (20 + 30))) # theorectical uncertanity
     0.0692820323028
