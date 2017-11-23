@@ -7,7 +7,7 @@ Likelihood Distributions
 
 
 Inheritance Diagram
-===================
+-------------------
 
 .. inheritance-diagram:: oktopus.likelihood
     :parts: 0

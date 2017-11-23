@@ -6,7 +6,7 @@ Posterior Distributions
     :undoc-members:
 
 Inheritance Diagram
-===================
+-------------------
 
 .. inheritance-diagram:: oktopus.posterior
     :parts: 0
