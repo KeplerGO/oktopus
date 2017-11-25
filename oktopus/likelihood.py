@@ -185,8 +185,10 @@ class PoissonLikelihood(Likelihood):
     r"""
     Implements the negative log likelihood function for independent
     (possibly non-identically) distributed Poisson measurements.
-    This class also contains a method to compute maximum likelihood estimators
+    This class also contains a method to compute maximum likelihood estimators (MLE)
     for the mean of the Poisson distribution.
+
+    More precisely, the MLE is computed as:
 
     .. math::
 
@@ -265,6 +267,8 @@ class GaussianLikelihood(Likelihood):
     Implements the likelihood function for independent
     (possibly non-identically) distributed Gaussian measurements
     with known variance.
+
+    The maximum likelihood estimator is computed as:
 
     .. math::
 
