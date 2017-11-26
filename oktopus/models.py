@@ -21,15 +21,15 @@ class ConstantModel(Model):
         return [1.]
 
 
-class LineModel(Model):
-    def __init__(self, x):
-        self.x = np.asarray(x)
+class LinearModel(Model):
+    def __init__(self, X):
+        self.X = np.asarray(X)
 
-    def evaluate(self, m, b):
-        return m * self.x + b
+    def evaluate(self, w, b):
+        return np.dot(self.X, w) + b
 
     def gradient(self, m, b):
-        return [self.x, np.ones(len(self.x))]
+        return [self.X, np.ones(len(self.X))]
 
 
 class SymmetricGaussian2D(Model):

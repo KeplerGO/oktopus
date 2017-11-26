@@ -139,7 +139,7 @@ class MultinomialLikelihood(Likelihood):
     array([ 0.06928203])
     >>> 20. / (20 + 30) # theorectical MLE
     0.4
-    >>> print(np.sqrt(0.4 * 0.6 / (20 + 30))) # theorectical uncertanity
+    >>> print(np.sqrt(0.4 * 0.6 / (20 + 30))) # theorectical uncertainty
     0.0692820323028
     """
 
