@@ -25,11 +25,20 @@ class LinearModel(Model):
     def __init__(self, X):
         self.X = np.asarray(X)
 
-    def evaluate(self, w, b):
-        return np.dot(self.X, w) + b
+    def evaluate(self, *theta):
+        if len(self.X.shape) > 1:
+            w, b = theta[:-1], theta[-1]
+            return np.dot(self.X, w) + b
+        else:
+            w, b = theta
+            return self.X * w + b
 
-    def gradient(self, m, b):
-        return [self.X, np.ones(len(self.X))]
+    def gradient(self, *theta):
+        if len(self.X.shape) > 1:
+            X_ = [self.X[:, i] for i in range(self.X.shape[-1])]
+            return X_ + [np.ones(self.X.shape[0])]
+        else:
+            return [self.X, np.ones(len(self.X))]
 
 
 class SymmetricGaussian2D(Model):
