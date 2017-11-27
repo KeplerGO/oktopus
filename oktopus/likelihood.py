@@ -391,12 +391,15 @@ class MultivariateGaussianLikelihood(Likelihood):
         Mean model.
     cov : callable
         Kernel for the covariance matrix.
+    dim : int
+        Number of parameters of the mean model.
     """
 
-    def __init__(self, data, mean, cov):
+    def __init__(self, data, mean, cov, dim):
         self.data = data
         self.mean = mean
         self.cov = cov
+        self.dim = dim
 
     def __repr__(self):
         return "<MultivariateGaussianLikelihood(data={}, mean={}, cov={})>".format(self.data,
@@ -411,9 +414,8 @@ class MultivariateGaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the mean model and covariance matrix
         """
-        dim = _get_number_of_arguments(self.mean)
-        theta = params[:dim] # mean model parameters
-        alpha = params[dim:] # kernel parameters (hyperparameters)
+        theta = params[:self.dim] # mean model parameters
+        alpha = params[self.dim:] # kernel parameters (hyperparameters)
 
         residual = self.data - self.mean(*theta)
 
