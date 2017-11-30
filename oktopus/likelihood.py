@@ -326,7 +326,8 @@ class GaussianLikelihood(Likelihood):
                 self.mean, self.var)
 
     def evaluate(self, params):
-        return 0.5 * np.nansum((self.data - self.mean(*params)) ** 2 / self.var)
+        r = self.data - self.mean(*params)
+        return 0.5 * np.sum(r * r / self.var)
 
     def gradient(self, params):
         # use the gradient if the model provides it.
@@ -337,12 +338,11 @@ class GaussianLikelihood(Likelihood):
             _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
         n_params = len(params)
         grad_likelihood = np.array([])
+        r = self.data - self.mean(*params)
         for i in range(n_params):
             grad = _grad(self.mean, i, params)
             grad_likelihood = np.append(grad_likelihood,
-                                        -np.nansum((self.data - self.mean(*params))
-                                                   * grad / self.var)
-                                       )
+                                        -np.nansum(r * grad / self.var))
         return grad_likelihood
 
 
