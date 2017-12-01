@@ -327,7 +327,7 @@ class GaussianLikelihood(Likelihood):
 
     def evaluate(self, params):
         r = self.data - self.mean(*params)
-        return 0.5 * np.sum(r * r / self.var)
+        return 0.5 * np.nansum(r * r / self.var)
 
     def gradient(self, params):
         # use the gradient if the model provides it.
