@@ -100,6 +100,17 @@ class LossFunction(object):
         """
         pass
 
+    def hessian(self, params):
+        """
+        Returns the Hessian matrix of the loss function evaluated at ``params``
+
+        Parameters
+        ----------
+        params : ndarray
+            parameter vector of the model
+        """
+        raise NotImplementedError
+
 
 class L1Norm(LossFunction):
     r"""Defines the L1 Norm loss function. L1 norm is usually useful
