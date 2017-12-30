@@ -374,6 +374,12 @@ class LaplacianLikelihood(Likelihood):
     def evaluate(self, params):
         return np.nansum(np.abs(self.data - self.mean(*params)) / np.sqrt(.5 * self.var))
 
+    def fisher_information_matrix(self, params):
+        raise NotImplementedError
+
+    def uncertainties(self, params):
+        raise NotImplementedError
+
 
 class MultivariateGaussianLikelihood(Likelihood):
     """
@@ -439,3 +445,9 @@ class MultivariateGaussianLikelihood(Likelihood):
             grad_likelihood = np.append(grad_likelihood,
                                         -np.nansum(grad * np.linalg.solve(cov, residual)))
         return grad_likelihood
+
+    def fisher_information_matrix(self, params):
+        raise NotImplementedError
+
+    def uncertainties(self, params):
+        raise NotImplementedError
