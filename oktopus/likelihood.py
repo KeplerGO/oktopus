@@ -148,8 +148,7 @@ class MultinomialLikelihood(Likelihood):
         self.mean = mean
 
     def __repr__(self):
-        return "<MultinomialLikelihood(data={}, mean={})>".format(self.data,
-                self.mean)
+        return "<MultinomialLikelihood(mean={})>".format(self.mean)
 
     @property
     def n_counts(self):
@@ -240,8 +239,7 @@ class PoissonLikelihood(Likelihood):
         self.mean = mean
 
     def __repr__(self):
-        return "<PoissonLikelihood(data={}, mean={})>".format(self.data,
-                self.mean)
+        return "<PoissonLikelihood(mean={})>".format(self.mean)
 
     def evaluate(self, params):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
@@ -322,8 +320,7 @@ class GaussianLikelihood(Likelihood):
         self.var = var
 
     def __repr__(self):
-        return "<GaussianLikelihood(data={}, mean={}, var={})>".format(self.data,
-                self.mean, self.var)
+        return "<GaussianLikelihood(mean={}, var={})>".format(self.mean, self.var)
 
     def evaluate(self, params):
         r = self.data - self.mean(*params)
@@ -372,8 +369,7 @@ class LaplacianLikelihood(Likelihood):
         self.var = var
 
     def __repr__(self):
-        return "<LaplacianLikelihood(data={}, mean={}, var={})>".format(self.data,
-                self.mean, self.var)
+        return "<LaplacianLikelihood(mean={}, var={})>".format(self.mean, self.var)
 
     def evaluate(self, params):
         return np.nansum(np.abs(self.data - self.mean(*params)) / np.sqrt(.5 * self.var))
@@ -389,8 +385,9 @@ class MultivariateGaussianLikelihood(Likelihood):
         Observed data.
     mean : callable
         Mean model.
-    cov : callable
-        Kernel for the covariance matrix.
+    cov : ndarray or callable
+        If callable, the parameters of the covariance matrix
+        will be fitted.
     dim : int
         Number of parameters of the mean model.
     """
@@ -402,8 +399,7 @@ class MultivariateGaussianLikelihood(Likelihood):
         self.dim = dim
 
     def __repr__(self):
-        return "<MultivariateGaussianLikelihood(data={}, mean={}, cov={})>".format(self.data,
-                self.mean, self.cov)
+        return "<MultivariateGaussianLikelihood(mean={}, cov={})>".format(self.mean, self.cov)
 
     def evaluate(self, params):
         """
@@ -414,13 +410,19 @@ class MultivariateGaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the mean model and covariance matrix
         """
-        theta = params[:self.dim] # mean model parameters
-        alpha = params[self.dim:] # kernel parameters (hyperparameters)
 
-        residual = self.data - self.mean(*theta)
+        if callable(self.cov):
+            theta = params[:self.dim] # mean model parameters
+            alpha = params[self.dim:] # kernel parameters (hyperparameters)
+            mean = self.mean(*theta)
+            cov = self.cov(*alpha)
+        else:
+            mean = mean(*params)
 
-        return (np.linalg.slogdet(self.cov(*alpha))[1]
-                + np.dot(residual.T, np.linalg.solve(self.cov(*alpha), residual)))
+        residual = self.data - mean
+
+        return (np.linalg.slogdet(cov)[1]
+                + np.dot(residual.T, np.linalg.solve(cov, residual)))
 
     def fisher_information_matrix(self):
         raise NotImplementedError
