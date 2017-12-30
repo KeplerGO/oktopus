@@ -53,6 +53,7 @@ def test_gaussian_likelihood(optimizer):
     logL = GaussianLikelihood(fake_data, line, 4)
     p0 = (1, 1) # dumb initial_guess for slope and intercept
     p_hat = logL.fit(optimizer=optimizer, x0=p0)
+    p_hat_unc = logL.uncertainties(p_hat.x)
     # lsq solution from linear algebra
     M = np.array([[np.sum(x * x), np.sum(x)], [np.sum(x), len(x)]])
     p_hat_linalg = np.dot(np.linalg.inv(M),
@@ -82,6 +83,7 @@ def test_gaussian_likelihood(optimizer):
     p0 = (1, 1)
     p_hat = logL.fit(x0=p0)
     np.testing.assert_almost_equal(p_hat.x, p_hat_linalg, decimal=4)
+    np.testing.assert_almost_equal(logL.uncertainties(p_hat.x), p_hat_unc)
 
 
 @pytest.mark.parametrize("data", ([np.random.normal(size=200)],

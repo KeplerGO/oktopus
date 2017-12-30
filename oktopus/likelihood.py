@@ -422,10 +422,20 @@ class MultivariateGaussianLikelihood(Likelihood):
         residual = self.data - mean
 
         return (np.linalg.slogdet(cov)[1]
-                + np.dot(residual.T, np.linalg.solve(cov, residual)))
+                + np.nansum(residual * np.linalg.solve(cov, residual)))
 
-    def fisher_information_matrix(self):
-        raise NotImplementedError
-
-    def uncertainties(self):
-        raise NotImplementedError
+    def gradient(self, params):
+        # use the gradient if the model provides it.
+        # if not, compute it using autograd.
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
+        n_params = len(params)
+        grad_likelihood = np.array([])
+        r = self.data - self.mean(*params)
+        for i in range(n_params):
+            grad = _grad(self.mean, i, params)
+            grad_likelihood = np.append(grad_likelihood,
+                                        -np.nansum(grad * np.linalg.solve(cov, residual)))
+        return grad_likelihood
