@@ -75,6 +75,14 @@ def test_gaussian_likelihood(optimizer):
     p_hat = logL.fit(x0=p0)
     np.testing.assert_almost_equal(p_hat.x[:2], p_hat_linalg, decimal=4)
 
+    # test that MultivariateGaussianLikelihood works with a fixed covariance matrix
+    logL = MultivariateGaussianLikelihood(data=fake_data, mean=line,
+                                          cov=WhiteNoiseKernel(n=len(fake_data)).evaluate(2.),
+                                          dim=2)
+    p0 = (1, 1)
+    p_hat = logL.fit(x0=p0)
+    np.testing.assert_almost_equal(p_hat.x, p_hat_linalg, decimal=4)
+
 
 @pytest.mark.parametrize("data", ([np.random.normal(size=200)],
                                   [np.random.poisson(size=200)]))

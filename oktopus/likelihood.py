@@ -410,14 +410,14 @@ class MultivariateGaussianLikelihood(Likelihood):
         params : ndarray
             parameter vector of the mean model and covariance matrix
         """
-
         if callable(self.cov):
             theta = params[:self.dim] # mean model parameters
             alpha = params[self.dim:] # kernel parameters (hyperparameters)
             mean = self.mean(*theta)
             cov = self.cov(*alpha)
         else:
-            mean = mean(*params)
+            mean = self.mean(*params)
+            cov = self.cov
 
         residual = self.data - mean
 
