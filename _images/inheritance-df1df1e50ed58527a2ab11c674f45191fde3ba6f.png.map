@@ -1,0 +1,9 @@
+<map id="inheritanced59003c6f6" name="inheritanced59003c6f6">
+<area shape="rect" id="node1" href="#oktopus.likelihood.GaussianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="490,5,730,28"/>
+<area shape="rect" id="node2" href="#oktopus.likelihood.Likelihood" target="_top" title="Defines a Likelihood function." alt="" coords="225,98,410,122"/>
+<area shape="rect" id="node3" href="#oktopus.likelihood.LaplacianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="489,52,730,75"/>
+<area shape="rect" id="node5" href="#oktopus.likelihood.MultinomialLikelihood" target="_top" title="Implements the negative log likelihood function for the Multinomial" alt="" coords="484,98,735,122"/>
+<area shape="rect" id="node6" href="#oktopus.likelihood.MultivariateGaussianLikelihood" target="_top" title="Implements the likelihood function of a multivariate gaussian distribution." alt="" coords="457,145,763,168"/>
+<area shape="rect" id="node7" href="#oktopus.likelihood.PoissonLikelihood" target="_top" title="Implements the negative log likelihood function for independent" alt="" coords="494,191,725,215"/>
+<area shape="rect" id="node4" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,98,178,122"/>
+</map>

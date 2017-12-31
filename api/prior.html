@@ -92,7 +92,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Prior Distributions</a><ul class="simple">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Prior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inheritance-diagram">Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
@@ -280,10 +281,10 @@ of their distributions.</p>
 <p><a href="#id1"><span class="problematic" id="id2">*</span></a>args are stored in <code class="docutils literal"><span class="pre">self.components</span></code>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">GaussianPrior</span><span class="p">,</span> <span class="n">JointPrior</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">UniformPrior</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="o">.</span><span class="n">evaluate</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">UniformPrior</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="o">.</span><span class="n">evaluate</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span>
 <span class="go">0.0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># jp is also a callable to evaluate()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jp</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span> <span class="c1"># jp is also a callable to evaluate()</span>
 <span class="go">0.0</span>
 </pre></div>
 </div>
@@ -389,7 +390,7 @@ given in <strong>args</strong></p>
 distribution.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">UniformPrior</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">unif</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unif</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unif</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">-0.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unif</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -464,7 +465,7 @@ distribution.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">GaussianPrior</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">GaussianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span><span class="p">(</span><span class="mf">2.</span><span class="p">)</span>
 <span class="go">2.0</span>
 </pre></div>
 </div>
@@ -534,7 +535,7 @@ random variable.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">LaplacianPrior</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">LaplacianPrior</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="go">1.0</span>
 </pre></div>
 </div>
@@ -591,6 +592,18 @@ random variable.</p>
 
 </dd></dl>
 
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance Diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<img src="../_images/inheritance-c5fafafb6e88bbbb571dc5d29f805132e5d0b8a3.png" alt="Inheritance diagram of oktopus.prior" usemap="#inheritance608cd4ef37" class="inheritance"/>
+<map id="inheritance608cd4ef37" name="inheritance608cd4ef37">
+<area shape="rect" id="node1" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,77,184,101"/>
+<area shape="rect" id="node3" href="#oktopus.prior.Prior" target="_top" title="A base class for a prior distribution. Differently from Likelihood, a prior" alt="" coords="232,77,361,101"/>
+<area shape="rect" id="node2" href="#oktopus.prior.GaussianPrior" target="_top" title="Computes the negative log pdf for a n&#45;dimensional independent Gaussian" alt="" coords="410,5,596,29"/>
+<area shape="rect" id="node4" href="#oktopus.prior.JointPrior" target="_top" title="Combine indepedent priors by summing the negative of the log" alt="" coords="424,53,581,77"/>
+<area shape="rect" id="node5" href="#oktopus.prior.LaplacianPrior" target="_top" title="Computes the negative log pdf for a n&#45;dimensional independent Laplacian" alt="" coords="409,101,596,125"/>
+<area shape="rect" id="node6" href="#oktopus.prior.UniformPrior" target="_top" title="Computes the negative log pdf for a n&#45;dimensional independent uniform" alt="" coords="415,149,591,173"/>
+</map>
+</div>
 </div>
 
 

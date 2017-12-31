@@ -256,7 +256,18 @@
 <span class="sd">        params : ndarray</span>
 <span class="sd">            parameter vector of the model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="LossFunction.hessian"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.LossFunction.hessian">[docs]</a>    <span class="k">def</span> <span class="nf">hessian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Hessian matrix of the loss function evaluated at ``params``</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            parameter vector of the model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 
 
 <div class="viewcode-block" id="L1Norm"><a class="viewcode-back" href="../../api/loss.html#oktopus.loss.L1Norm">[docs]</a><span class="k">class</span> <span class="nc">L1Norm</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>

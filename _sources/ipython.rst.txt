@@ -10,5 +10,6 @@ The following notebooks describe the usability of okotopus:
 
     notebooks/poisson.ipynb
     notebooks/mvgaussian.ipynb
+    notebooks/mvgaussian2.ipynb
 
 For examples in Astronomy, see `PyKE docs <http://pyke.keplerscience.org/tutorials/index.html>`_.

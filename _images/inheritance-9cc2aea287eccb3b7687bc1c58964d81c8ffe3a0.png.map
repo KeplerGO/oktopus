@@ -1,0 +1,7 @@
+<map id="inheritancec3ee3163ce" name="inheritancec3ee3163ce">
+<area shape="rect" id="node1" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,53,183,77"/>
+<area shape="rect" id="node3" href="#oktopus.posterior.Posterior" target="_top" title="Defines a posterior distribution." alt="" coords="231,53,411,77"/>
+<area shape="rect" id="node2" href="#oktopus.posterior.GaussianPosterior" target="_top" title="Implements the negative log posterior distribution for uncorrelated" alt="" coords="493,5,729,29"/>
+<area shape="rect" id="node4" href="#oktopus.posterior.MultivariateGaussianPosterior" target="_top" title="Implements the posterior distribution for a multivariate gaussian distribution." alt="" coords="459,53,763,77"/>
+<area shape="rect" id="node5" href="#oktopus.posterior.PoissonPosterior" target="_top" title="Implements the negative of the log posterior distribution for independent" alt="" coords="497,101,724,125"/>
+</map>

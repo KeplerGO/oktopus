@@ -92,7 +92,8 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Loss Functions</a><ul class="simple">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loss Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inheritance-diagram">Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
@@ -228,6 +229,9 @@ minimizes some sort of objective function.</p>
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.loss.LossFunction.gradient" title="oktopus.loss.LossFunction.gradient"><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code></a>(params)</td>
 <td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.loss.LossFunction.hessian" title="oktopus.loss.LossFunction.hessian"><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code></a>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
 </tbody>
 </table>
 <dl class="method">
@@ -318,6 +322,24 @@ Note: this is also stored in <strong>self.opt_result</strong>.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="oktopus.loss.LossFunction.hessian">
+<code class="descname">hessian</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/loss.html#LossFunction.hessian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.loss.LossFunction.hessian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>parameter vector of the model</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -380,6 +402,9 @@ outliers than the quadratic loss function.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
 <td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
 </tbody>
 </table>
 <dl class="method">
@@ -394,6 +419,14 @@ outliers than the quadratic loss function.</p>
 
 </dd></dl>
 
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance Diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<img src="../_images/inheritance-e73b8c9bb61e7b2de82196bfd7df90b0b44efce1.png" alt="Inheritance diagram of oktopus.loss" usemap="#inheritance73cb277366" class="inheritance"/>
+<map id="inheritance73cb277366" name="inheritance73cb277366">
+<area shape="rect" id="node1" href="#oktopus.loss.L1Norm" target="_top" title="Defines the L1 Norm loss function. L1 norm is usually useful" alt="" coords="232,5,378,29"/>
+<area shape="rect" id="node2" href="#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,5,184,29"/>
+</map>
+</div>
 </div>
 
 

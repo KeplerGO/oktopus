@@ -94,7 +94,8 @@
 <li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="likelihood.html">Likelihood Distributions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Posterior Distributions</a><ul class="simple">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Posterior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inheritance-diagram">Inheritance Diagram</a></li>
 </ul>
 </li>
 </ul>
@@ -256,6 +257,9 @@
 <tr class="row-even"><td><a class="reference internal" href="#oktopus.posterior.Posterior.gradient" title="oktopus.posterior.Posterior.gradient"><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code></a>(params)</td>
 <td>Evaluates the gradient of the negative of the log of the posterior at params.</td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
 </tbody>
 </table>
 <dl class="method">
@@ -324,14 +328,14 @@ variances.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_line</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">:</span> <span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">slope_prior</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">intercept_prior</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slope_prior</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">intercept_prior</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">20.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">joint_prior</span> <span class="o">=</span> <span class="n">JointPrior</span><span class="p">(</span><span class="n">slope_prior</span><span class="p">,</span> <span class="n">intercept_prior</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">GaussianPosterior</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">fake_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">my_line</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">joint_prior</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope_prior</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">intercept_prior</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="c1"># initial guesses for slope and intercept</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Nelder-Mead&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">p0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;powell&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p_hat</span><span class="o">.</span><span class="n">x</span> <span class="c1"># fitted parameters</span>
-<span class="go">array([  2.9626486 ,  10.32858499])</span>
+<span class="go">array([  2.96264088,  10.3286166 ])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#plt.plot(x, fake_data, &#39;o&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#plt.plot(x, line(*p_hat.x))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># The exact values from linear algebra are:</span>
@@ -383,6 +387,9 @@ variances.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
 <td>Evaluates the gradient of the negative of the log of the posterior at params.</td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
 </tbody>
 </table>
 </dd></dl>
@@ -400,7 +407,7 @@ variances.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">toy_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">PoissonPosterior</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">PoissonPosterior</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">20.</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span> <span class="o">=</span> <span class="n">logP</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mf">10.5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mean_hat</span><span class="o">.</span><span class="n">x</span> <span class="c1"># MAP is the same of MLE for uniform prior</span>
 <span class="go">array([ 9.29000013])</span>
@@ -447,13 +454,16 @@ variances.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
 <td>Evaluates the gradient of the negative of the log of the posterior at params.</td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="class">
 <dt id="oktopus.posterior.MultivariateGaussianPosterior">
-<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">MultivariateGaussianPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>cov</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#MultivariateGaussianPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.MultivariateGaussianPosterior" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">oktopus.posterior.</code><code class="descname">MultivariateGaussianPosterior</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>cov</em>, <em>dim</em>, <em>prior</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/posterior.html#MultivariateGaussianPosterior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.posterior.MultivariateGaussianPosterior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the posterior distribution for a multivariate gaussian distribution.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
@@ -469,9 +479,12 @@ variances.</p>
 <td>(callable) Mean model</td>
 </tr>
 <tr class="row-odd"><td>cov</td>
-<td>(callable) Kernel for the covariance matrix</td>
+<td>(ndarray or callable) If callable, the parameters of the covariance matrix will be fitted.</td>
 </tr>
-<tr class="row-even"><td>prior</td>
+<tr class="row-even"><td>dim</td>
+<td>(int) Number of parameters of the mean model.</td>
+</tr>
+<tr class="row-odd"><td>prior</td>
 <td>(callable) Negative log prior as a function of the parameters. See :class:UniformPrior</td>
 </tr>
 </tbody>
@@ -495,10 +508,24 @@ variances.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
 <td>Evaluates the gradient of the negative of the log of the posterior at params.</td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
 </tbody>
 </table>
 </dd></dl>
 
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance Diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<img src="../_images/inheritance-9cc2aea287eccb3b7687bc1c58964d81c8ffe3a0.png" alt="Inheritance diagram of oktopus.posterior" usemap="#inheritancec3ee3163ce" class="inheritance"/>
+<map id="inheritancec3ee3163ce" name="inheritancec3ee3163ce">
+<area shape="rect" id="node1" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,53,183,77"/>
+<area shape="rect" id="node3" href="#oktopus.posterior.Posterior" target="_top" title="Defines a posterior distribution." alt="" coords="231,53,411,77"/>
+<area shape="rect" id="node2" href="#oktopus.posterior.GaussianPosterior" target="_top" title="Implements the negative log posterior distribution for uncorrelated" alt="" coords="493,5,729,29"/>
+<area shape="rect" id="node4" href="#oktopus.posterior.MultivariateGaussianPosterior" target="_top" title="Implements the posterior distribution for a multivariate gaussian distribution." alt="" coords="459,53,763,77"/>
+<area shape="rect" id="node5" href="#oktopus.posterior.PoissonPosterior" target="_top" title="Implements the negative of the log posterior distribution for independent" alt="" coords="497,101,724,125"/>
+</map>
+</div>
 </div>
 
 

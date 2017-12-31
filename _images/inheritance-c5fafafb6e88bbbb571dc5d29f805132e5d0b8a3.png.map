@@ -1,0 +1,8 @@
+<map id="inheritance608cd4ef37" name="inheritance608cd4ef37">
+<area shape="rect" id="node1" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,77,184,101"/>
+<area shape="rect" id="node3" href="#oktopus.prior.Prior" target="_top" title="A base class for a prior distribution. Differently from Likelihood, a prior" alt="" coords="232,77,361,101"/>
+<area shape="rect" id="node2" href="#oktopus.prior.GaussianPrior" target="_top" title="Computes the negative log pdf for a n&#45;dimensional independent Gaussian" alt="" coords="410,5,596,29"/>
+<area shape="rect" id="node4" href="#oktopus.prior.JointPrior" target="_top" title="Combine indepedent priors by summing the negative of the log" alt="" coords="424,53,581,77"/>
+<area shape="rect" id="node5" href="#oktopus.prior.LaplacianPrior" target="_top" title="Computes the negative log pdf for a n&#45;dimensional independent Laplacian" alt="" coords="409,101,596,125"/>
+<area shape="rect" id="node6" href="#oktopus.prior.UniformPrior" target="_top" title="Computes the negative log pdf for a n&#45;dimensional independent uniform" alt="" coords="415,149,591,173"/>
+</map>

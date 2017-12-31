@@ -1,0 +1,4 @@
+<map id="inheritance73cb277366" name="inheritance73cb277366">
+<area shape="rect" id="node1" href="#oktopus.loss.L1Norm" target="_top" title="Defines the L1 Norm loss function. L1 norm is usually useful" alt="" coords="232,5,378,29"/>
+<area shape="rect" id="node2" href="#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,5,184,29"/>
+</map>
