@@ -38,23 +38,7 @@ class Likelihood(LossFunction):
         fisher : ndarray
             Fisher Information Matrix
         """
-        n_params = len(params)
-        fisher = np.empty(shape=(n_params, n_params))
-
-        if not hasattr(self.mean, 'gradient'):
-            _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
-        else:
-            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
-
-        grad_mean = [_grad(self.mean, i, params) for i in range(n_params)]
-        mean = self.mean(*params)
-
-        for i in range(n_params):
-            for j in range(i, n_params):
-                fisher[i, j] = np.nansum(grad_mean[i] * grad_mean[j] / mean)
-                fisher[j, i] = fisher[i, j]
-
-        return fisher
+        pass
 
     def uncertainties(self, params):
         """
@@ -162,8 +146,23 @@ class MultinomialLikelihood(Likelihood):
         return - np.nansum(self.data * np.log(self.mean(*params)))
 
     def fisher_information_matrix(self, params):
-        return self.n_counts * super(MultinomialLikelihood,
-                                     self).fisher_information_matrix(params)
+        n_params = len(params)
+        fisher = np.empty(shape=(n_params, n_params))
+
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
+
+        grad_mean = [_grad(self.mean, i, params) for i in range(n_params)]
+        mean = self.mean(*params)
+
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = np.nansum(grad_mean[i] * grad_mean[j] / mean)
+                fisher[j, i] = fisher[i, j]
+
+        return self.n_counts * fisher
 
     def gradient(self, params):
         # use the gradient if the model provides it.
@@ -244,6 +243,25 @@ class PoissonLikelihood(Likelihood):
 
     def evaluate(self, params):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
+
+    def fisher_information_matrix(self, params):
+        n_params = len(params)
+        fisher = np.empty(shape=(n_params, n_params))
+
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
+
+        grad_mean = [_grad(self.mean, i, params) for i in range(n_params)]
+        mean = self.mean(*params)
+
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = np.nansum(grad_mean[i] * grad_mean[j] / mean)
+                fisher[j, i] = fisher[i, j]
+
+        return fisher
 
     def gradient(self, params):
         # use the gradient if the model provides it.
