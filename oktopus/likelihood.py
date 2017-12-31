@@ -303,7 +303,7 @@ class GaussianLikelihood(Likelihood):
     array([  2.96263393,  10.32860717])
     >>> p_hat_unc = logL.uncertainties(p_hat.x) # get uncertainties on fitted parameters
     >>> p_hat_unc
-    array([ 0.01218636,  0.07044634])
+    array([ 0.04874546,  0.28178535])
     >>> plt.plot(x, fake_data, 'o') # doctest: +SKIP
     >>> plt.plot(x, line(*p_hat.x)) # doctest: +SKIP
     >>> # The exact values from linear algebra would be:
@@ -353,7 +353,7 @@ class GaussianLikelihood(Likelihood):
             Fisher Information Matrix
         """
         n_params = len(params)
-        fisher = np.empty(shape=(n_params, n_params))
+        fisher = np.zeros(shape=(n_params, n_params))
 
         if not hasattr(self.mean, 'gradient'):
             _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
@@ -367,7 +367,7 @@ class GaussianLikelihood(Likelihood):
                 fisher[i, j] = np.nansum(grad_mean[i] * grad_mean[j])
                 fisher[j, i] = fisher[i, j]
 
-        return self.var * fisher
+        return fisher / self.var
 
 
 class LaplacianLikelihood(Likelihood):
@@ -479,12 +479,18 @@ class MultivariateGaussianLikelihood(Likelihood):
 
     def fisher_information_matrix(self, params):
         n_params = len(params)
-        fisher = np.empty(shape=(n_params, n_params))
+        fisher = np.zeros(shape=(n_params, n_params))
 
-        grad = self.gradient(params)
-        grad = grad.reshape(len(grad), 1)
-        fisher = self._cov_inv * grad * grad.T
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
 
-        print(fisher)
+        grad_mean = [_grad(self.mean, i, params) for i in range(n_params)]
+
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = np.nansum(grad_mean[i] * self._cov_inv * grad_mean[j])
+                fisher[j, i] = fisher[i, j]
 
         return fisher
