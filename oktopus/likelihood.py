@@ -51,7 +51,7 @@ class Likelihood(LossFunction):
 
         for i in range(n_params):
             for j in range(i, n_params):
-                fisher[i, j] = (grad_mean[i] * grad_mean[j] / mean).sum()
+                fisher[i, j] = np.nansum(grad_mean[i] * grad_mean[j] / mean)
                 fisher[j, i] = fisher[i, j]
 
         return fisher
@@ -303,7 +303,7 @@ class GaussianLikelihood(Likelihood):
     array([  2.96263393,  10.32860717])
     >>> p_hat_unc = logL.uncertainties(p_hat.x) # get uncertainties on fitted parameters
     >>> p_hat_unc
-    array([ 0.11568693,  0.55871623])
+    array([ 0.01218636,  0.07044634])
     >>> plt.plot(x, fake_data, 'o') # doctest: +SKIP
     >>> plt.plot(x, line(*p_hat.x)) # doctest: +SKIP
     >>> # The exact values from linear algebra would be:
@@ -342,6 +342,32 @@ class GaussianLikelihood(Likelihood):
             grad_likelihood = np.append(grad_likelihood,
                                         -np.nansum(r * grad / self.var))
         return grad_likelihood
+
+    def fisher_information_matrix(self, params):
+        """
+        Computes the Fisher Information Matrix.
+
+        Returns
+        -------
+        fisher : ndarray
+            Fisher Information Matrix
+        """
+        n_params = len(params)
+        fisher = np.empty(shape=(n_params, n_params))
+
+        if not hasattr(self.mean, 'gradient'):
+            _grad = lambda mean, argnum, params: jacobian(mean, argnum=argnum)(*params)
+        else:
+            _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
+
+        grad_mean = [_grad(self.mean, i, params) for i in range(n_params)]
+
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = np.nansum(grad_mean[i] * grad_mean[j])
+                fisher[j, i] = fisher[i, j]
+
+        return self.var * fisher
 
 
 class LaplacianLikelihood(Likelihood):
@@ -452,4 +478,13 @@ class MultivariateGaussianLikelihood(Likelihood):
         return grad_likelihood
 
     def fisher_information_matrix(self, params):
-        raise NotImplementedError
+        n_params = len(params)
+        fisher = np.empty(shape=(n_params, n_params))
+
+        grad = self.gradient(params)
+        grad = grad.reshape(len(grad), 1)
+        fisher = self._cov_inv * grad * grad.T
+
+        print(fisher)
+
+        return fisher
