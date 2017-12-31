@@ -45,7 +45,7 @@ def test_poisson_likelihood(toy_data, optimizer, model):
     np.testing.assert_almost_equal(logL.gradient(mean_hat.x), 0., decimal=3)
 
 
-@pytest.mark.parametrize("optimizer", ("basinhopping", "minimize"))
+@pytest.mark.parametrize("optimizer", ("minimize", "basinhopping"))
 def test_gaussian_likelihood(optimizer):
     x = npa.linspace(-5, 5, 20)
     fake_data = x * 3 + 10 + np.random.normal(scale=2, size=x.shape)
@@ -83,6 +83,7 @@ def test_gaussian_likelihood(optimizer):
     p0 = (1, 1)
     p_hat = logL.fit(x0=p0)
     np.testing.assert_almost_equal(p_hat.x, p_hat_linalg, decimal=4)
+    np.testing.assert_almost_equal(true_grad, logL.gradient([a, b]))
     # TODO: this unit test should pass after I implement uncertainties
     # correctly
     #np.testing.assert_almost_equal(logL.uncertainties(p_hat.x), p_hat_unc)

@@ -53,6 +53,7 @@ class Likelihood(LossFunction):
             for j in range(i, n_params):
                 fisher[i, j] = (grad_mean[i] * grad_mean[j] / mean).sum()
                 fisher[j, i] = fisher[i, j]
+
         return fisher
 
     def uncertainties(self, params):
@@ -403,6 +404,9 @@ class MultivariateGaussianLikelihood(Likelihood):
         self.mean = mean
         self.cov = cov
         self.dim = dim
+        self._is_cov_callable = callable(self.cov)
+        if not self._is_cov_callable:
+            self._cov_inv = np.linalg.inv(self.cov)
 
     def __repr__(self):
         return "<MultivariateGaussianLikelihood(mean={}, cov={})>".format(self.mean, self.cov)
@@ -421,6 +425,7 @@ class MultivariateGaussianLikelihood(Likelihood):
             alpha = params[self.dim:] # kernel parameters (hyperparameters)
             mean = self.mean(*theta)
             cov = self.cov(*alpha)
+            self._cov_inv = np.linalg.inv(cov)
         else:
             mean = self.mean(*params)
             cov = self.cov
@@ -428,7 +433,7 @@ class MultivariateGaussianLikelihood(Likelihood):
         residual = self.data - mean
 
         return (np.linalg.slogdet(cov)[1]
-                + np.nansum(residual * np.linalg.solve(cov, residual)))
+                + np.nansum(residual * (self._cov_inv * residual.T)))
 
     def gradient(self, params):
         # use the gradient if the model provides it.
@@ -443,11 +448,8 @@ class MultivariateGaussianLikelihood(Likelihood):
         for i in range(n_params):
             grad = _grad(self.mean, i, params)
             grad_likelihood = np.append(grad_likelihood,
-                                        -np.nansum(grad * np.linalg.solve(cov, residual)))
+                                        -np.nansum(grad * self._cov_inv * r))
         return grad_likelihood
 
     def fisher_information_matrix(self, params):
-        raise NotImplementedError
-
-    def uncertainties(self, params):
         raise NotImplementedError
