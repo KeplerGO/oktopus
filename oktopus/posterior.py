@@ -192,20 +192,24 @@ class MultivariateGaussianPosterior(Posterior):
         Observed data
     mean : callable
         Mean model
-    cov : callable
-        Kernel for the covariance matrix
+    cov : ndarray or callable
+        If callable, the parameters of the covariance matrix
+        will be fitted.
+    dim : int
+        Number of parameters of the mean model.
     prior : callable
         Negative log prior as a function of the parameters.
         See :class:UniformPrior
     """
 
-    def __init__(self, data, mean, cov, prior):
+    def __init__(self, data, mean, cov, dim, prior):
         self.data = data
         self.mean = mean
         self.cov = cov
+        self.dim = dim
         self.logprior = prior
-        self.loglikelihood = MultivariateGaussianLikelihood(data, mean, cov)
+        self.loglikelihood = MultivariateGaussianLikelihood(data, mean, cov, dim)
 
     def __repr__(self):
-        return ("<MultivariateGaussianPosterior(data={}, mean={}, cov={},"
-                " prior={})>".format(self.data, self.mean, self.cov, self.prior))
+        return ("<MultivariateGaussianPosterior(mean={}, cov={},"
+                " prior={})>".format(self.mean, self.cov, self.prior))
