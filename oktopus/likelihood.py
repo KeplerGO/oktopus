@@ -21,7 +21,7 @@ else:
 
 __all__ = ['Likelihood', 'MultinomialLikelihood', 'PoissonLikelihood',
            'GaussianLikelihood', 'LaplacianLikelihood',
-           'MultivariateGaussianLikelihood']
+           'MultivariateGaussianLikelihood', 'BernoulliLikelihood']
 
 
 class Likelihood(LossFunction):
@@ -512,3 +512,82 @@ class MultivariateGaussianLikelihood(Likelihood):
                 fisher[j, i] = fisher[i, j]
 
         return fisher
+
+
+class BernoulliLikelihood(Likelihood):
+    r"""Implements the negative log likelihood function for independent
+    (possibly non-identical distributed) Bernoulli random variables.
+    This class also contains a method to compute maximum likelihood estimators
+    for the probability of a success.
+
+    More precisely, the MLE is computed as
+
+    .. math::
+        \arg \min_{\theta \in \Theta} - \sum_{i=1}^{n} y_i\log\pi_i(\mathbf{\theta}) + (1 - y_i)\log(1 - \pi_i(\mathbf{\theta}))
+
+    Attributes
+    ----------
+    y : array-like
+        Observed data
+    model : callable
+        A functional form that defines the model for the probability of success
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from oktopus import BernoulliLikelihood, UniformPrior, Posterior
+    >>> from oktopus.models import ConstantModel as constant
+    >>> # generate integer fake data in the set {0, 1}
+    >>> np.random.seed(0)
+    >>> y = np.random.choice([0, 1], size=401)
+    >>> # create a model
+    >>> p = constant()
+    >>> # perform optimization
+    >>> ber = BernoulliLikelihood(y=y, model=p)
+    >>> unif = UniformPrior(lb=0., ub=1.)
+    >>> pp = Posterior(likelihood=ber, prior=unif)
+    >>> result = pp.fit(x0=.3, method='powell')
+    >>> # get best fit parameters
+    >>> print(result.x)
+    0.5286783039740173
+    >>> print(np.mean(y>0)) # theorectical MLE
+    0.528678304239
+    >>> # get uncertainties on the best fit parameters
+    >>> print(ber.uncertainties([result.x]))
+    [ 0.0249277]
+    >>> # theorectical uncertainty
+    >>> print(np.sqrt(0.528678304239 * (1 - 0.528678304239) / 401))
+    0.0249277036876
+    """
+
+    def __init__(self, y, model):
+        self.y = np.asarray(y)
+        self.model = model
+
+    def evaluate(self, theta):
+        model_theta = self.model(*theta)
+        return - np.nansum(self.y * np.log(model_theta)
+                           + (1. - self.y) * np.log(1. - model_theta))
+
+    def gradient(self, theta):
+        model_theta = self.model(*theta)
+        grad = self.model.gradient(*theta)
+        return - np.nansum(self.y * grad / model_theta
+                           - (1 - self.y) * grad / (1 - model_theta),
+                           axis=-1)
+
+    def fisher_information_matrix(self, theta):
+        n_params = len(theta)
+        fisher = np.empty(shape=(n_params, n_params))
+        grad_model = self.model.gradient(*theta)
+        model = self.model(*theta)
+
+        for i in range(n_params):
+            for j in range(i, n_params):
+                fisher[i, j] = (grad_model[i] * grad_model[j] / model).sum()
+                fisher[j, i] = fisher[i, j]
+        return len(self.y) * fisher / (1 - self.model(*theta))
+
+    def uncertainties(self, theta):
+        inv_fisher = np.linalg.inv(self.fisher_information_matrix(theta))
+        return np.sqrt(np.diag(inv_fisher))
