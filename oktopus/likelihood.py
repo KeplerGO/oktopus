@@ -21,7 +21,8 @@ else:
 
 __all__ = ['Likelihood', 'MultinomialLikelihood', 'PoissonLikelihood',
            'GaussianLikelihood', 'LaplacianLikelihood',
-           'MultivariateGaussianLikelihood', 'BernoulliLikelihood']
+           'MultivariateGaussianLikelihood', 'BernoulliLikelihood',
+           'BernoulliGaussianMixtureLikelihood']
 
 
 class Likelihood(LossFunction):
@@ -527,9 +528,9 @@ class BernoulliLikelihood(Likelihood):
 
     Attributes
     ----------
-    y : array-like
+    data : array-like
         Observed data
-    model : callable
+    mean : callable
         A functional form that defines the model for the probability of success
 
     Examples
@@ -543,7 +544,7 @@ class BernoulliLikelihood(Likelihood):
     >>> # create a model
     >>> p = constant()
     >>> # perform optimization
-    >>> ber = BernoulliLikelihood(y=y, model=p)
+    >>> ber = BernoulliLikelihood(data=y, mean=p)
     >>> unif = UniformPrior(lb=0., ub=1.)
     >>> pp = Posterior(likelihood=ber, prior=unif)
     >>> result = pp.fit(x0=.3, method='powell')
@@ -560,34 +561,81 @@ class BernoulliLikelihood(Likelihood):
     0.0249277036876
     """
 
-    def __init__(self, y, model):
-        self.y = np.asarray(y)
-        self.model = model
+    def __init__(self, data, mean):
+        self.data = np.asarray(data)
+        self.mean = mean
 
     def evaluate(self, theta):
-        model_theta = self.model(*theta)
-        return - np.nansum(self.y * np.log(model_theta)
-                           + (1. - self.y) * np.log(1. - model_theta))
+        mean_theta = self.mean(*theta)
+        return - np.nansum(self.data * np.log(mean_theta)
+                           + (1. - self.data) * np.log(1. - mean_theta))
 
     def gradient(self, theta):
-        model_theta = self.model(*theta)
-        grad = self.model.gradient(*theta)
-        return - np.nansum(self.y * grad / model_theta
-                           - (1 - self.y) * grad / (1 - model_theta),
+        mean_theta = self.mean(*theta)
+        grad = self.mean.gradient(*theta)
+        return - np.nansum(self.data * grad / mean_theta
+                           - (1 - self.data) * grad / (1 - mean_theta),
                            axis=-1)
 
     def fisher_information_matrix(self, theta):
         n_params = len(theta)
         fisher = np.empty(shape=(n_params, n_params))
-        grad_model = self.model.gradient(*theta)
-        model = self.model(*theta)
+        grad_mean = self.mean.gradient(*theta)
+        mean = self.mean(*theta)
 
         for i in range(n_params):
             for j in range(i, n_params):
-                fisher[i, j] = (grad_model[i] * grad_model[j] / model).sum()
+                fisher[i, j] = (grad_mean[i] * grad_mean[j] / mean).sum()
                 fisher[j, i] = fisher[i, j]
-        return len(self.y) * fisher / (1 - self.model(*theta))
+        return len(self.data) * fisher / (1 - self.mean(*theta))
 
     def uncertainties(self, theta):
         inv_fisher = np.linalg.inv(self.fisher_information_matrix(theta))
         return np.sqrt(np.diag(inv_fisher))
+
+
+class BernoulliGaussianMixtureLikelihood(Likelihood):
+    r"""Implements the likelihood of :math:`Z_i = X_i + Y_i`,
+    such that :math:`X_i` is a Bernoulli random variable, with
+    probability of success :math:`p_i`, and :math:`Y_i` is a
+    normal random variable with zero mean and known variance :math:`sigma^2`.
+
+    The loglikelihood is given as
+
+    .. math::
+
+             \log p(z^n) = \sum_{i=1}^{n} \log \left\[(1 - p_i)  \mathcal{N}(0,
+             \sigma^2) + p_i \mathcal{N}(1, \sigma^2)\right\]
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from oktopus import BernoulliGaussianMixtureLikelihood, UniformPrior, Posterior
+    >>> from oktopus.models import ConstantModel as constant
+    >>> # generate integer fake data in the set {0, 1}
+    >>> np.random.seed(0)
+    >>> y = np.append(np.random.normal(size=30), 1+np.random.normal(size=70))
+    >>> # create a model
+    >>> p = constant()
+    >>> # build likelihood
+    >>> ll = BernoulliGaussianMixtureLikelihood(data=y, mean=p, var=1.)
+    >>> unif = UniformPrior(lb=0., ub=1.)
+    >>> pp = Posterior(likelihood=ll, prior=unif)
+    >>> result = pp.fit(x0=.3, method='powell')
+    >>> # get best fit parameters
+    >>> print(result.x)
+    0.8032607100331682
+    >>> print(np.mean(y>0)) # theorectical MLE
+    0.78
+    """
+
+    def __init__(self, data, mean, var=1.):
+        self.data = np.asarray(data)
+        self.mean = mean
+        self.var = var
+
+    def evaluate(self, theta):
+        p = self.mean(*theta)
+        N0 = np.exp(-self.data ** 2 / (2 * self.var))
+        N1 = np.exp(-(self.data - 1) ** 2 / (2 * self.var))
+        return -np.nansum(np.log((1 - p) * N0 + p * N1))
