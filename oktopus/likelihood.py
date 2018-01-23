@@ -549,10 +549,10 @@ class BernoulliLikelihood(Likelihood):
     >>> pp = Posterior(likelihood=ber, prior=unif)
     >>> result = pp.fit(x0=.3, method='powell')
     >>> # get best fit parameters
-    >>> print(result.x)
-    0.5286783039740173
-    >>> print(np.mean(y>0)) # theorectical MLE
-    0.528678304239
+    >>> print(np.round(result.x, 3))
+    0.529
+    >>> print(np.round(np.mean(y>0), 3)) # theorectical MLE
+    0.529
     >>> # get uncertainties on the best fit parameters
     >>> print(ber.uncertainties([result.x]))
     [ 0.0249277]
@@ -623,8 +623,8 @@ class BernoulliGaussianMixtureLikelihood(Likelihood):
     >>> pp = Posterior(likelihood=ll, prior=unif)
     >>> result = pp.fit(x0=.3, method='powell')
     >>> # get best fit parameters
-    >>> print(result.x)
-    0.8032607100331682
+    >>> print(np.round(result.x, 3))
+    0.803
     >>> print(np.mean(y>0)) # theorectical MLE
     0.78
     """
