@@ -25,26 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="oktopus  documentation" href="index.html"/>
-        <link rel="next" title="API documentation" href="api/index.html"/>
-        <link rel="prev" title="Welcome to 🐙 oktopus!" href="index.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API documentation" href="api/index.html" />
+    <link rel="prev" title="Welcome to 🐙 oktopus!" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -61,7 +54,7 @@
 
           
             
-            <img src="_static/oktopus-logo.png" class="logo" />
+            <img src="_static/oktopus-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -94,8 +87,31 @@
 <li class="toctree-l2"><a class="reference internal" href="#development-version">Development version</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/index.html">API documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ipython.html">IPython notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/loss.html">Loss Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/loss.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/prior.html">Prior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/prior.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/likelihood.html">Likelihood Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/likelihood.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/posterior.html">Posterior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/posterior.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ipython.html">IPython notebooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/poisson.html">Fitting a line to Poisson data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/mvgaussian.html">Fitting a line to correlated Gaussian data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/mvgaussian2.html">Fitting a line to Gaussian data with known covariance matrix</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -107,7 +123,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">oktopus</a>
@@ -117,7 +133,9 @@
 
       
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -212,9 +230,7 @@ $ pip install -e .
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -236,7 +252,7 @@ $ pip install -e .
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -255,6 +271,7 @@ $ pip install -e .
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -273,14 +290,13 @@ $ pip install -e .
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

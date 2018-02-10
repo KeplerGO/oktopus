@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="oktopus  documentation" href="../index.html"/>
-        <link rel="up" title="API documentation" href="index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -60,7 +52,7 @@
 
           
             
-            <img src="../_static/oktopus-logo.png" class="logo" />
+            <img src="../_static/oktopus-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -89,18 +81,35 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#development-version">Development version</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loss.html">Loss Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="loss.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="prior.html">Prior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="prior.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Likelihood Distributions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#inheritance-diagram">Inheritance Diagram</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="posterior.html">Posterior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="posterior.html#inheritance-diagram">Inheritance Diagram</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython.html">IPython notebooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/poisson.html">Fitting a line to Poisson data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/mvgaussian.html">Fitting a line to correlated Gaussian data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/mvgaussian2.html">Fitting a line to Gaussian data with known covariance matrix</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -112,7 +121,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">oktopus</a>
@@ -122,7 +131,9 @@
 
       
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -349,14 +360,14 @@ estimate <span class="math">\(p\)</span>.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="6%" />
-<col width="94%" />
+<col width="11%" />
+<col width="89%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed count data</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Events probabilities of the multinomial distribution</td>
 </tr>
 </tbody>
@@ -458,14 +469,14 @@ some data.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="3%" />
-<col width="97%" />
+<col width="5%" />
+<col width="95%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed count data</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Mean of the Poisson distribution Note: If you want to compute uncertainties, this model must be defined with autograd numpy wrapper</td>
 </tr>
 </tbody>
@@ -563,17 +574,17 @@ line to some data:</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="7%" />
-<col width="93%" />
+<col width="13%" />
+<col width="88%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed data</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Mean model</td>
 </tr>
-<tr class="row-odd"><td>var</td>
+<tr class="row-odd"><td><strong>var</strong></td>
 <td>(float or array-like) Uncertainties on the observed data</td>
 </tr>
 </tbody>
@@ -652,17 +663,17 @@ with known error bars.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="7%" />
-<col width="93%" />
+<col width="13%" />
+<col width="88%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>data</td>
+<tr class="row-odd"><td><strong>data</strong></td>
 <td>(ndarray) Observed data</td>
 </tr>
-<tr class="row-even"><td>mean</td>
+<tr class="row-even"><td><strong>mean</strong></td>
 <td>(callable) Mean model</td>
 </tr>
-<tr class="row-odd"><td>var</td>
+<tr class="row-odd"><td><strong>var</strong></td>
 <td>(float or array-like) Uncertainties on the observed data</td>
 </tr>
 </tbody>
@@ -809,26 +820,205 @@ will be fitted.</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="oktopus.likelihood.BernoulliLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">BernoulliLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the negative log likelihood function for independent
+(possibly non-identical distributed) Bernoulli random variables.
+This class also contains a method to compute maximum likelihood estimators
+for the probability of a success.</p>
+<p>More precisely, the MLE is computed as</p>
+<div class="math">
+\[\arg \min_{\theta \in \Theta} - \sum_{i=1}^{n} y_i\log\pi_i(\mathbf{\theta}) + (1 - y_i)\log(1 - \pi_i(\mathbf{\theta}))\]</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">BernoulliLikelihood</span><span class="p">,</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">Posterior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus.models</span> <span class="k">import</span> <span class="n">ConstantModel</span> <span class="k">as</span> <span class="n">constant</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate integer fake data in the set {0, 1}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">401</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">constant</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># perform optimization</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ber</span> <span class="o">=</span> <span class="n">BernoulliLikelihood</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unif</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">Posterior</span><span class="p">(</span><span class="n">likelihood</span><span class="o">=</span><span class="n">ber</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">unif</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;powell&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get best fit parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">0.529</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span> <span class="c1"># theorectical MLE</span>
+<span class="go">0.529</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get uncertainties on the best fit parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ber</span><span class="o">.</span><span class="n">uncertainties</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">]))</span>
+<span class="go">[ 0.0249277]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># theorectical uncertainty</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.528678304239</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">0.528678304239</span><span class="p">)</span> <span class="o">/</span> <span class="mi">401</span><span class="p">))</span>
+<span class="go">0.0249277036876</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>data</strong></td>
+<td>(array-like) Observed data</td>
+</tr>
+<tr class="row-even"><td><strong>mean</strong></td>
+<td>(callable) A functional form that defines the model for the probability of success</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.BernoulliLikelihood.evaluate" title="oktopus.likelihood.BernoulliLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.BernoulliLikelihood.evaluate" title="oktopus.likelihood.BernoulliLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(theta)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.BernoulliLikelihood.fisher_information_matrix" title="oktopus.likelihood.BernoulliLikelihood.fisher_information_matrix"><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code></a>(theta)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.BernoulliLikelihood.evaluate" title="oktopus.likelihood.BernoulliLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v1.0.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v1.0.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v1.0.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#oktopus.likelihood.BernoulliLikelihood.gradient" title="oktopus.likelihood.BernoulliLikelihood.gradient"><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code></a>(theta)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.BernoulliLikelihood.uncertainties" title="oktopus.likelihood.BernoulliLikelihood.uncertainties"><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code></a>(theta)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.likelihood.BernoulliLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.BernoulliLikelihood.fisher_information_matrix">
+<code class="descname">fisher_information_matrix</code><span class="sig-paren">(</span><em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliLikelihood.fisher_information_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliLikelihood.fisher_information_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.BernoulliLikelihood.gradient">
+<code class="descname">gradient</code><span class="sig-paren">(</span><em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliLikelihood.gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliLikelihood.gradient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="oktopus.likelihood.BernoulliLikelihood.uncertainties">
+<code class="descname">uncertainties</code><span class="sig-paren">(</span><em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliLikelihood.uncertainties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliLikelihood.uncertainties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oktopus.likelihood.BernoulliGaussianMixtureLikelihood">
+<em class="property">class </em><code class="descclassname">oktopus.likelihood.</code><code class="descname">BernoulliGaussianMixtureLikelihood</code><span class="sig-paren">(</span><em>data</em>, <em>mean</em>, <em>var=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliGaussianMixtureLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the likelihood of <span class="math">\(Z_i = X_i + Y_i\)</span>,
+such that <span class="math">\(X_i\)</span> is a Bernoulli random variable, with
+probability of success <span class="math">\(p_i\)</span>, and <span class="math">\(Y_i\)</span> is a
+normal random variable with zero mean and known variance <span class="math">\(sigma^2\)</span>.</p>
+<p>The loglikelihood is given as</p>
+<div class="math">
+\[\log p(z^n) = \sum_{i=1}^{n} \log \left\[(1 - p_i)  \mathcal{N}(0,
+\sigma^2) + p_i \mathcal{N}(1, \sigma^2)\right\]\]</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus</span> <span class="k">import</span> <span class="n">BernoulliGaussianMixtureLikelihood</span><span class="p">,</span> <span class="n">UniformPrior</span><span class="p">,</span> <span class="n">Posterior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oktopus.models</span> <span class="k">import</span> <span class="n">ConstantModel</span> <span class="k">as</span> <span class="n">constant</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate integer fake data in the set {0, 1}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span> <span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">70</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">constant</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># build likelihood</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ll</span> <span class="o">=</span> <span class="n">BernoulliGaussianMixtureLikelihood</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unif</span> <span class="o">=</span> <span class="n">UniformPrior</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">Posterior</span><span class="p">(</span><span class="n">likelihood</span><span class="o">=</span><span class="n">ll</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">unif</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x0</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;powell&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get best fit parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">0.803</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">))</span> <span class="c1"># theorectical MLE</span>
+<span class="go">0.78</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(params)</td>
+<td>Calls <a class="reference internal" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate" title="oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate" title="oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">evaluate</span></code></a>(theta)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fisher_information_matrix</span></code>(params)</td>
+<td>Computes the Fisher Information Matrix.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>([optimizer])</td>
+<td>Minimizes the <a class="reference internal" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate" title="oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate"><code class="xref py py-func docutils literal"><span class="pre">evaluate()</span></code></a> function using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize" title="(in SciPy v1.0.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.minimize()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution" title="(in SciPy v1.0.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.differential_evolution()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.basinhopping.html#scipy.optimize.basinhopping" title="(in SciPy v1.0.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.optimize.basinhopping()</span></code></a>, or <code class="xref py py-func docutils literal"><span class="pre">skopt.gp.gp_minimize()</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">gradient</span></code>(params)</td>
+<td>Returns the gradient of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">hessian</span></code>(params)</td>
+<td>Returns the Hessian matrix of the loss function evaluated at <code class="docutils literal"><span class="pre">params</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">jeffreys_prior</span></code>(params)</td>
+<td>Computes the negative of the log of Jeffrey’s prior and evaluates it at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">uncertainties</span></code>(params)</td>
+<td>Returns the uncertainties on the model parameters as the square root of the diagonal of the inverse of the Fisher Information Matrix evaluated at <code class="docutils literal"><span class="pre">params</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oktopus/likelihood.html#BernoulliGaussianMixtureLikelihood.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <div class="section" id="inheritance-diagram">
 <h2>Inheritance Diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
-<img src="../_images/inheritance-df1df1e50ed58527a2ab11c674f45191fde3ba6f.png" alt="Inheritance diagram of oktopus.likelihood" usemap="#inheritanced59003c6f6" class="inheritance"/>
+<img src="../_images/inheritance-892880a2cfa213a82c13f21f82fbe7bcb727f50c.png" alt="Inheritance diagram of oktopus.likelihood" usemap="#inheritanced59003c6f6" class="inheritance"/>
 <map id="inheritanced59003c6f6" name="inheritanced59003c6f6">
-<area shape="rect" id="node1" href="#oktopus.likelihood.GaussianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="490,5,730,28"/>
-<area shape="rect" id="node2" href="#oktopus.likelihood.Likelihood" target="_top" title="Defines a Likelihood function." alt="" coords="225,98,410,122"/>
-<area shape="rect" id="node3" href="#oktopus.likelihood.LaplacianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="489,52,730,75"/>
-<area shape="rect" id="node5" href="#oktopus.likelihood.MultinomialLikelihood" target="_top" title="Implements the negative log likelihood function for the Multinomial" alt="" coords="484,98,735,122"/>
-<area shape="rect" id="node6" href="#oktopus.likelihood.MultivariateGaussianLikelihood" target="_top" title="Implements the likelihood function of a multivariate gaussian distribution." alt="" coords="457,145,763,168"/>
-<area shape="rect" id="node7" href="#oktopus.likelihood.PoissonLikelihood" target="_top" title="Implements the negative log likelihood function for independent" alt="" coords="494,191,725,215"/>
-<area shape="rect" id="node4" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,98,178,122"/>
+<area shape="rect" id="node1" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood" target="_top" title="Implements the likelihood of :math:`Z_i = X_i + Y_i`," alt="" coords="441,5,763,27"/>
+<area shape="rect" id="node2" href="#oktopus.likelihood.Likelihood" target="_top" title="Defines a Likelihood function." alt="" coords="217,140,396,162"/>
+<area shape="rect" id="node3" href="#oktopus.likelihood.BernoulliLikelihood" target="_top" title="Implements the negative log likelihood function for independent" alt="" coords="488,50,716,72"/>
+<area shape="rect" id="node4" href="#oktopus.likelihood.GaussianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="486,95,718,117"/>
+<area shape="rect" id="node5" href="#oktopus.likelihood.LaplacianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="486,140,719,162"/>
+<area shape="rect" id="node7" href="#oktopus.likelihood.MultinomialLikelihood" target="_top" title="Implements the negative log likelihood function for the Multinomial" alt="" coords="481,185,723,207"/>
+<area shape="rect" id="node8" href="#oktopus.likelihood.MultivariateGaussianLikelihood" target="_top" title="Implements the likelihood function of a multivariate gaussian distribution." alt="" coords="454,230,750,252"/>
+<area shape="rect" id="node9" href="#oktopus.likelihood.PoissonLikelihood" target="_top" title="Implements the negative log likelihood function for independent" alt="" coords="490,275,714,297"/>
+<area shape="rect" id="node6" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,140,172,162"/>
 </map>
 </div>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -841,7 +1031,7 @@ will be fitted.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -860,6 +1050,7 @@ will be fitted.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -878,14 +1069,13 @@ will be fitted.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

@@ -1,0 +1,11 @@
+<map id="inheritanced59003c6f6" name="inheritanced59003c6f6">
+<area shape="rect" id="node1" href="#oktopus.likelihood.BernoulliGaussianMixtureLikelihood" target="_top" title="Implements the likelihood of :math:`Z_i = X_i + Y_i`," alt="" coords="441,5,763,27"/>
+<area shape="rect" id="node2" href="#oktopus.likelihood.Likelihood" target="_top" title="Defines a Likelihood function." alt="" coords="217,140,396,162"/>
+<area shape="rect" id="node3" href="#oktopus.likelihood.BernoulliLikelihood" target="_top" title="Implements the negative log likelihood function for independent" alt="" coords="488,50,716,72"/>
+<area shape="rect" id="node4" href="#oktopus.likelihood.GaussianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="486,95,718,117"/>
+<area shape="rect" id="node5" href="#oktopus.likelihood.LaplacianLikelihood" target="_top" title="Implements the likelihood function for independent" alt="" coords="486,140,719,162"/>
+<area shape="rect" id="node7" href="#oktopus.likelihood.MultinomialLikelihood" target="_top" title="Implements the negative log likelihood function for the Multinomial" alt="" coords="481,185,723,207"/>
+<area shape="rect" id="node8" href="#oktopus.likelihood.MultivariateGaussianLikelihood" target="_top" title="Implements the likelihood function of a multivariate gaussian distribution." alt="" coords="454,230,750,252"/>
+<area shape="rect" id="node9" href="#oktopus.likelihood.PoissonLikelihood" target="_top" title="Implements the negative log likelihood function for independent" alt="" coords="490,275,714,297"/>
+<area shape="rect" id="node6" href="loss.html#oktopus.loss.LossFunction" target="_top" title="An abstract class for an arbitrary loss (cost) function." alt="" coords="5,140,172,162"/>
+</map>

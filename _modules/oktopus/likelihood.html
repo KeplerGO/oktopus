@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="oktopus  documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -60,7 +52,7 @@
 
           
             
-            <img src="../../_static/oktopus-logo.png" class="logo" />
+            <img src="../../_static/oktopus-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -89,9 +81,35 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../ipython.html">IPython notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../install.html#development-version">Development version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loss.html">Loss Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/loss.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prior.html">Prior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prior.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/likelihood.html">Likelihood Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/likelihood.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/posterior.html">Posterior Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/posterior.html#inheritance-diagram">Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipython.html">IPython notebooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../notebooks/poisson.html">Fitting a line to Poisson data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../notebooks/mvgaussian.html">Fitting a line to correlated Gaussian data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../notebooks/mvgaussian2.html">Fitting a line to Gaussian data with known covariance matrix</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -103,7 +121,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">oktopus</a>
@@ -113,7 +131,9 @@
 
       
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -142,8 +162,6 @@
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
         
       </li>
     
@@ -179,7 +197,8 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Likelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;MultinomialLikelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;PoissonLikelihood&#39;</span><span class="p">,</span>
            <span class="s1">&#39;GaussianLikelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;LaplacianLikelihood&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;MultivariateGaussianLikelihood&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;MultivariateGaussianLikelihood&#39;</span><span class="p">,</span> <span class="s1">&#39;BernoulliLikelihood&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;BernoulliGaussianMixtureLikelihood&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="Likelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.Likelihood">[docs]</a><span class="k">class</span> <span class="nc">Likelihood</span><span class="p">(</span><span class="n">LossFunction</span><span class="p">):</span>
@@ -670,12 +689,136 @@
                 <span class="n">fisher</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fisher</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">fisher</span></div></div>
+
+
+<div class="viewcode-block" id="BernoulliLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliLikelihood">[docs]</a><span class="k">class</span> <span class="nc">BernoulliLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Implements the negative log likelihood function for independent</span>
+<span class="sd">    (possibly non-identical distributed) Bernoulli random variables.</span>
+<span class="sd">    This class also contains a method to compute maximum likelihood estimators</span>
+<span class="sd">    for the probability of a success.</span>
+
+<span class="sd">    More precisely, the MLE is computed as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \arg \min_{\theta \in \Theta} - \sum_{i=1}^{n} y_i\log\pi_i(\mathbf{\theta}) + (1 - y_i)\log(1 - \pi_i(\mathbf{\theta}))</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : array-like</span>
+<span class="sd">        Observed data</span>
+<span class="sd">    mean : callable</span>
+<span class="sd">        A functional form that defines the model for the probability of success</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus import BernoulliLikelihood, UniformPrior, Posterior</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus.models import ConstantModel as constant</span>
+<span class="sd">    &gt;&gt;&gt; # generate integer fake data in the set {0, 1}</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; y = np.random.choice([0, 1], size=401)</span>
+<span class="sd">    &gt;&gt;&gt; # create a model</span>
+<span class="sd">    &gt;&gt;&gt; p = constant()</span>
+<span class="sd">    &gt;&gt;&gt; # perform optimization</span>
+<span class="sd">    &gt;&gt;&gt; ber = BernoulliLikelihood(data=y, mean=p)</span>
+<span class="sd">    &gt;&gt;&gt; unif = UniformPrior(lb=0., ub=1.)</span>
+<span class="sd">    &gt;&gt;&gt; pp = Posterior(likelihood=ber, prior=unif)</span>
+<span class="sd">    &gt;&gt;&gt; result = pp.fit(x0=.3, method=&#39;powell&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # get best fit parameters</span>
+<span class="sd">    &gt;&gt;&gt; print(np.round(result.x, 3))</span>
+<span class="sd">    0.529</span>
+<span class="sd">    &gt;&gt;&gt; print(np.round(np.mean(y&gt;0), 3)) # theorectical MLE</span>
+<span class="sd">    0.529</span>
+<span class="sd">    &gt;&gt;&gt; # get uncertainties on the best fit parameters</span>
+<span class="sd">    &gt;&gt;&gt; print(ber.uncertainties([result.x]))</span>
+<span class="sd">    [ 0.0249277]</span>
+<span class="sd">    &gt;&gt;&gt; # theorectical uncertainty</span>
+<span class="sd">    &gt;&gt;&gt; print(np.sqrt(0.528678304239 * (1 - 0.528678304239) / 401))</span>
+<span class="sd">    0.0249277036876</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+
+<div class="viewcode-block" id="BernoulliLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+        <span class="n">mean_theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">mean_theta</span><span class="p">)</span>
+                           <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">mean_theta</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BernoulliLikelihood.gradient"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliLikelihood.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+        <span class="n">mean_theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">grad</span> <span class="o">/</span> <span class="n">mean_theta</span>
+                           <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mean_theta</span><span class="p">),</span>
+                           <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BernoulliLikelihood.fisher_information_matrix"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliLikelihood.fisher_information_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">fisher_information_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">fisher</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_params</span><span class="p">,</span> <span class="n">n_params</span><span class="p">))</span>
+        <span class="n">grad_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
+                <span class="n">fisher</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">grad_mean</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">grad_mean</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">mean</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">fisher</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fisher</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="n">fisher</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BernoulliLikelihood.uncertainties"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliLikelihood.uncertainties">[docs]</a>    <span class="k">def</span> <span class="nf">uncertainties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+        <span class="n">inv_fisher</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fisher_information_matrix</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">inv_fisher</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="BernoulliGaussianMixtureLikelihood"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliGaussianMixtureLikelihood">[docs]</a><span class="k">class</span> <span class="nc">BernoulliGaussianMixtureLikelihood</span><span class="p">(</span><span class="n">Likelihood</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Implements the likelihood of :math:`Z_i = X_i + Y_i`,</span>
+<span class="sd">    such that :math:`X_i` is a Bernoulli random variable, with</span>
+<span class="sd">    probability of success :math:`p_i`, and :math:`Y_i` is a</span>
+<span class="sd">    normal random variable with zero mean and known variance :math:`sigma^2`.</span>
+
+<span class="sd">    The loglikelihood is given as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">             \log p(z^n) = \sum_{i=1}^{n} \log \left\[(1 - p_i)  \mathcal{N}(0,</span>
+<span class="sd">             \sigma^2) + p_i \mathcal{N}(1, \sigma^2)\right\]</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus import BernoulliGaussianMixtureLikelihood, UniformPrior, Posterior</span>
+<span class="sd">    &gt;&gt;&gt; from oktopus.models import ConstantModel as constant</span>
+<span class="sd">    &gt;&gt;&gt; # generate integer fake data in the set {0, 1}</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; y = np.append(np.random.normal(size=30), 1+np.random.normal(size=70))</span>
+<span class="sd">    &gt;&gt;&gt; # create a model</span>
+<span class="sd">    &gt;&gt;&gt; p = constant()</span>
+<span class="sd">    &gt;&gt;&gt; # build likelihood</span>
+<span class="sd">    &gt;&gt;&gt; ll = BernoulliGaussianMixtureLikelihood(data=y, mean=p, var=1.)</span>
+<span class="sd">    &gt;&gt;&gt; unif = UniformPrior(lb=0., ub=1.)</span>
+<span class="sd">    &gt;&gt;&gt; pp = Posterior(likelihood=ll, prior=unif)</span>
+<span class="sd">    &gt;&gt;&gt; result = pp.fit(x0=.3, method=&#39;powell&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # get best fit parameters</span>
+<span class="sd">    &gt;&gt;&gt; print(np.round(result.x, 3))</span>
+<span class="sd">    0.803</span>
+<span class="sd">    &gt;&gt;&gt; print(np.mean(y&gt;0)) # theorectical MLE</span>
+<span class="sd">    0.78</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
+
+<div class="viewcode-block" id="BernoulliGaussianMixtureLikelihood.evaluate"><a class="viewcode-back" href="../../api/likelihood.html#oktopus.likelihood.BernoulliGaussianMixtureLikelihood.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">N0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span>
+        <span class="n">N1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="n">N1</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -688,7 +831,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -707,6 +850,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
             VERSION:'',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -725,14 +869,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
