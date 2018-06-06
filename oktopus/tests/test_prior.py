@@ -11,6 +11,11 @@ def test_uniform_prior():
     assert np.isfinite(unif(x))
     assert not np.isfinite(unif(x + 1))
 
+def test_uniform_prior_raises():
+    with pytest.raises(ValueError) as err:
+        unif = UniformPrior(5., -5)
+    assert("The lower bounds should be smaller" in err.value.args[0])
+
 def test_joint_uniform_priors():
     unif = JointPrior(UniformPrior(-.5, .5), UniformPrior(.5, 1.))
     assert_array_equal(unif.mean, [0, .75])

@@ -139,6 +139,8 @@ class UniformPrior(Prior):
     def __init__(self, lb, ub, name=None):
         self.lb = np.asarray([lb]).reshape(-1)
         self.ub = np.asarray([ub]).reshape(-1)
+        if (self.lb >= self.ub).any():
+            raise ValueError("The lower bounds should be smaller than the upper bounds.")
         self.name = name
 
     def __repr__(self):
