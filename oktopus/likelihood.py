@@ -5,20 +5,6 @@ from autograd import jacobian
 from .loss import LossFunction
 
 
-if sys.version_info[0] == 2:
-    from inspect import getargspec
-    def _get_number_of_arguments(func):
-        list_of_args = getargspec(func).args
-        if 'self' in list_of_args:
-            return len(list_of_args) - 1
-        else:
-            return len(list_of_args)
-else:
-    from inspect import signature
-    def _get_number_of_arguments(func):
-        return len(signature(func).parameters)
-
-
 __all__ = ['Likelihood', 'MultinomialLikelihood', 'PoissonLikelihood',
            'GaussianLikelihood', 'LaplacianLikelihood',
            'MultivariateGaussianLikelihood', 'BernoulliLikelihood',
