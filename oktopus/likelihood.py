@@ -133,7 +133,7 @@ class MultinomialLikelihood(Likelihood):
         return - np.nansum(self.data * np.log(self.mean(*params)))
 
     def fisher_information_matrix(self, params):
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         fisher = np.empty(shape=(n_params, n_params))
 
         if not hasattr(self.mean, 'gradient'):
@@ -158,7 +158,7 @@ class MultinomialLikelihood(Likelihood):
             _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
         else:
             _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         grad_likelihood = np.array([])
         for i in range(n_params):
             grad = _grad(self.mean, i, params)
@@ -232,7 +232,7 @@ class PoissonLikelihood(Likelihood):
         return np.nansum(self.mean(*params) - self.data * np.log(self.mean(*params)))
 
     def fisher_information_matrix(self, params):
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         fisher = np.empty(shape=(n_params, n_params))
 
         if not hasattr(self.mean, 'gradient'):
@@ -257,7 +257,7 @@ class PoissonLikelihood(Likelihood):
             _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
         else:
             _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         grad_likelihood = np.array([])
         for i in range(n_params):
             grad = _grad(self.mean, i, params)
@@ -339,7 +339,7 @@ class GaussianLikelihood(Likelihood):
             _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
         else:
             _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         grad_likelihood = np.array([])
         r = self.data - self.mean(*params)
         for i in range(n_params):
@@ -357,7 +357,7 @@ class GaussianLikelihood(Likelihood):
         fisher : ndarray
             Fisher Information Matrix
         """
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         fisher = np.zeros(shape=(n_params, n_params))
 
         if not hasattr(self.mean, 'gradient'):
@@ -473,7 +473,7 @@ class MultivariateGaussianLikelihood(Likelihood):
             _grad = lambda mean, argnum, params: jacobian(mean, argnum)(*params)
         else:
             _grad = lambda mean, argnum, params: mean.gradient(*params)[argnum]
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         grad_likelihood = np.array([])
         r = self.data - self.mean(*params)
         for i in range(n_params):
@@ -483,7 +483,7 @@ class MultivariateGaussianLikelihood(Likelihood):
         return grad_likelihood
 
     def fisher_information_matrix(self, params):
-        n_params = len(params)
+        n_params = len(np.atleast_1d(params))
         fisher = np.zeros(shape=(n_params, n_params))
 
         if not hasattr(self.mean, 'gradient'):
@@ -564,7 +564,7 @@ class BernoulliLikelihood(Likelihood):
                            axis=-1)
 
     def fisher_information_matrix(self, theta):
-        n_params = len(theta)
+        n_params = len(np.atleast_1d(theta))
         fisher = np.empty(shape=(n_params, n_params))
         grad_mean = self.mean.gradient(*theta)
         mean = self.mean(*theta)
